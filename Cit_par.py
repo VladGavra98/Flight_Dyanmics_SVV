@@ -172,11 +172,19 @@ c5[3,0] = Cnb
 c5[3,2] = Cnp*(b/(2*V0))
 c5[3,3] = Cnr*(b/(2*V0))
 
-#c5 matrix
-c5 = np.zeros(s3)
-c5[0,0] = -CYda
-c5[0,1] = -CYdr
-c5[2,0] = -Clda
-c5[2,1] = -Cldr
-c5[3,0] = -Cnda
-c5[3,1] = -Cndr
+#c6 matrix
+c6 = np.zeros(s3)
+c6[0,0] = -CYda
+c6[0,1] = -CYdr
+c6[2,0] = -Clda
+c6[2,1] = -Cldr
+c6[3,0] = -Cnda
+c6[3,1] = -Cndr
+
+#Creating the state matrix(A) and the input matrix(B) for symmetrical flight
+A_s = np.linalg.inv(c1)*c2
+b_s = np.linalg.inv(c1)*c3
+
+#Creating the state matrix(A) and the input matrix(B) for asymmetrical flight
+A_a = -np.linalg.inv(c4)*c5
+b_a = np.linalg.inv(c4)*c6
