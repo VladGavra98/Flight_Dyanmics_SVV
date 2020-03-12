@@ -2,6 +2,7 @@
 
 import numpy as np 
 import csv
+import os
 
 ### converting knots, lbs, g, ft, ft/min, deg C, lbs/hr, psi
 ### knots = 0.5144444444444444 m/s
@@ -26,12 +27,40 @@ def conversion(filename):
         n.write('m/s^2\n')
         for i in range(len(lines)-2):
             n.write(str(float(lines[i+2].strip())*9.80665)+"\n")
-       
-
+    if unit == 'lbs\n':
+        n.write('kg\n')
+        for i in range(len(lines)-2):
+            n.write(str(float(lines[i+2].strip())*0.45359237)+"\n")
+    if unit == 'knots\n':
+        n.write('m/s\n')
+        for i in range(len(lines)-2):
+            n.write(str(float(lines[i+2].strip())*0.5144444444444444)+"\n")
+    if unit == 'ft\n':
+        n.write('m\n')
+        for i in range(len(lines)-2):
+            n.write(str(float(lines[i+2].strip())*0.3048)+"\n")
+    if unit == 'ft/min\n':
+        n.write('m/s\n')
+        for i in range(len(lines)-2):
+            n.write(str(float(lines[i+2].strip())*0.00508)+"\n")
+    if unit == 'deg C\n':
+        n.write('deg K\n')
+        for i in range(len(lines)-2):
+            n.write(str(float(lines[i+2].strip())+ 273.15)+"\n")
+    if unit == 'lbs/hr\n':
+        n.write('kg/s\n')
+        for i in range(len(lines)-2):
+            n.write(str(float(lines[i+2].strip())*0.0001259979)+"\n")
+    if unit == 'psi\n':
+        n.write('Pas\n')
+        for i in range(len(lines) - 2):
+            n.write(str(float(lines[i + 2].strip())*6894.75729)+"\n")
+    else:
+        for i in range(len(lines)-1):
+            n.write(str(lines[i+1]))
 
     n.close()
 
-
-    
-
-conversion('Data\Ahrs1_bLatAcc.txt')
+for filename in os.listdir('Data'):
+    name= "Data\\" + filename
+    conversion(name)
