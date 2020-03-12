@@ -1,4 +1,5 @@
-tab
+UTC Date DD:MM:YY
+ddmmyy
 120318
 120318
 120318

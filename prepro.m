@@ -1,20 +1,33 @@
 load("matlab.mat")
-AoA_tab=flightdata.vane_AOA.data;
+
 fields = fieldnames(flightdata);
-directory = "C:\Users\vladg\OneDrive\Documents\BSc_AE_III\Simulation, Verification, Validation\FD\Data\";
+directory = "C:\Users\vladg\OneDrive\Documents\GitHub\Flight_Dyanmics_SVV\Data\";
+
 for i = 1:numel(fields)
   current = flightdata.(fields{i});
   
-
   tab = current.data;
+  units = current.units;
+  desc = current.description;
   name = fields{i};
-  disp(current);
+  %disp(current);
+  
   filename = string(directory + string(fields{i})+".txt");
-  T = table(tab);
   
+  fid = fopen(filename,"w");
+ 
+  %fprintf(fid,string(description+"\n"));
+  formatSpec = string(desc+"\n"+string(units)+"\n");
+  fprintf(fid,formatSpec,"\n");
   
-  writetable(T,filename);
-
+  for j=1:numel(tab)
+      if isnan(tab(j))
+          fprintf(fid,"0\n");
+      else
+          fprintf(fid,string(tab(j)+"\n"));
+      end
+  end
+  fclose(fid);
 end
 
    
