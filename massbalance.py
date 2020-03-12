@@ -125,7 +125,7 @@ def mass(t):
     return totalmass*0.453592 #Total mass in [kg] !!!
 
 
-x = np.linspace(10,timelst[-1],10000)
+x = np.linspace(10,timelst[-1],100000)
 y = []
 for i in range(len(x)):
     #y.append(cg(x[i],False))
