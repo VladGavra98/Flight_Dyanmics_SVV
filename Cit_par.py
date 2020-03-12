@@ -11,7 +11,6 @@ from control.matlab import *
 import matplotlib.pyplot as plt
 import numpy.linalg
 
-
 # +++++++++++++++++++++++++++++++++ Helper Functions ++++++++++++++++++++++++++++++++++++++++++++++
 def plotting(x,y,name,variable,unit):
     ax = plt.figure(str(name))
@@ -270,5 +269,7 @@ def main(time_stamp):
     plotting(t,theta_out_a,"Step Response, p",r"$p$","1/s")
     plotting(t,q_out_a,"Step Response,  r","$r$",r"1/s")
 
-if __name__=="__main__":
-    main(0)
+    return poles_a, A_a, poles_s, A_s
+
+#if __name__=="__main__":
+#    main(0)
