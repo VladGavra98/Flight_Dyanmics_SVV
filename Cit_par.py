@@ -1,19 +1,47 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Mar  6 14:25:48 2020
+
+@author: vladg, phillipe
+@version: 2.1
+"""
+
 import numpy as np
+from control.matlab import *
+import matplotlib.pyplot as plt
+import numpy.linalg
+
+
+# +++++++++++++++++++++++++++++++++ Helper Functions ++++++++++++++++++++++++++++++++++++++++++++++
+def plotting(x,y,name,variable,unit):
+    ax = plt.figure(str(name))
+    # ax.legend("best")
+
+    plt.plot(x,y,label=name)
+    plt.xlabel("t [s]")
+
+    lab = str(str(variable)+" "+"["+unit+"]")
+    plt.ylabel(lab)
+    plt.grid(True)
+    plt.show()
 
 # Citation 550 - Linear simulation
 
-# xcg = 0.25 * c
+c = 2.0569
+xcg = 0.25 * c
 
 # Stationary flight condition
-
-gamma = 0              #flight path angle -
-hp0    =       	      # pressure altitude in the stationary flight condition [m]
-V0     =             # true airspeed in the stationary flight condition [m/sec]
-alpha0 =             # angle of attack in the stationary flight condition [rad]
-th0    =  alpha0 + gamma    # pitch angle in the stationary flight condition [rad]
+oew = 4157.174              #Operational Empty Weight [kg]
+m_fuel = 1197.484           #Total fuel mass [kg]
+m_payload = 765             #Payload mass [kg]
+gamma = 0                   #flight path angle -
+hp0 = 1527.048      	    # pressure altitude in the stationary flight condition [m]
+V0 = 127.067            # true airspeed in the stationary flight condition [m/sec]
+alpha0 = np.radians(1.4)        # angle of attack in the stationary flight condition [rad]
+th0 = alpha0 + gamma    # pitch angle in the stationary flight condition [rad]
 
 # Aircraft mass
-m      =             # mass [kg]
+m      =  4989.516 + m_payload          # mass [kg]
 
 # aerodynamic properties
 e      = 0.8             # Oswald factor [ ]
@@ -21,8 +49,8 @@ CD0    = 0.04            # Zero lift drag coefficient [ ]
 CLa    = 5.084            # Slope of CL-alpha curve [ ]
 
 # Longitudinal stability
-Cma    =             # longitudinal stabilty [ ]
-Cmde   =             # elevator effectiveness [ ]
+Cma    = -0.1          # longitudinal stabilty [ ]
+Cmde   = -0.01            # elevator effectiveness [ ]
 
 # Aircraft geometry
 
@@ -37,18 +65,18 @@ bh     = 5.791	          # stabilser span [m]
 A      = b ** 2 / S      # wing aspect ratio [ ]
 Ah     = bh ** 2 / Sh    # stabilser aspect ratio [ ]
 Vh_V   = 1	          # [ ]
-ih     = -2 * pi / 180   # stabiliser angle of incidence [rad]
+ih     = -2 * np.pi / 180   # stabiliser angle of incidence [rad]
 
 # Constant values concerning atmosphere and gravity
 
-rho0   = 1.2250          # air density at sea level [kg/m^3] 
-lambda = -0.0065         # temperature gradient in ISA [K/m]
+rho0   = 1.2250          # air density at sea level [kg/m^3]
+lam = -0.0065         # temperature gradient in ISA [K/m]
 Temp0  = 288.15          # temperature at sea level in ISA [K]
 R      = 287.05          # specific gas constant [m^2/sec^2K]
 g      = 9.81            # [m/sec^2] (gravity constant)
 
-# air density [kg/m^3]  
-rho    = rho0 * power( ((1+(lambda * hp0 / Temp0))), (-((g / (lambda*R)) + 1)))   
+# air density [kg/m^3]
+rho    = rho0 * pow( ((1+(lam * hp0 / Temp0))), (-((g / (lam*R)) + 1)))
 W      = m * g            # [N]       (aircraft weight)
 
 # Constant values concerning aircraft inertia
@@ -64,24 +92,24 @@ KY2    = 1.25 * 1.114
 
 Cmac   = 0                      # Moment coefficient about the aerodynamic centre [ ]
 CNwa   = CLa                    # Wing normal force slope [ ]
-CNha   = 2 * pi * Ah / (Ah + 2) # Stabiliser normal force slope [ ]
+CNha   = 2 * np.pi * Ah / (Ah + 2) # Stabiliser normal force slope [ ]
 depsda = 4 / (A + 2)            # Downwash gradient [ ]
 
 # Lift and drag coefficient
 
 CL = 2 * W / (rho * V0 ** 2 * S)              # Lift coefficient [ ]
-CD = CD0 + (CLa * alpha0) ** 2 / (pi * A * e) # Drag coefficient [ ]
+CD = CD0 + (CLa * alpha0) ** 2 / (np.pi * A * e) # Drag coefficient [ ]
 
 # Stabiblity derivatives
 
-CX0    = W * sin(th0) / (0.5 * rho * V0 ** 2 * S)
+CX0    = W * np.sin(th0) / (0.5 * rho * V0 ** 2 * S)
 CXu    = -0.02792
-CXa    = +0.47966		# Positive! (has been erroneously negative since 1993) 
+CXa    = +0.47966		# Positive! (has been erroneously negative since 1993)
 CXadot = +0.08330
 CXq    = -0.28170
 CXde   = -0.03728
 
-CZ0    = -W * cos(th0) / (0.5 * rho * V0 ** 2 * S)
+CZ0    = -W * np.cos(th0) / (0.5 * rho * V0 ** 2 * S)
 CZu    = -0.37616
 CZa    = -5.74340
 CZadot = -0.00350
@@ -93,7 +121,7 @@ Cmadot = +0.17800
 Cmq    = -8.79415
 
 CYb    = -0.7500
-CYbdot =  0     
+CYbdot =  0
 CYp    = -0.0304
 CYr    = +0.8495
 CYda   = -0.0400
@@ -106,7 +134,7 @@ Clda   = -0.23088
 Cldr   = +0.03440
 
 Cnb    =  +0.1348
-Cnbdot =   0     
+Cnbdot =   0
 Cnp    =  -0.0602
 Cnr    =  -0.2061
 Cnda   =  -0.0120
@@ -147,6 +175,7 @@ c3[0,0] = -CXde
 c3[1,0] = -CZde
 c3[3,0] = -Cmde
 
+
 #Creating the different c-matrices (c4, c5 &c6) for asymmetrical flight
 #c4 matrix
 c4 = np.zeros(s1)
@@ -181,10 +210,62 @@ c6[2,1] = -Cldr
 c6[3,0] = -Cnda
 c6[3,1] = -Cndr
 
-#Creating the state matrix(A) and the input matrix(B) for symmetrical flight
-A_s = np.linalg.inv(c1)*c2
-b_s = np.linalg.inv(c1)*c3
+#Creating the state matrix(A) and the input matrix(B) for symmetrical flight - xdot = c1^-1*c2*x c1^-1*c3*u = Ax + Bu
+A_s = np.dot(np.linalg.inv(c1), c2)
+B_s = np.dot(np.linalg.inv(c1), c3)
+C_s = np.identity(4)
+D_s = np.zeros((4, 1))
 
-#Creating the state matrix(A) and the input matrix(B) for asymmetrical flight
-A_a = -np.linalg.inv(c4)*c5
-b_a = np.linalg.inv(c4)*c6
+#System in state-space
+sys_s = StateSpace(A_s, B_s, C_s, D_s)
+poles_s = pole(sys_s)
+print("Eigen values of the system: ", poles_s) #verified
+
+# Time responses for unit steps:
+nsteps = 10**3
+t = linspace(0, 140, nsteps)
+u = np.ones(t.shape)
+yout,t,u = lsim(sys_s,u,t)   #general time response
+
+u_out_s =     yout[:,0]
+alpha_out_s = yout[:,1]
+theta_out_s = yout[:,2]
+q_out_s =     yout[:,3]
+
+#Plotting....
+plotting(t,u_out_s,"Step Response,  u ",r"$u$","m/s")
+plotting(t,alpha_out_s,"Step Response, alpha",r"$\alpha$","-")
+plotting(t,theta_out_s,"Step Response, theta",r"$\theta$","-")
+plotting(t,q_out_s,"Step Response,  q","$q$",r"1/s")
+
+
+
+#Creating the state matrix(A) and the input matrix(B) for asymmetrical flight - y = c4^-1*c5*x c4^-1*c5*u = Ax + Bu
+A_a = -np.dot(np.linalg.inv(c4), c5)
+B_a = np.dot(np.linalg.inv(c4), c6)
+C_a = np.identity(4)
+D_a = np.zeros((4, 2))
+
+#System in state-space
+sys_a = StateSpace(A_a, B_a, C_a, D_a)
+poles_a = pole(sys_a)
+print("Eigen values of the system: ", poles_a) #verified
+
+# Time responses for unit steps:
+nsteps = 10**3
+t = linspace(0, 140, nsteps)
+u = np.ones(t.shape)
+yout,t,u = lsim(sys_s,u,t)   #general time response
+
+u_out_a =     yout[:,0]
+alpha_out_a = yout[:,1]
+theta_out_a = yout[:,2]
+q_out_a =     yout[:,3]
+
+#Plotting....
+plotting(t,u_out_a,"Step Response,  u ",r"$u$","m/s")
+plotting(t,alpha_out_a,"Step Response, alpha",r"$\alpha$","-")
+plotting(t,theta_out_a,"Step Response, theta",r"$\theta$","-")
+plotting(t,q_out_a,"Step Response,  q","$q$",r"1/s")
+
+
