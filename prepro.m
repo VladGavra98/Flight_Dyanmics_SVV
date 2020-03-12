@@ -1,4 +1,4 @@
-load("matlab.mat")
+load("FTISxprt-20200310_flight2.mat")
 
 fields = fieldnames(flightdata);
 directory = "C:\Users\vladg\OneDrive\Documents\GitHub\Flight_Dyanmics_SVV\Data\";
