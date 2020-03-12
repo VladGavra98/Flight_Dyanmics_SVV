@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c849679e-8057-44e8-b521-095dc80acec9" name="Default Changelist" comment="" />
+    <list default="true" id="c849679e-8057-44e8-b521-095dc80acec9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/massbalance.py" beforeDir="false" afterPath="$PROJECT_DIR$/massbalance.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +17,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectLevelVcsManager">
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1Z27Cvry6vOqp71a5TLZRF7lbmn" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -24,6 +31,10 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="PyScientificConfigurable" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -84,6 +95,7 @@
       <option name="presentableId" value="Default" />
       <updated>1583849953768</updated>
       <workItem from="1583849955206" duration="6727000" />
+      <workItem from="1584025213317" duration="3904000" />
     </task>
     <servers />
   </component>
@@ -98,5 +110,13 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="507" y="46" key="#massbalance/0.0.1536.864@0.0.1536.864" timestamp="1583853237651" />
+    <state x="277" y="74" key="SettingsEditor" timestamp="1584027038107">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="277" y="74" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1584027038107" />
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1584028764263">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1584028764263" />
   </component>
 </project>
