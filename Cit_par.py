@@ -219,7 +219,7 @@ D_s = np.zeros((4, 1))
 #System in state-space
 sys_s = StateSpace(A_s, B_s, C_s, D_s)
 poles_s = pole(sys_s)
-print("Eigen values of the system: ", poles_s) #verified
+print("Eigen values of the symmetric system: ", poles_s) #verified
 
 # Time responses for unit steps:
 nsteps = 10**3
@@ -249,7 +249,7 @@ D_a = np.zeros((4, 2))
 #System in state-space
 sys_a = StateSpace(A_a, B_a, C_a, D_a)
 poles_a = pole(sys_a)
-print("Eigen values of the system: ", poles_a) #verified
+print("Eigen values of the asymmetric system: ", poles_a) #verified
 
 # Time responses for unit steps:
 nsteps = 10**3
