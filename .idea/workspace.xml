@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c849679e-8057-44e8-b521-095dc80acec9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/AsymMotionEOM_analytical.py" beforeDir="false" afterPath="$PROJECT_DIR$/AsymMotionEOM_analytical.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/massbalance.py" beforeDir="false" afterPath="$PROJECT_DIR$/massbalance.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +36,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="PyScientificConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.AsymMotionEOM_analytical">
+  <component name="RunManager" selected="Python.massbalance">
     <configuration name="AsymMotionEOM_analytical" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -81,9 +82,6 @@
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="C:\Users\maxor\AppData\Local\Programs\Python\Python37\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -101,8 +99,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.AsymMotionEOM_analytical" />
         <item itemvalue="Python.massbalance" />
+        <item itemvalue="Python.AsymMotionEOM_analytical" />
       </list>
     </recent_temporary>
   </component>
