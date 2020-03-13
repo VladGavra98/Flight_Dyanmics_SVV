@@ -124,8 +124,9 @@ def mass(t):
     totalmass = seatmass + BEW + fuelonboard(t)
     return totalmass*0.453592 #Total mass in [kg] !!!
 
+print(cg(3000,True)-cg(3000,False))
 
-x = np.linspace(10,timelst[-1],100000)
+x = np.linspace(10,timelst[-1],1000)
 y = []
 for i in range(len(x)):
     #y.append(cg(x[i],False))
