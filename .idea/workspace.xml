@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c849679e-8057-44e8-b521-095dc80acec9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/massbalance.py" beforeDir="false" afterPath="$PROJECT_DIR$/massbalance.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AsymMotionEOM_analytical.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +63,9 @@
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="C:\Users\maxor\AppData\Local\Programs\Python\Python37\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -95,6 +99,7 @@
       <updated>1583849953768</updated>
       <workItem from="1583849955206" duration="6727000" />
       <workItem from="1584025213317" duration="4557000" />
+      <workItem from="1584089045582" duration="615000" />
     </task>
     <servers />
   </component>
