@@ -39,7 +39,8 @@ fuelmomentall = 100*np.array([298.16,591.18,879.08,1165.42,1448.4,1732.53,2014.8
 
 #print(len(fuelmass),len(fuelmomentall)) #verification
 
-
+foo = 1  # Fuel on (1) or off (0)
+soo = 1  # Seats on (1) or off (0)
 
 
 def interpolate(x1,x2,y1,y2,x):
@@ -96,11 +97,13 @@ def cg(t,cgmove): #cgmove = False if Jack is in seat 8, set cgmove = True if Jac
         seatmoment += seats[s]*seatsarm[s]
         seatmass += seats[s]
 
-    momentsum = seatmoment + BEW*BEWarm + fuelmoment(t)
-    totalmass = seatmass + BEW + fuelonboard(t)
+
+
+    momentsum = soo*seatmoment + BEW*BEWarm + foo*fuelmoment(t)
+    totalmass = soo*seatmass + BEW + foo*fuelonboard(t)
     x_cg_inch = momentsum/totalmass
     x_cg = (x_cg_inch - 261.56)*2.54/100  #x_cg from LEMAC   in [m] !!
-    return x_cg #This is in [m] from LEMAC !!
+    return x_cg #This is in [m] from LEMAC !! (not as frac/MAC)
 
 def mass(t):
     seat1 = Arun
@@ -121,8 +124,9 @@ def mass(t):
     for s in range(len(seats)):
         seatmass += seats[s]
 
-    totalmass = seatmass + BEW + fuelonboard(t)
+    totalmass = soo*seatmass + BEW + foo*fuelonboard(t)
     return totalmass*0.453592 #Total mass in [kg] !!!
 
 
-
+#print(100*(cg(10,False)*39.3701+261.56-291.65)/291.65,mass(10)/0.453592)
+#
