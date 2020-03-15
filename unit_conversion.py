@@ -21,6 +21,7 @@ def conversion(filename):
     f = open(filename, "r")
     n = open(filename[:-4]+"SI.txt", "w")
     lines = f.readlines()
+
     unit = lines[1]
     n.write(lines[0])
     if unit == 'g\n':
@@ -52,15 +53,20 @@ def conversion(filename):
         for i in range(len(lines)-2):
             n.write(str(float(lines[i+2].strip())*0.0001259979)+"\n")
     if unit == 'psi\n':
-        n.write('Pas\n')
+        n.write('Pa\n')
         for i in range(len(lines) - 2):
             n.write(str(float(lines[i + 2].strip())*6894.75729)+"\n")
-    else:
+    if unit!="knots\n" and unit!="lbs\n" and unit!="g\n" and unit!="ft\n" and unit!="ft/min\n" and unit!="deg C\n" and unit!="lbs/hr\n" and unit!="psi\n":
         for i in range(len(lines)-1):
             n.write(str(lines[i+1]))
 
     n.close()
 
-for filename in os.listdir('Data'):
-    name= "Data\\" + filename
+for filename in os.listdir('Data_new'):
+    name = "Data_new\\" + filename
+    if "SI" in filename:
+        os.remove(name)
+
+for filename in os.listdir('Data_new'):
+    name = "Data_new\\" + filename
     conversion(name)
