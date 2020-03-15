@@ -3,7 +3,8 @@ from massbalance import *
 
 
 #FOR GRAPH
-x = np.linspace(10,timelst[-1],1000)
+nsteps= 100
+x = np.linspace(10,timelst[-1],nsteps)
 y = []
 
 
@@ -13,6 +14,12 @@ for i in range(len(x)):
         y.append(cg(x[i], True))
     else:
         y.append(cg(x[i],False))
+
+# y1 = cg(x[x<52*60],False)
+# yshift =cg(x[52*60 < x],True)
+# y = np.concatenate([y1,yshift])
+# y[x > 53*60] = cg(x[53*60 < x],False)
+
 plt.plot(x,y)
 plt.grid(True)
 plt.xlabel('Time [s]')

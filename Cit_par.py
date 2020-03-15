@@ -11,8 +11,11 @@ from control.matlab import *
 import matplotlib.pyplot as plt
 import numpy.linalg
 
+
 # +++++++++++++++++++++++++++++++++ Helper Functions ++++++++++++++++++++++++++++++++++++++++++++++
+
 def plotting(x,y,name,variable,unit):
+    """Use this for plotting."""
     ax = plt.figure(str(name))
     # ax.legend("best")
 
@@ -26,6 +29,7 @@ def plotting(x,y,name,variable,unit):
 
 
 #+++++++++++++++++++++++++++++++++++ Global variables+++++++++++++++++++++++++++++++++++++++++++++++
+
 # Citation 550 - Linear simulation
     # Aircraft geometry
 
@@ -44,20 +48,27 @@ ih     = -2 * np.pi / 180   # stabiliser angle of incidence [rad]
 
 oew = 4157.174              #Operational Empty Weight [kg]
 
-# aerodynamic properties
+    # Aerodynamic properties
 e      = 0.8             # Oswald factor [ ]
 CD0    = 0.04            # Zero lift drag coefficient [ ]
 CLa    = 5.084            # Slope of CL-alpha curve [ ]
 
     # Constant values concerning atmosphere and gravity
 rho0   = 1.2250          # air density at sea level [kg/m^3]
-lam = -0.0065         # temperature gradient in ISA [K/m]
+lam    = -0.0065         # temperature gradient in ISA [K/m]
 Temp0  = 288.15       # temperature at sea level in ISA [K]
 R      = 287.05          # specific gas constant [m^2/sec^2K]
 g      = 9.81            # [m/sec^2] (gravity constant)
 
+
+    #Simulation parameters:
+nsteps = 10**3
+
 #+++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-def main(time_stamp):
+def main(t0,deltat,input_type):
+    """Input type: elevator
+                    rudder
+                    airleron"""
 
     #C.G location
     xcg = 0.25 * c
@@ -179,6 +190,7 @@ def main(time_stamp):
 
 
     #Creating the different c-matrices (c4, c5 &c6) for asymmetrical flight
+
     #c4 matrix
     c4 = np.zeros(s1)
     c4[0,0] = (CYbdot - 2*mub)*(b/V0)
@@ -212,64 +224,85 @@ def main(time_stamp):
     c6[3,0] = -Cnda
     c6[3,1] = -Cndr
 
-    #Creating the state matrix(A) and the input matrix(B) for symmetrical flight - xdot = c1^-1*c2*x c1^-1*c3*u = Ax + Bu
-    A_s = np.dot(np.linalg.inv(c1), c2)
-    B_s = np.dot(np.linalg.inv(c1), c3)
-    C_s = np.identity(4)
-    D_s = np.zeros((4, 1))
-
-    #System in state-space
-    sys_s = StateSpace(A_s, B_s, C_s, D_s)
-    poles_s = pole(sys_s)
-    #print("Eigen values of the symmetric system: ", poles_s) #verified
-
     # Time responses for unit steps:
-    nsteps = 10**3
-    t = linspace(0, 140, nsteps)
-    u = np.ones(t.shape)
-    yout,t,u = lsim(sys_s,u,t)   #general time response
+    t = np.linspace(t0, deltat, nsteps)
 
-    u_out_s =     yout[:,0]
-    alpha_out_s = yout[:,1]
-    theta_out_s = yout[:,2]
-    q_out_s =     yout[:,3]
+    #Now, we distinct between inputs:
 
-    #Plotting....
-    plotting(t,u_out_s,"Step Response,  u ",r"$u$","m/s")
-    plotting(t,alpha_out_s,"Step Response, alpha",r"$\alpha$","-")
-    plotting(t,theta_out_s,"Step Response, theta",r"$\theta$","-")
-    plotting(t,q_out_s,"Step Response,  q","$q$",r"1/s")
+    if input_type=="elevator":
+        #Symmetric system is triggered:
+
+        #Creating the state matrix(A) and the input matrix(B) for symmetrical flight - xdot = c1^-1*c2*x c1^-1*c3*u = Ax + Bu
+        A_s = np.dot(np.linalg.inv(c1), c2)
+        B_s = np.dot(np.linalg.inv(c1), c3)
+        C_s = np.identity(4)
+        D_s = np.zeros((4, 1))
+
+        #System in state-space
+        sys_s = StateSpace(A_s, B_s, C_s, D_s)
+        poles_s = pole(sys_s)
+        #print("Eigen values of the symmetric system: ", poles_s) #verified
+
+        # Time responses for unit steps:
+
+        # u = input_array
+        u = np.ones(t.shape)
+        yout,t,u = lsim(sys_s,u,t)   #general time response
+
+        u_out_s =     yout[:,0]
+        alpha_out_s = yout[:,1]
+        theta_out_s = yout[:,2]
+        q_out_s =     yout[:,3]
+
+        #Plotting....
+        plotting(t,u_out_s,str("u Response for " +input_type+ " input"),r"$u$","m/s")
+        plotting(t,alpha_out_s,str("Alpha Response for " +input_type+ " input"),r"$\alpha$","-")
+        plotting(t,theta_out_s,str("Theta Response for " +input_type+ " input"),r"$\theta$","-")
+        plotting(t,q_out_s,str("q Response for " +input_type+ " input"),"$q$",r"1/s")
+
+
+    else:
+        #Creating the state matrix(A) and the input matrix(B) for asymmetrical flight - y = c4^-1*c5*x c4^-1*c5*u = Ax + Bu
+        A_a = -np.dot(np.linalg.inv(c4), c5)
+        B_a = np.dot(np.linalg.inv(c4), c6)
+        C_a = np.identity(4)
+        #D_a depends on the input
+
+        if input_type =="rudder":
+            D_a = np.zeros((4, 2))
+            D_a[:,0] = 1   #we should check this...
+            u = np.ones((len(t),2)) * -0.804 #step input
+            u[:,0]=1
+            print(u.shape)
+
+        elif input_type=="aileron":
+            D_a = np.zeros((4, 2))
+            D_a[:,1] = 1
+            u = np.ones((len(t),2)) #step input
+            u[:,1]=1
+
+        #System in state-space
+        sys_a = StateSpace(A_a, B_a, C_a, D_a)
+        poles_a = pole(sys_a)
+        #print("Eigen values of the asymmetric system: ", poles_a) #verified
 
 
 
-    #Creating the state matrix(A) and the input matrix(B) for asymmetrical flight - y = c4^-1*c5*x c4^-1*c5*u = Ax + Bu
-    A_a = -np.dot(np.linalg.inv(c4), c5)
-    B_a = np.dot(np.linalg.inv(c4), c6)
-    C_a = np.identity(4)
-    D_a = np.zeros((4, 2))
+        yout,t,u = lsim(sys_a,u,t)   #general time response for the input u
 
-    #System in state-space
-    sys_a = StateSpace(A_a, B_a, C_a, D_a)
-    poles_a = pole(sys_a)
-    #print("Eigen values of the asymmetric system: ", poles_a) #verified
+        u_out_a =     yout[:,0]
+        alpha_out_a = yout[:,1]
+        theta_out_a = yout[:,2]
+        q_out_a =     yout[:,3]
 
-    # Time responses for unit steps:
-    t = linspace(0, 140, nsteps)
-    u = np.ones(t.shape) #step input
-    yout,t,u = lsim(sys_s,u,t)   #general time response for the input u
+        #Plotting....
+        plotting(t,u_out_a,str("Beta Response for " + input_type+" input"), r"$beta$","-")
+        plotting(t,alpha_out_a,str("Phi Response for " +input_type+ " input"), r"$\phi$","-")
+        plotting(t,theta_out_a,str("p Response for " +input_type+ " input") , r"$p$" ,"1/s")
+        plotting(t,q_out_a,str("r Response for " +input_type+ " input"),  "$r$" ,r"1/s")
 
-    u_out_a =     yout[:,0]
-    alpha_out_a = yout[:,1]
-    theta_out_a = yout[:,2]
-    q_out_a =     yout[:,3]
+    return 1
 
-    #Plotting....
-    plotting(t,u_out_a,"Step Response,  beta ",r"$beta$","-")
-    plotting(t,alpha_out_a,"Step Response, phi",r"$\phi$","-")
-    plotting(t,theta_out_a,"Step Response, p",r"$p$","1/s")
-    plotting(t,q_out_a,"Step Response,  r","$r$",r"1/s")
+if __name__=="__main__":
 
-    return poles_a, A_a, poles_s, A_s
-
-#if __name__=="__main__":
-#    main(0)
+    main(0,140,"aileron")
