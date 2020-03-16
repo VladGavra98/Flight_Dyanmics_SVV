@@ -47,7 +47,7 @@ Vh_V   = 1	          # [ ]
 ih     = -2 * np.pi / 180   # stabiliser angle of incidence [rad]
 
 oew = 4157.174              #Operational Empty Weight [kg]
-
+m_payload = 765             # Payload mass [kg]
     # Aerodynamic properties
 e      = 0.8             # Oswald factor [ ]
 CD0    = 0.04            # Zero lift drag coefficient [ ]
@@ -74,11 +74,10 @@ def main(t0,deltat,input_type):
     xcg = 0.25 * c
 
     # Stationary flight condition
-    m_fuel    = 1197.484           #Total fuel mass [kg]
-    m_payload = 765             #Payload mass [kg]
-    gamma  = 0                   #flight path angle -
-    hp0    = 1527.048      	    # pressure altitude in the stationary flight condition [m]
-    V0     = 127.067            # true airspeed in the stationary flight condition [m/sec]
+    m_fuel    = 1197.484        # CHANGE Total fuel mass [kg]
+    gamma  = 0                  # CHANGE flight path angle -
+    hp0    = 1527.048      	    # CHANGE pressure altitude in the stationary flight condition [m]
+    V0     = 127.067            # CHANGE true airspeed in the stationary flight condition [m/sec]
     alpha0 = np.radians(1.4)        # angle of attack in the stationary flight condition [rad]
     th0    = alpha0 + gamma    # pitch angle in the stationary flight condition [rad]
 
@@ -86,37 +85,36 @@ def main(t0,deltat,input_type):
     m      =  4989.516 + m_payload         # mass [kg]  --changes
 
     # Longitudinal stability
-    Cma    = -0.1          # longitudinal stabilty [ ]
-    Cmde   = -0.01            # elevator effectiveness [ ]
+    Cma    = -0.1             # CHANGE longitudinal stabilty [ ]
+    Cmde   = -0.01            # CHANGE elevator effectiveness [ ]
 
     # air density [kg/m^3]
     rho    = rho0 * pow( ((1+(lam * hp0 / Temp0))), (-((g / (lam*R)) + 1)))
     W      = m * g            # [N]       (aircraft weight)
 
-    # Constant values concerning aircraft inertia
-    muc    = m / (rho * S * c)
-    mub    = m / (rho * S * b)
+    # Aircraft inertia (depend on t0):
+    muc    = m / (rho * S * c) #CHANGE
+    mub    = m / (rho * S * b) #CHANGE
     KX2    = 0.019
     KZ2    = 0.042
     KXZ    = 0.002
     KY2    = 1.25 * 1.114
 
-    # Aerodynamic constants
+    # Aerodynamic constants:
 
     Cmac   = 0                      # Moment coefficient about the aerodynamic centre [ ]
-    CNwa   = CLa                    # Wing normal force slope [ ]
+    CNwa   = CLa                    # Wing normal force slope [1/rad]
     CNha   = 2 * np.pi * Ah / (Ah + 2) # Stabiliser normal force slope [ ]
     depsda = 4 / (A + 2)            # Downwash gradient [ ]
 
-    # Lift and drag coefficient
+    # Lift and drag coefficient (depend on t0):
 
     CL = 2 * W / (rho * V0 ** 2 * S)              # Lift coefficient [ ]
     CD = CD0 + (CLa * alpha0) ** 2 / (np.pi * A * e) # Drag coefficient [ ]
 
     # Stabiblity derivatives
-
     CX0    = W * np.sin(th0) / (0.5 * rho * V0 ** 2 * S)
-    CXu    = -0.02792
+    CXu    = -0.095         #corrected
     CXa    = +0.47966		# Positive! (has been erroneously negative since 1993)
     CXadot = +0.08330
     CXq    = -0.28170
@@ -129,8 +127,8 @@ def main(t0,deltat,input_type):
     CZq    = -5.66290
     CZde   = -0.69612
 
-    Cmu    = +0.06990
-    Cmadot = +0.17800
+    Cmu    = +0.06990   #positive!
+    Cmadot = +0.17800   #positive!
     Cmq    = -8.79415
 
     CYb    = -0.7500
@@ -295,14 +293,14 @@ def main(t0,deltat,input_type):
         theta_out_a = yout[:,2]
         q_out_a =     yout[:,3]
 
-        #Plotting....
-        plotting(t,u_out_a,str("Beta Response for " + input_type+" input"), r"$beta$","-")
-        plotting(t,alpha_out_a,str("Phi Response for " +input_type+ " input"), r"$\phi$","-")
-        plotting(t,theta_out_a,str("p Response for " +input_type+ " input") , r"$p$" ,"1/s")
-        plotting(t,q_out_a,str("r Response for " +input_type+ " input"),  "$r$" ,r"1/s")
+        #Plotting...
+        plotting(t,u_out_a,str("Beta Response for " + input_type +" input"), r"$beta$","-")
+        plotting(t,alpha_out_a,str("Phi Response for " +input_type + " input"), r"$\phi$","-")
+        plotting(t,theta_out_a,str("p Response for " +input_type + " input") , r"$p$" ,"1/s")
+        plotting(t,q_out_a,str("r Response for " +input_type + " input"),  "$r$" ,r"1/s")
 
     return 1
 
 if __name__=="__main__":
 
-    main(0,140,"aileron")
+    main(0,140,"rudder")

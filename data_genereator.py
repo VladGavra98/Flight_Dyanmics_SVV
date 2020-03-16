@@ -80,7 +80,7 @@ def plotting(x,y,name,title,variable,unit,mins=False):
     lab = str(str(variable)+" "+"["+unit+"]")
     plt.ylabel(lab)
     plt.grid(True)
-    plt.savefig(title)
+    # plt.savefig(title)
     plt.show()
 
 
@@ -142,7 +142,7 @@ def getInput(tab,timetab,t0,deltat): #to be exported
 u,utime = getInput(elevtab,timetab,53.0*60,140)
 
 #++++++++++++++++++++++++++++++++++++++ Plotting +++++++++++++++++++++++++++++++++++++++++++++++++++
-plotting(utime,u,name="elevator_def_Phugoid", title = "Phugoid", variable="${\delta}_e$",unit="rad",mins=False)
+plotting(utime,u,name="elevator_def_Phugoid", title = "Phugoid", variable="${\delta}_e$",unit="rad",mins=True)
 # u = elevtab[54.00*60 > timetab>53.40*60  ]
 
 
