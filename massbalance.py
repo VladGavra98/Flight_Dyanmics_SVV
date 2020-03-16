@@ -128,5 +128,6 @@ def mass(t):
     return totalmass*0.453592 #Total mass in [kg] !!!
 
 
+#print(cg(52.5*60,False)-cg(52.5*60,True))
 #print(100*(cg(10,False)*39.3701+261.56-291.65)/291.65,mass(10)/0.453592)
 #
