@@ -62,19 +62,25 @@ def genThrust(fid,h,M,deltaT,FMFr,FMFl):
 
     return 1
 
-def plotting(x,y,name,variable,unit,mins=False):
+def plotting(x,y,name,title,variable,unit,mins=False):
     """Use this for plotting."""
     ax = plt.figure(str(name))
     # ax.legend("best")
 
     if mins:
         x/=60  #change time to mins from secs
+        plt.xlabel("t [min]")
+    else:
+        plt.xlabel("t [s]")
+
+    plt.title(str(title))
     plt.plot(x,y,label=name)
-    plt.xlabel("t [s]")
+
 
     lab = str(str(variable)+" "+"["+unit+"]")
     plt.ylabel(lab)
     plt.grid(True)
+    plt.savefig(title)
     plt.show()
 
 
@@ -121,7 +127,26 @@ for i in range(10):
 
 fid.close()
 
-#++++++++++++++++++++++++++++++++++++++Plotting++++++++++++++++++++++++++++++++++++++++++++++++++++
-plotting(timetab,elevtab,name="Elevator deflection",variable="${\delta}_e$",unit="rad",mins=True)
-# Run the Thrust calling command
-os.system("thurst(1).exe")
+#!!!!!!!!!!!!!!!!!!!!!  ADD BELOW !!!!!!!!!!!
+#Input:
+# Phugoid-- select the elevator deflection from 54min to 57min, to capture the entire motion
+
+def getInput(tab,timetab,t0,deltat): #to be exported
+    """Returns the sliced array from tab when
+    the time values (in seconds!) are contained in the interval (t0,t0+deltat)
+
+    Output: tab[slices],time[slices]"""
+
+    return tab[np.where((t0+deltat>timetab) & (t0<timetab))], timetab[np.where((t0+deltat>timetab) & (t0<timetab))]
+
+u,utime = getInput(elevtab,timetab,53.0*60,140)
+
+#++++++++++++++++++++++++++++++++++++++ Plotting +++++++++++++++++++++++++++++++++++++++++++++++++++
+plotting(utime,u,name="elevator_def_Phugoid", title = "Phugoid", variable="${\delta}_e$",unit="rad",mins=False)
+# u = elevtab[54.00*60 > timetab>53.40*60  ]
+
+
+
+
+
+
