@@ -9,9 +9,10 @@ import numpy as np
 import pandas as pd
 import os
 import scipy.io as sp
+import matplotlib.pyplot as plt
 
 root = r"C:\Users\vladg\OneDrive\Documents\GitHub\Flight_Dyanmics_SVV"
-mydir = r"C:\Users\vladg\OneDrive\Documents\GitHub\Flight_Dyanmics_SVV\Data"
+mydir = r"C:\Users\vladg\OneDrive\Documents\GitHub\Flight_Dyanmics_SVV\Data_SI_correct"
 
 
 def calcT(h): #ISA tmeperature
@@ -61,16 +62,36 @@ def genThrust(fid,h,M,deltaT,FMFr,FMFl):
 
     return 1
 
+def plotting(x,y,name,title,variable,unit,mins=False):
+    """Use this for plotting."""
+    ax = plt.figure(str(name))
+    # ax.legend("best")
+
+    if mins:
+        x/=60  #change time to mins from secs
+        plt.xlabel("t [min]")
+    else:
+        plt.xlabel("t [s]")
+
+    plt.title(str(title))
+    plt.plot(x,y,label=name)
+
+
+    lab = str(str(variable)+" "+"["+unit+"]")
+    plt.ylabel(lab)
+    plt.grid(True)
+    # plt.savefig(title)
+    plt.show()
 
 
 
 lst = getData(mydir)
 
-for item in lst:
-    if "Angle of attack" in item["name"]:
-        alphatab = np.array(item["data"])
-        print("Alpha:",alphatab)
-        lst.remove(item)
+# for item in lst:
+#     if "Angle of attack" in item["name"]:
+#         alphatab = np.array(item["data"])
+#         print("Alpha:",alphatab)
+#         lst.remove(item)
 
     # if "Time" in item["name"]:
     #     timetab = np.array(item["data"])
@@ -80,14 +101,19 @@ for item in lst:
 
 
 #Data aquisition & Unit conversion (when needed)
-Htab = np.genfromtxt("Dadc1_alt.txt",dtype=float,skip_header=2,delimiter='\n') * 0.3048  #m
-Ttab = np.genfromtxt("Dadc1_tat.txt",dtype=float,skip_header=2,delimiter='\n')    #C
-Mtab = np.genfromtxt("Dadc1_mach.txt",dtype=float,skip_header=2,delimiter='\n')  #-
+timetab = np.genfromtxt("timeSI.txt",dtype=float,skip_header=2,delimiter='\n')  #s DONT CHANGE!
+
+
+Htab = np.genfromtxt("Dadc1_altSI.txt",dtype=float,skip_header=2,delimiter='\n')  #m
+Ttab = np.genfromtxt("Dadc1_tatSI.txt",dtype=float,skip_header=2,delimiter='\n')    #C
+Mtab = np.genfromtxt("Dadc1_machSI.txt",dtype=float,skip_header=2,delimiter='\n')  #-
 Tisa = calcT(Htab)   #C
-FMFr_tab = np.genfromtxt("rh_engine_FMF.txt",dtype=float,skip_header=2,delimiter='\n') * 0.000126 #kg/s
-FMFl_tab = np.genfromtxt("lh_engine_FMF.txt",dtype=float,skip_header=2,delimiter='\n') * 0.000126 #kg/s
+FMFr_tab = np.genfromtxt("rh_engine_FMFSI.txt",dtype=float,skip_header=2,delimiter='\n')  #kg/s
+FMFl_tab = np.genfromtxt("lh_engine_FMFSI.txt",dtype=float,skip_header=2,delimiter='\n') #kg/s
 
-
+alphatab = np.genfromtxt("vane_AOASI.txt",dtype=float,skip_header=2,delimiter='\n')  #deg
+gtab = np.genfromtxt("Ahrs1_VertAccSI.txt",dtype=float,skip_header=2,delimiter='\n')
+elevtab =  np.genfromtxt("delta_eSI.txt",dtype=float,skip_header=2,delimiter='\n')
 os.chdir(root)
 file = str("matlab.dat")
 
@@ -101,5 +127,26 @@ for i in range(10):
 
 fid.close()
 
-# Run the Thrust calling command
-os.system("thurst(1).exe")
+#!!!!!!!!!!!!!!!!!!!!!  ADD BELOW !!!!!!!!!!!
+#Input:
+# Phugoid-- select the elevator deflection from 54min to 57min, to capture the entire motion
+
+def getInput(tab,timetab,t0,deltat): #to be exported
+    """Returns the sliced array from tab when
+    the time values (in seconds!) are contained in the interval (t0,t0+deltat)
+
+    Output: tab[slices],time[slices]"""
+
+    return tab[np.where((t0+deltat>timetab) & (t0<timetab))], timetab[np.where((t0+deltat>timetab) & (t0<timetab))]
+
+u,utime = getInput(elevtab,timetab,53.0*60,140)
+
+#++++++++++++++++++++++++++++++++++++++ Plotting +++++++++++++++++++++++++++++++++++++++++++++++++++
+plotting(utime,u,name="elevator_def_Phugoid", title = "Phugoid", variable="${\delta}_e$",unit="rad",mins=True)
+# u = elevtab[54.00*60 > timetab>53.40*60  ]
+
+
+
+
+
+

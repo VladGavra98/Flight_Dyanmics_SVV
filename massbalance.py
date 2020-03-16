@@ -9,9 +9,9 @@ blockfuel = 2640 #Fuel at t=0      check consistent with others
 #fuelusedlst = np.array([666, 555, 444, 333, 222, 111])  # Wf (Fuel Used)                USE OUR DATA
 #timelst = np.array([1, 2, 3, 4, 5, 6])  # t values for Wf (Fuel Used)   USE OUR DATA
 
-timelst = np.genfromtxt("Data_SI/timeSI.txt",skip_header=2)
-lhfusi = np.genfromtxt("Data_SI/lh_engine_FUSI.txt",skip_header=2)
-rhfusi = np.genfromtxt("Data_SI/rh_engine_FUSI.txt",skip_header=2)
+timelst = np.genfromtxt("Data_SI_correct/timeSI.txt",skip_header=2)
+lhfusi = np.genfromtxt("Data_SI_correct/lh_engine_FUSI.txt",skip_header=2)
+rhfusi = np.genfromtxt("Data_SI_correct/rh_engine_FUSI.txt",skip_header=2)
 fuelusedlst = (lhfusi+rhfusi)/0.453592   #given in SI and converted for consistency
 
 

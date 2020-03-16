@@ -28,6 +28,7 @@ for i = 1:numel(fields)
       end
   end
   fclose(fid);
+  disp(j)
 end
 
    

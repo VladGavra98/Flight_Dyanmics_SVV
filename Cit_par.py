@@ -11,8 +11,11 @@ from control.matlab import *
 import matplotlib.pyplot as plt
 import numpy.linalg
 
+
 # +++++++++++++++++++++++++++++++++ Helper Functions ++++++++++++++++++++++++++++++++++++++++++++++
+
 def plotting(x,y,name,variable,unit):
+    """Use this for plotting."""
     ax = plt.figure(str(name))
     # ax.legend("best")
 
@@ -26,6 +29,7 @@ def plotting(x,y,name,variable,unit):
 
 
 #+++++++++++++++++++++++++++++++++++ Global variables+++++++++++++++++++++++++++++++++++++++++++++++
+
 # Citation 550 - Linear simulation
     # Aircraft geometry
 
@@ -43,31 +47,37 @@ Vh_V   = 1	          # [ ]
 ih     = -2 * np.pi / 180   # stabiliser angle of incidence [rad]
 
 oew = 4157.174              #Operational Empty Weight [kg]
-
-# aerodynamic properties
+m_payload = 765             # Payload mass [kg]
+    # Aerodynamic properties
 e      = 0.8             # Oswald factor [ ]
 CD0    = 0.04            # Zero lift drag coefficient [ ]
 CLa    = 5.084            # Slope of CL-alpha curve [ ]
 
     # Constant values concerning atmosphere and gravity
 rho0   = 1.2250          # air density at sea level [kg/m^3]
-lam = -0.0065         # temperature gradient in ISA [K/m]
+lam    = -0.0065         # temperature gradient in ISA [K/m]
 Temp0  = 288.15       # temperature at sea level in ISA [K]
 R      = 287.05          # specific gas constant [m^2/sec^2K]
 g      = 9.81            # [m/sec^2] (gravity constant)
 
+
+    #Simulation parameters:
+nsteps = 10**3
+
 #+++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-def main(time_stamp):
+def main(t0,deltat,input_type):
+    """Input type: elevator
+                    rudder
+                    airleron"""
 
     #C.G location
     xcg = 0.25 * c
 
     # Stationary flight condition
-    m_fuel    = 1197.484           #Total fuel mass [kg]
-    m_payload = 765             #Payload mass [kg]
-    gamma  = 0                   #flight path angle -
-    hp0    = 1527.048      	    # pressure altitude in the stationary flight condition [m]
-    V0     = 127.067            # true airspeed in the stationary flight condition [m/sec]
+    m_fuel    = 1197.484        # CHANGE Total fuel mass [kg]
+    gamma  = 0                  # CHANGE flight path angle -
+    hp0    = 1527.048      	    # CHANGE pressure altitude in the stationary flight condition [m]
+    V0     = 127.067            # CHANGE true airspeed in the stationary flight condition [m/sec]
     alpha0 = np.radians(1.4)        # angle of attack in the stationary flight condition [rad]
     th0    = alpha0 + gamma    # pitch angle in the stationary flight condition [rad]
 
@@ -75,37 +85,36 @@ def main(time_stamp):
     m      =  4989.516 + m_payload         # mass [kg]  --changes
 
     # Longitudinal stability
-    Cma    = -0.1          # longitudinal stabilty [ ]
-    Cmde   = -0.01            # elevator effectiveness [ ]
+    Cma    = -0.1             # CHANGE longitudinal stabilty [ ]
+    Cmde   = -0.01            # CHANGE elevator effectiveness [ ]
 
     # air density [kg/m^3]
     rho    = rho0 * pow( ((1+(lam * hp0 / Temp0))), (-((g / (lam*R)) + 1)))
     W      = m * g            # [N]       (aircraft weight)
 
-    # Constant values concerning aircraft inertia
-    muc    = m / (rho * S * c)
-    mub    = m / (rho * S * b)
+    # Aircraft inertia (depend on t0):
+    muc    = m / (rho * S * c) #CHANGE
+    mub    = m / (rho * S * b) #CHANGE
     KX2    = 0.019
     KZ2    = 0.042
     KXZ    = 0.002
     KY2    = 1.25 * 1.114
 
-    # Aerodynamic constants
+    # Aerodynamic constants:
 
     Cmac   = 0                      # Moment coefficient about the aerodynamic centre [ ]
-    CNwa   = CLa                    # Wing normal force slope [ ]
+    CNwa   = CLa                    # Wing normal force slope [1/rad]
     CNha   = 2 * np.pi * Ah / (Ah + 2) # Stabiliser normal force slope [ ]
     depsda = 4 / (A + 2)            # Downwash gradient [ ]
 
-    # Lift and drag coefficient
+    # Lift and drag coefficient (depend on t0):
 
     CL = 2 * W / (rho * V0 ** 2 * S)              # Lift coefficient [ ]
     CD = CD0 + (CLa * alpha0) ** 2 / (np.pi * A * e) # Drag coefficient [ ]
 
     # Stabiblity derivatives
-
     CX0    = W * np.sin(th0) / (0.5 * rho * V0 ** 2 * S)
-    CXu    = -0.02792
+    CXu    = -0.095         #corrected
     CXa    = +0.47966		# Positive! (has been erroneously negative since 1993)
     CXadot = +0.08330
     CXq    = -0.28170
@@ -118,8 +127,8 @@ def main(time_stamp):
     CZq    = -5.66290
     CZde   = -0.69612
 
-    Cmu    = +0.06990
-    Cmadot = +0.17800
+    Cmu    = +0.06990   #positive!
+    Cmadot = +0.17800   #positive!
     Cmq    = -8.79415
 
     CYb    = -0.7500
@@ -179,6 +188,7 @@ def main(time_stamp):
 
 
     #Creating the different c-matrices (c4, c5 &c6) for asymmetrical flight
+
     #c4 matrix
     c4 = np.zeros(s1)
     c4[0,0] = (CYbdot - 2*mub)*(b/V0)
@@ -212,64 +222,85 @@ def main(time_stamp):
     c6[3,0] = -Cnda
     c6[3,1] = -Cndr
 
-    #Creating the state matrix(A) and the input matrix(B) for symmetrical flight - xdot = c1^-1*c2*x c1^-1*c3*u = Ax + Bu
-    A_s = np.dot(np.linalg.inv(c1), c2)
-    B_s = np.dot(np.linalg.inv(c1), c3)
-    C_s = np.identity(4)
-    D_s = np.zeros((4, 1))
-
-    #System in state-space
-    sys_s = StateSpace(A_s, B_s, C_s, D_s)
-    poles_s = pole(sys_s)
-    #print("Eigen values of the symmetric system: ", poles_s) #verified
-
     # Time responses for unit steps:
-    nsteps = 10**3
-    t = linspace(0, 140, nsteps)
-    u = np.ones(t.shape)
-    yout,t,u = lsim(sys_s,u,t)   #general time response
+    t = np.linspace(t0, deltat, nsteps)
 
-    u_out_s =     yout[:,0]
-    alpha_out_s = yout[:,1]
-    theta_out_s = yout[:,2]
-    q_out_s =     yout[:,3]
+    #Now, we distinct between inputs:
 
-    #Plotting....
-    plotting(t,u_out_s,"Step Response,  u ",r"$u$","m/s")
-    plotting(t,alpha_out_s,"Step Response, alpha",r"$\alpha$","-")
-    plotting(t,theta_out_s,"Step Response, theta",r"$\theta$","-")
-    plotting(t,q_out_s,"Step Response,  q","$q$",r"1/s")
+    if input_type=="elevator":
+        #Symmetric system is triggered:
+
+        #Creating the state matrix(A) and the input matrix(B) for symmetrical flight - xdot = c1^-1*c2*x c1^-1*c3*u = Ax + Bu
+        A_s = np.dot(np.linalg.inv(c1), c2)
+        B_s = np.dot(np.linalg.inv(c1), c3)
+        C_s = np.identity(4)
+        D_s = np.zeros((4, 1))
+
+        #System in state-space
+        sys_s = StateSpace(A_s, B_s, C_s, D_s)
+        poles_s = pole(sys_s)
+        #print("Eigen values of the symmetric system: ", poles_s) #verified
+
+        # Time responses for unit steps:
+
+        # u = input_array
+        u = np.ones(t.shape)
+        yout,t,u = lsim(sys_s,u,t)   #general time response
+
+        u_out_s =     yout[:,0]
+        alpha_out_s = yout[:,1]
+        theta_out_s = yout[:,2]
+        q_out_s =     yout[:,3]
+
+        #Plotting....
+        plotting(t,u_out_s,str("u Response for " +input_type+ " input"),r"$u$","m/s")
+        plotting(t,alpha_out_s,str("Alpha Response for " +input_type+ " input"),r"$\alpha$","-")
+        plotting(t,theta_out_s,str("Theta Response for " +input_type+ " input"),r"$\theta$","-")
+        plotting(t,q_out_s,str("q Response for " +input_type+ " input"),"$q$",r"1/s")
+
+
+    else:
+        #Creating the state matrix(A) and the input matrix(B) for asymmetrical flight - y = c4^-1*c5*x c4^-1*c5*u = Ax + Bu
+        A_a = -np.dot(np.linalg.inv(c4), c5)
+        B_a = np.dot(np.linalg.inv(c4), c6)
+        C_a = np.identity(4)
+        #D_a depends on the input
+
+        if input_type =="rudder":
+            D_a = np.zeros((4, 2))
+            D_a[:,0] = 1   #we should check this...
+            u = np.ones((len(t),2)) * -0.804 #step input
+            u[:,0]=1
+            print(u.shape)
+
+        elif input_type=="aileron":
+            D_a = np.zeros((4, 2))
+            D_a[:,1] = 1
+            u = np.ones((len(t),2)) #step input
+            u[:,1]=1
+
+        #System in state-space
+        sys_a = StateSpace(A_a, B_a, C_a, D_a)
+        poles_a = pole(sys_a)
+        #print("Eigen values of the asymmetric system: ", poles_a) #verified
 
 
 
-    #Creating the state matrix(A) and the input matrix(B) for asymmetrical flight - y = c4^-1*c5*x c4^-1*c5*u = Ax + Bu
-    A_a = -np.dot(np.linalg.inv(c4), c5)
-    B_a = np.dot(np.linalg.inv(c4), c6)
-    C_a = np.identity(4)
-    D_a = np.zeros((4, 2))
+        yout,t,u = lsim(sys_a,u,t)   #general time response for the input u
 
-    #System in state-space
-    sys_a = StateSpace(A_a, B_a, C_a, D_a)
-    poles_a = pole(sys_a)
-    #print("Eigen values of the asymmetric system: ", poles_a) #verified
+        u_out_a =     yout[:,0]
+        alpha_out_a = yout[:,1]
+        theta_out_a = yout[:,2]
+        q_out_a =     yout[:,3]
 
-    # Time responses for unit steps:
-    t = linspace(0, 140, nsteps)
-    u = np.ones(t.shape) #step input
-    yout,t,u = lsim(sys_s,u,t)   #general time response for the input u
+        #Plotting...
+        plotting(t,u_out_a,str("Beta Response for " + input_type +" input"), r"$beta$","-")
+        plotting(t,alpha_out_a,str("Phi Response for " +input_type + " input"), r"$\phi$","-")
+        plotting(t,theta_out_a,str("p Response for " +input_type + " input") , r"$p$" ,"1/s")
+        plotting(t,q_out_a,str("r Response for " +input_type + " input"),  "$r$" ,r"1/s")
 
-    u_out_a =     yout[:,0]
-    alpha_out_a = yout[:,1]
-    theta_out_a = yout[:,2]
-    q_out_a =     yout[:,3]
+    return 1
 
-    #Plotting....
-    plotting(t,u_out_a,"Step Response,  beta ",r"$beta$","-")
-    plotting(t,alpha_out_a,"Step Response, phi",r"$\phi$","-")
-    plotting(t,theta_out_a,"Step Response, p",r"$p$","1/s")
-    plotting(t,q_out_a,"Step Response,  r","$r$",r"1/s")
+if __name__=="__main__":
 
-    return poles_a, A_a, poles_s, A_s
-
-#if __name__=="__main__":
-#    main(0)
+    main(0,140,"rudder")
