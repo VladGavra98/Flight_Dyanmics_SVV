@@ -49,9 +49,9 @@ ih     = -2 * np.pi / 180   # stabiliser angle of incidence [rad]
 oew = 4157.174              #Operational Empty Weight [kg]
 m_payload = 765             # Payload mass [kg]
     # Aerodynamic properties
-e      = 0.8             # Oswald factor [ ]
-CD0    = 0.04            # Zero lift drag coefficient [ ]
-CLa    = 5.084            # Slope of CL-alpha curve [ ]
+e      = 0.5087   #0.7334          # Oswald factor [ ]
+CD0    = 0.00227  #0.02180            # Zero lift drag coefficient [ ]
+CLa    = 4.811    #4.383            # Slope of CL-alpha curve [ ]
 
     # Constant values concerning atmosphere and gravity
 rho0   = 1.2250          # air density at sea level [kg/m^3]
@@ -74,19 +74,19 @@ def main(t0,deltat,input_type):
     xcg = 0.25 * c
 
     # Stationary flight condition
-    m_fuel    = 1197.484        # CHANGE Total fuel mass [kg]
-    gamma  = 0                  # CHANGE flight path angle -
+    m_fuel = 1197.484           # CHANGE M_fule(t0) Total fuel mass [kg]
+    gamma  = 0                  # !!!!!! flight path angle -
     hp0    = 1527.048      	    # CHANGE pressure altitude in the stationary flight condition [m]
     V0     = 127.067            # CHANGE true airspeed in the stationary flight condition [m/sec]
-    alpha0 = np.radians(1.4)        # angle of attack in the stationary flight condition [rad]
-    th0    = alpha0 + gamma    # pitch angle in the stationary flight condition [rad]
+    alpha0 = np.radians(1.4)    # CHANGE angle of attack in the stationary flight condition [rad]
+    th0    = alpha0 + gamma     # CHANGE pitch angle in the stationary flight condition [rad]
 
     # Aircraft mass
-    m      =  4989.516 + m_payload         # mass [kg]  --changes
+    m      =  4989.516 + m_payload         # CHANGE mass [kg]
 
     # Longitudinal stability
-    Cma    = -0.1             # CHANGE longitudinal stabilty [ ]
-    Cmde   = -0.01            # CHANGE elevator effectiveness [ ]
+    Cma    = -0.4433 # -0.4934        # CHANGE longitudinal stabilty [ ]
+    Cmde   = -1.001 #-1.031           # CHANGE elevator effectiveness [ ]
 
     # air density [kg/m^3]
     rho    = rho0 * pow( ((1+(lam * hp0 / Temp0))), (-((g / (lam*R)) + 1)))
@@ -109,7 +109,7 @@ def main(t0,deltat,input_type):
 
     # Lift and drag coefficient (depend on t0):
 
-    CL = 2 * W / (rho * V0 ** 2 * S)              # Lift coefficient [ ]
+    CL = 2 * W / (rho * V0 ** 2 * S)     # CHANGES Lift coefficient [ ]
     CD = CD0 + (CLa * alpha0) ** 2 / (np.pi * A * e) # Drag coefficient [ ]
 
     # Stabiblity derivatives
@@ -239,6 +239,7 @@ def main(t0,deltat,input_type):
         #System in state-space
         sys_s = StateSpace(A_s, B_s, C_s, D_s)
         poles_s = pole(sys_s)
+        damp(sys_s)
         #print("Eigen values of the symmetric system: ", poles_s) #verified
 
         # Time responses for unit steps:
@@ -303,4 +304,4 @@ def main(t0,deltat,input_type):
 
 if __name__=="__main__":
 
-    main(0,140,"rudder")
+    main(0,140,"elevator")
