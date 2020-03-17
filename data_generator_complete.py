@@ -128,7 +128,12 @@ elevtab =  np.genfromtxt("delta_eSI.txt",dtype=float,skip_header=2,delimiter='\n
 ruddertab = np.genfromtxt("delta_rSI.txt",dtype=float,skip_header=2,delimiter='\n')
 ailerontab = np.genfromtxt("delta_aSI.txt",dtype=float,skip_header=2,delimiter='\n')
 elevtrimtab = np.genfromtxt("elevator_dteSI.txt",dtype=float,skip_header=2,delimiter='\n')
+phitab = np.genfromtxt("Ahrs1_RollSI.txt",dtype=float,skip_header=2,delimiter='\n')
 
+plt.plot(timetab,ailerontab,'r-')
+plt.plot(timetab,phitab,'g-')
+plt.plot(timetab,ruddertab,'b-')
+plt.grid(True)
 os.chdir(root)
 file = str("matlab.dat")
 
@@ -283,7 +288,7 @@ def aperiodic_roll(t0=57.0*60, deltat=60, plot_input=False, plot_output=False):
 
 ######################################## SPIRAL ###############################################
 
-def spiral(t0=62.0*60, deltat=150, plot_input=False, plot_output=False):
+def spiral(t0=3746, deltat=50, plot_input=False, plot_output=False):
     # input -> rudder deflection
     u_spi, utime_spi = getInput(ruddertab, timetab, t0, deltat)
 
@@ -313,6 +318,6 @@ def spiral(t0=62.0*60, deltat=150, plot_input=False, plot_output=False):
 # print(dutch_roll(plot_input=True, plot_output=True))
 # print(dutch_roll_yd(plot_input=True, plot_output=True))
 # print(aperiodic_roll(plot_input=True, plot_output=True))
-# print(spiral(plot_input=True, plot_output=True))
+print(spiral(plot_input=True, plot_output=True))
 
 
