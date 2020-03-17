@@ -112,8 +112,11 @@ FMFr_tab = np.genfromtxt("rh_engine_FMFSI.txt",dtype=float,skip_header=2,delimit
 FMFl_tab = np.genfromtxt("lh_engine_FMFSI.txt",dtype=float,skip_header=2,delimiter='\n') #kg/s
 
 alphatab = np.genfromtxt("vane_AOASI.txt",dtype=float,skip_header=2,delimiter='\n')  #deg
-gtab = np.genfromtxt("Ahrs1_VertAccSI.txt",dtype=float,skip_header=2,delimiter='\n')
-elevtab =  np.genfromtxt("delta_eSI.txt",dtype=float,skip_header=2,delimiter='\n')
+gtab = np.genfromtxt("Ahrs1_VertAccSI.txt",dtype=float,skip_header=2,delimiter='\n') #deg
+elevtab =  np.genfromtxt("delta_eSI.txt",dtype=float,skip_header=2,delimiter='\n') #deg
+
+thetatab =  np.genfromtxt("Ahrs1_PitchSI.txt",dtype=float,skip_header=2,delimiter='\n') #deg
+
 os.chdir(root)
 file = str("matlab.dat")
 
@@ -142,8 +145,10 @@ def getInput(tab,timetab,t0,deltat): #to be exported
 u,utime = getInput(elevtab,timetab,53.0*60,140)
 
 #++++++++++++++++++++++++++++++++++++++ Plotting +++++++++++++++++++++++++++++++++++++++++++++++++++
-plotting(utime,u,name="elevator_def_Phugoid", title = "Phugoid", variable="${\delta}_e$",unit="rad",mins=True)
-# u = elevtab[54.00*60 > timetab>53.40*60  ]
+plotting(utime,u,name="elevator_def_Phugoid", title = "Phugoid", variable="${\delta}_e$",unit="deg",mins=True)
+plotting(timetab,thetatab,name="theta", title = "Pitch Angle", variable=r"${\theta}$",unit="deg",mins=True)
+plotting(timetab,alphatab,name="alpha", title = "Angle of Attack", variable=r"${\alpha}$",unit="deg",mins=True)
+
 
 
 
