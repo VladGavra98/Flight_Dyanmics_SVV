@@ -127,12 +127,13 @@ gtab = np.genfromtxt("Ahrs1_VertAccSI.txt",dtype=float,skip_header=2,delimiter='
 elevtab =  np.genfromtxt("delta_eSI.txt",dtype=float,skip_header=2,delimiter='\n')
 ruddertab = np.genfromtxt("delta_rSI.txt",dtype=float,skip_header=2,delimiter='\n')
 ailerontab = np.genfromtxt("delta_aSI.txt",dtype=float,skip_header=2,delimiter='\n')
+ailerontab = ailerontab-ailerontab[0]
 elevtrimtab = np.genfromtxt("elevator_dteSI.txt",dtype=float,skip_header=2,delimiter='\n')
 phitab = np.genfromtxt("Ahrs1_RollSI.txt",dtype=float,skip_header=2,delimiter='\n')
 
 plt.plot(timetab,ailerontab,'r-')
-plt.plot(timetab,phitab,'g-')
-plt.plot(timetab,ruddertab,'b-')
+# plt.plot(timetab,phitab,'g-')
+# plt.plot(timetab,ruddertab,'b-')
 plt.grid(True)
 os.chdir(root)
 file = str("matlab.dat")
@@ -318,6 +319,6 @@ def spiral(t0=3746, deltat=50, plot_input=False, plot_output=False):
 # print(dutch_roll(plot_input=True, plot_output=True))
 # print(dutch_roll_yd(plot_input=True, plot_output=True))
 # print(aperiodic_roll(plot_input=True, plot_output=True))
-print(spiral(plot_input=True, plot_output=True))
+# print(spiral(plot_input=True, plot_output=True))
 
 

@@ -20,7 +20,7 @@ plt.close('all')
 # +++++++++++++++++++++++++++++++++ Helper Functions ++++++++++++++++++++++++++++++++++++++++++++++
 
 
-def plotting(x,y,name,variable,unit,title=None,mins=False):
+def plotting(x,y,name,variable,unit,label_name="Simulation",title=None,mins=False):
     """Use this for plotting."""
     ax = plt.figure(str(name))
     # ax.legend("best")
@@ -34,11 +34,11 @@ def plotting(x,y,name,variable,unit,title=None,mins=False):
     if title!= None:
         plt.title(str(title))
 
-    plt.plot(x-x[0],y,label=name)
+    plt.plot(x-x[0],y,label=label_name)
 
 
     lab = str(str(variable)+" "+"["+unit+"]")
-    plt.legend()
+    plt.legend(loc='best')
     plt.ylabel(lab)
     plt.grid(True)
     # plt.savefig(title)
@@ -315,10 +315,9 @@ def main(t0,deltat,t,input_type,input_u):
         #System in state-space
         sys_a = cm.StateSpace(A_a, B_a, C_a, D_a)
         poles_a = cm.pole(sys_a)
-        print("Eigenvalues of the asymmetric system: ", poles_a) #verified
+        # print("Eigenvalues of the asymmetric system: ", poles_a) #verified
 
 
-        print(uarray)
         yout,tout,uout = cm.lsim(sys_a,uarray,t)   #general time response for the input uarray
 
         beta_out_a = yout[:,0]
@@ -378,33 +377,33 @@ if __name__=="__main__":
     input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 
 
-    t0, deltat, utime_ph, u_ph, u_ph_p, u_ph_p_rate = phugoid()
-    plotting(utime_ph,u_ph_p_rate,str("q Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),"$q$",r"1/s")
-    main(t0,deltat,utime_ph,input_type_lst[0],u_ph)
+    # t0, deltat, utime_ph, u_ph, u_ph_p, u_ph_p_rate = phugoid()
+    # plotting(utime_ph,u_ph_p_rate,str("q Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),"$q$",r"1/s",label_name="Flight Test")
+    # main(t0,deltat,utime_ph,input_type_lst[0],u_ph)
 
     # t0, deltat, utime_shp, u_shp, u_shp_p, u_shp_p_rate = short_period()
-    # plotting(utime_shp,u_shp_p_rate,str("q Response for " +input_type_lst[1]+ " input, t0= "+ str(t0)),"$q$",r"1/s")
+    # plotting(utime_shp,u_shp_p_rate,str("q Response for " +input_type_lst[1]+ " input, t0= "+ str(t0)),"$q$",r"1/s",label_name="Flight Test")
     # main(t0,deltat,utime_shp,input_type_lst[1],u_shp)
 
     # t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r = dutch_roll()
-    # plotting(utime_dr,u_dr_y,str("r Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$r$",r"1/s")
-    # plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s")
+    # plotting(utime_dr,u_dr_y,str("r Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
+    # plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
     # main(t0,deltat,utime_dr,input_type_lst[2],u_dr)
 
     # print("Dutch roll YD")
     # t0, deltat, utime_dr_yd, u_dr_yd, u_dr_yd_y, u_dr_yd_r= dutch_roll_yd()
-    # plotting(utime_dr_yd,u_dr_yd_y,str("r Response for " +input_type_lst[3]+ " input, t0= "+ str(t0)),"$r$",r"1/s")
-    # plotting(utime_dr_yd,u_dr_yd_r,str("p Response for " +input_type_lst[3]+ " input, t0= "+ str(t0)),"$p$",r"1/s")
+    # plotting(utime_dr_yd,u_dr_yd_y,str("r Response for " +input_type_lst[3]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
+    # plotting(utime_dr_yd,u_dr_yd_r,str("p Response for " +input_type_lst[3]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
     # main(t0,deltat,utime_dr_yd,input_type_lst[3],u_dr_yd)
 
     # t0, deltat, utime_ar, u_ar, u_ar_r, u_ar_r_rate = aperiodic_roll()
-    # plotting(utime_ar,u_ar_r,str("Roll Response for " +input_type_lst[4]+ " input, t0= "+ str(t0)),"$\phi$",r"-")
-    # plotting(utime_ar,u_ar_r_rate,str("p Response for " +input_type_lst[4]+ " input, t0= "+ str(t0)),"$p$",r"1/s")
+    # plotting(utime_ar,u_ar_r,str("Roll Response for " +input_type_lst[4]+ " input, t0= "+ str(t0)),"$\phi$",r"-",label_name="Flight Test")
+    # plotting(utime_ar,u_ar_r_rate,str("p Response for " +input_type_lst[4]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
     # main(t0,deltat,utime_ar,input_type_lst[4],u_ar)
 
-    # t0, deltat, utime_spi, u_spi, u_spi_r, u_spi_y = spiral()
-    # plotting(utime_spi,u_spi_r,str("Phi Response for " +input_type_lst[5] + " input, t0= "+ str(t0)),"$\phi$",r"-")
-    # plotting(utime_spi,u_spi_y,str("r Response for " +input_type_lst[5]+ " input, t0= "+ str(t0)),"$r$",r"1/s")
-    # main(t0,deltat,utime_spi,input_type_lst[5],u_spi)
+    t0, deltat, utime_spi, u_spi, u_spi_r, u_spi_y = spiral()
+    plotting(utime_spi,u_spi_r,str("Phi Response for " +input_type_lst[5] + " input, t0= "+ str(t0)),"$\phi$",r"-",label_name="Flight Test")
+    plotting(utime_spi,u_spi_y,str("r Response for " +input_type_lst[5]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
+    main(t0,deltat,utime_spi,input_type_lst[5],u_spi)
 
 # sorry for using the same variable names...
