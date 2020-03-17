@@ -130,4 +130,19 @@ def mass(t):
 
 #print(cg(52.5*60,False)-cg(52.5*60,True))
 #print(100*(cg(10,False)*39.3701+261.56-291.65)/291.65,mass(10)/0.453592)
+xt = np.array([1358,1520,1682,1800,1890,2130,2450,2555,2652,2748,2805,2855,2970,3220,3435,3519,3610,3760]) #time list, note: no cg shift
+
+
+# #finding Report Requirements Bullet nr 1:
+# for l in xt:
+#     print(round((cg(l,False)*100/2.54+261.56),3))
 #
+# for l in xt:
+#     print(round((cg(l,False)),4))
+#
+# for l in xt:
+#     print(round(mass(l),3))
+#
+# #cg shift
+# print(round((cg(3157,True)*100/2.54+261.56),3),round((cg(3157,True)),3),round(mass(3157),3))
+print(round(cg(3157,True),4))
