@@ -132,12 +132,13 @@ for i in range(len(x)):
     #y.append(cg(x[i],False))
     y.append(mass(x[i]))
 
-plt.plot(x,y)
-plt.grid(True)
-plt.xlabel('Time [s]')
-#plt.ylabel('cg location/MAC [-]')
-plt.ylabel('Mass [kg')
-plt.show()
+# plt.plot(x,y)
+# plt.grid(True)
+# plt.xlabel('Time [s]')
+# #plt.ylabel('cg location/MAC [-]')
+# plt.ylabel('Mass [kg')
+# plt.show()
 
+#print(fuelmomentall(10))
 
 
