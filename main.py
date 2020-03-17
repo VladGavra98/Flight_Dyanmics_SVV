@@ -3,7 +3,7 @@
 Created on Fri Mar  6 14:25:48 2020
 
 @author: Group B07
-@version: 2.2
+@version: 3.1 (from previous cit_par.py)
 """
 
 import numpy as np
@@ -11,6 +11,7 @@ from control.matlab import *
 import matplotlib.pyplot as plt
 import numpy.linalg
 from massbalance import *
+plt.close('all')
 
 # +++++++++++++++++++++++++++++++++ Helper Functions ++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -70,58 +71,56 @@ pitchlst = np.genfromtxt("Data_SI_correct/Ahrs1_bPitchRateSI.txt",skip_header=2)
 nsteps = 10**3
 
 
-#+++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#+++++++++++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++
 def main(t0,deltat,input_type):
     """Input type: elevator
                     rudder
                     airleron"""
-
-    #C.G location
-    xcg = 0.25 * c
 
     #Find time
     t = timelst
     idx = np.where(t == t0)[0]
 
     #Flight condition
-    #  m_fuel    = 1197.484        # CHANGE Total fuel mass [kg]
 
-    hp    = altlst[idx]      	    # CHANGE pressure altitude in the stationary flight condition [m]
-    V     = taslst[idx]            # CHANGE true airspeed in the stationary flight condition [m/sec]
+    hp    = altlst[idx]      	    # pressure altitude in the stationary flight condition [m]
+    V     = taslst[idx]            # true airspeed in the stationary flight condition [m/sec]
     alpha = np.radians(aoalst[idx])        # angle of attack in the stationary flight condition [rad]
-    theta    = pitchlst[idx]    # pitch angle in the stationary flight condition [rad]
-    gamma  = theta - alpha  # CHANGE flight path angle -
+    theta    = np.radians(pitchlst[idx])    # pitch angle in the stationary flight condition [rad]
+    gamma  = theta - alpha  # flight path angle -
+    print("V=",V)
 
     # Aircraft mass
-    m      =  mass(t0)        # mass [kg]  --changes
+    m      =  mass(t0)        # mass [kg]
 
     # Longitudinal stability
-    Cma    = -0.4429             # CHANGE longitudinal stabilty [ ]
-    Cmde   = -1.00            # CHANGE elevator effectiveness [ ]
+    Cma    = -0.4429             # longitudinal stabilty [ ]
+    Cmde   = -1.00            # elevator effectiveness [ ]
 
     # air density [kg/m^3]
     rho    = rho0 * pow( ((1+(lam * hp / Temp0))), (-((g / (lam*R)) + 1)))
     W      = m * g            # [N]       (aircraft weight)
 
     # Aircraft inertia (depend on t0):
-    muc    = m / (rho * S * c) #CHANGE
-    mub    = m / (rho * S * b) #CHANGE
+    muc    = m / (rho * S * c)
+    mub    = m / (rho * S * b)
     KX2    = 0.019
     KZ2    = 0.042
     KXZ    = 0.002
     KY2    = 1.25 * 1.114
-
+    print("muc=", muc)
+    print("mub=", mub)
     # Aerodynamic constants:
 
     Cmac   = 0                      # Moment coefficient about the aerodynamic centre [ ]
     CNwa   = CLa                    # Wing normal force slope [1/rad]
-    CNha   = 2 * np.pi * Ah / (Ah + 2) # Stabiliser normal force slope [ ]
+    CNha   = 2 * np.pi * Ah / (Ah + 2)  # Stabiliser normal force slope [ ]
     depsda = 4 / (A + 2)            # Downwash gradient [ ]
 
     # Lift and drag coefficient (depend on t0):
 
     CL = 2 * W / (rho * V ** 2 * S)              # Lift coefficient [ ]
-    CD = CD0 + (CLa * alpha) ** 2 / (np.pi * A * e) # Drag coefficient [ ]
+    CD = CD0 + (CLa * alpha) ** 2 / (np.pi * A * e)  # Drag coefficient [ ]
 
     # Stabiblity derivatives
     CX0    = W * np.sin(theta) / (0.5 * rho * V ** 2 * S)
@@ -130,14 +129,14 @@ def main(t0,deltat,input_type):
     CXadot = +0.08330
     CXq    = -0.28170
     CXde   = -0.03728
-
+    print("CX0=", CX0)
     CZ0    = -W * np.cos(theta) / (0.5 * rho * V ** 2 * S)
     CZu    = -0.37616
     CZa    = -5.74340
     CZadot = -0.00350
     CZq    = -5.66290
     CZde   = -0.69612
-
+    print("CZ0=", CZ0)
     Cmu    = +0.06990   #positive!
     Cmadot = +0.17800   #positive!
     Cmq    = -8.79415
@@ -234,7 +233,7 @@ def main(t0,deltat,input_type):
     c6[3,1] = -Cndr
 
     # Time responses for unit steps:
-    t = np.linspace(t0, deltat, nsteps)
+    t = np.linspace(t0,t0+ deltat, nsteps) -t0
 
     #Now, we distinct between inputs:
 
@@ -250,7 +249,7 @@ def main(t0,deltat,input_type):
         #System in state-space
         sys_s = StateSpace(A_s, B_s, C_s, D_s)
         poles_s = pole(sys_s)
-        #print("Eigen values of the symmetric system: ", poles_s) #verified
+        print("Eigen values of the symmetric system: ", poles_s,sep='\n') #verified
 
         # Time responses for unit steps:
 
@@ -282,7 +281,7 @@ def main(t0,deltat,input_type):
             D_a[:,0] = 1   #we should check this...
             u = np.ones((len(t),2)) * -0.804 #step input
             u[:,0]=1
-            print(u.shape)
+            #print(u.shape)
 
         elif input_type=="aileron":
             D_a = np.zeros((4, 2))
@@ -293,7 +292,7 @@ def main(t0,deltat,input_type):
         #System in state-space
         sys_a = StateSpace(A_a, B_a, C_a, D_a)
         poles_a = pole(sys_a)
-        #print("Eigen values of the asymmetric system: ", poles_a) #verified
+        print("Eigen values of the asymmetric system: ", poles_a) #verified
 
 
 
@@ -314,4 +313,4 @@ def main(t0,deltat,input_type):
 
 if __name__=="__main__":
 
-    main(3790,140,"rudder")
+    main(3760,140,"elevator")
