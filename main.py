@@ -2,7 +2,7 @@
 """
 Created on Fri Mar  6 14:25:48 2020
 
-@author: vladg, phillipe
+@author: Group B07
 @version: 2.2
 """
 
@@ -10,7 +10,7 @@ import numpy as np
 from control.matlab import *
 import matplotlib.pyplot as plt
 import numpy.linalg
-
+from massbalance import *
 
 # +++++++++++++++++++++++++++++++++ Helper Functions ++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -49,9 +49,9 @@ ih     = -2 * np.pi / 180   # stabiliser angle of incidence [rad]
 oew = 4157.174              #Operational Empty Weight [kg]
 m_payload = 765             # Payload mass [kg]
     # Aerodynamic properties
-e      = 0.5087   #0.7334          # Oswald factor [ ]
-CD0    = 0.00227  #0.02180            # Zero lift drag coefficient [ ]
-CLa    = 4.811    #4.383            # Slope of CL-alpha curve [ ]
+e      = 0.5218             # Oswald factor [ ]
+CD0    = 0.002214            # Zero lift drag coefficient [ ]
+CLa    = 4.547            # Slope of CL-alpha curve [ ]
 
     # Constant values concerning atmosphere and gravity
 rho0   = 1.2250          # air density at sea level [kg/m^3]
@@ -60,9 +60,15 @@ Temp0  = 288.15       # temperature at sea level in ISA [K]
 R      = 287.05          # specific gas constant [m^2/sec^2K]
 g      = 9.81            # [m/sec^2] (gravity constant)
 
+    #Loading in data
 
+altlst = np.genfromtxt("Data_SI_correct/Dadc1_altSI.txt",skip_header=2)  #reading in the altitude values
+taslst = np.genfromtxt("Data_SI_correct/Dadc1_tasSI.txt",skip_header=2)  #reading in the true airspeed values
+aoalst = np.genfromtxt("Data_SI_correct/vane_AOASI.txt",skip_header=2)  #reading in the angle of attack
+pitchlst = np.genfromtxt("Data_SI_correct/Ahrs1_bPitchRateSI.txt",skip_header=2)  #reading in the pitch
     #Simulation parameters:
 nsteps = 10**3
+
 
 #+++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 def main(t0,deltat,input_type):
@@ -73,23 +79,28 @@ def main(t0,deltat,input_type):
     #C.G location
     xcg = 0.25 * c
 
-    # Stationary flight condition
-    m_fuel = 1197.484           # CHANGE M_fule(t0) Total fuel mass [kg]
-    gamma  = 0                  # !!!!!! flight path angle -
-    hp0    = 1527.048      	    # CHANGE pressure altitude in the stationary flight condition [m]
-    V0     = 127.067            # CHANGE true airspeed in the stationary flight condition [m/sec]
-    alpha0 = np.radians(1.4)    # CHANGE angle of attack in the stationary flight condition [rad]
-    th0    = alpha0 + gamma     # CHANGE pitch angle in the stationary flight condition [rad]
+    #Find time
+    t = timelst
+    idx = np.where(t == t0)[0]
+
+    #Flight condition
+    #  m_fuel    = 1197.484        # CHANGE Total fuel mass [kg]
+
+    hp    = altlst[idx]      	    # CHANGE pressure altitude in the stationary flight condition [m]
+    V     = taslst[idx]            # CHANGE true airspeed in the stationary flight condition [m/sec]
+    alpha = np.radians(aoalst[idx])        # angle of attack in the stationary flight condition [rad]
+    theta    = pitchlst[idx]    # pitch angle in the stationary flight condition [rad]
+    gamma  = theta - alpha  # CHANGE flight path angle -
 
     # Aircraft mass
-    m      =  4989.516 + m_payload         # CHANGE mass [kg]
+    m      =  mass(t0)        # mass [kg]  --changes
 
     # Longitudinal stability
-    Cma    = -0.4433 # -0.4934        # CHANGE longitudinal stabilty [ ]
-    Cmde   = -1.001 #-1.031           # CHANGE elevator effectiveness [ ]
+    Cma    = -0.4429             # CHANGE longitudinal stabilty [ ]
+    Cmde   = -1.00            # CHANGE elevator effectiveness [ ]
 
     # air density [kg/m^3]
-    rho    = rho0 * pow( ((1+(lam * hp0 / Temp0))), (-((g / (lam*R)) + 1)))
+    rho    = rho0 * pow( ((1+(lam * hp / Temp0))), (-((g / (lam*R)) + 1)))
     W      = m * g            # [N]       (aircraft weight)
 
     # Aircraft inertia (depend on t0):
@@ -109,18 +120,18 @@ def main(t0,deltat,input_type):
 
     # Lift and drag coefficient (depend on t0):
 
-    CL = 2 * W / (rho * V0 ** 2 * S)     # CHANGES Lift coefficient [ ]
-    CD = CD0 + (CLa * alpha0) ** 2 / (np.pi * A * e) # Drag coefficient [ ]
+    CL = 2 * W / (rho * V ** 2 * S)              # Lift coefficient [ ]
+    CD = CD0 + (CLa * alpha) ** 2 / (np.pi * A * e) # Drag coefficient [ ]
 
     # Stabiblity derivatives
-    CX0    = W * np.sin(th0) / (0.5 * rho * V0 ** 2 * S)
+    CX0    = W * np.sin(theta) / (0.5 * rho * V ** 2 * S)
     CXu    = -0.095         #corrected
     CXa    = +0.47966		# Positive! (has been erroneously negative since 1993)
     CXadot = +0.08330
     CXq    = -0.28170
     CXde   = -0.03728
 
-    CZ0    = -W * np.cos(th0) / (0.5 * rho * V0 ** 2 * S)
+    CZ0    = -W * np.cos(theta) / (0.5 * rho * V ** 2 * S)
     CZu    = -0.37616
     CZa    = -5.74340
     CZadot = -0.00350
@@ -159,11 +170,11 @@ def main(t0,deltat,input_type):
     #Creating the different c-matrices (c1, c2 &c3) for symmetrical flight
     #c1 matrix
     c1 = np.zeros(s1)
-    c1[0,0] = -2*muc*(c/V0)
-    c1[1,1] = (CZadot - 2*muc)*(c/V0)
-    c1[2,2] = -(c/V0)
-    c1[3,1] = Cmadot*(c/V0)
-    c1[3,3] = -2*muc*KY2*((c/V0)**2)
+    c1[0,0] = -2*muc*(c/V)
+    c1[1,1] = (CZadot - 2*muc)*(c/V)
+    c1[2,2] = -(c/V)
+    c1[3,1] = Cmadot*(c/V)
+    c1[3,3] = -2*muc*KY2*((c/V)**2)
 
     #c2 matrix
     c2 = np.zeros(s1)
@@ -174,11 +185,11 @@ def main(t0,deltat,input_type):
     c2[1,0] = -CZu
     c2[1,1] = -CZa
     c2[1,2] = -CX0
-    c2[1,3] = -(CZq + 2*muc)*(c/V0)
-    c2[2,3] = -(c/V0)
+    c2[1,3] = -(CZq + 2*muc)*(c/V)
+    c2[2,3] = -(c/V)
     c2[3,0] = -Cmu
     c2[3,1] = -Cma
-    c2[3,3] = -Cmq*(c/V0)
+    c2[3,3] = -Cmq*(c/V)
 
     #c3 matrix
     c3 = np.zeros(s2)
@@ -191,27 +202,27 @@ def main(t0,deltat,input_type):
 
     #c4 matrix
     c4 = np.zeros(s1)
-    c4[0,0] = (CYbdot - 2*mub)*(b/V0)
-    c4[1,1] = (-0.5)*(b/V0)
-    c4[2,2] = -4*mub*KX2*(b/V0)*(b/(2*V0))
-    c4[2,3] = 4*mub*KXZ*(b/V0)*(b/(2*V0))
-    c4[3,0] = Cnb*(b/V0)
-    c4[3,2] = 4*mub*KXZ*(b/V0)*(b/(2*V0))
-    c4[3,3] = -4*mub*KZ2*(b/V0)*(b/(2*V0))
+    c4[0,0] = (CYbdot - 2*mub)*(b/V)
+    c4[1,1] = (-0.5)*(b/V)
+    c4[2,2] = -4*mub*KX2*(b/V)*(b/(2*V))
+    c4[2,3] = 4*mub*KXZ*(b/V)*(b/(2*V))
+    c4[3,0] = Cnb*(b/V)
+    c4[3,2] = 4*mub*KXZ*(b/V)*(b/(2*V))
+    c4[3,3] = -4*mub*KZ2*(b/V)*(b/(2*V))
 
     #c5 matrix
     c5 = np.zeros(s1)
     c5[0,0] = CYb
     c5[0,1] = CL
-    c5[0,2] = CYp*(b/(2*V0))
-    c5[0,3] = (CYr - 4*mub)*(b/(2*V0))
-    c5[1,2] = (b/(2*V0))
+    c5[0,2] = CYp*(b/(2*V))
+    c5[0,3] = (CYr - 4*mub)*(b/(2*V))
+    c5[1,2] = (b/(2*V))
     c5[2,0] = Clb
-    c5[2,2] = Clp*(b/(2*V0))
-    c5[2,3] = Clr*(b/(2*V0))
+    c5[2,2] = Clp*(b/(2*V))
+    c5[2,3] = Clr*(b/(2*V))
     c5[3,0] = Cnb
-    c5[3,2] = Cnp*(b/(2*V0))
-    c5[3,3] = Cnr*(b/(2*V0))
+    c5[3,2] = Cnp*(b/(2*V))
+    c5[3,3] = Cnr*(b/(2*V))
 
     #c6 matrix
     c6 = np.zeros(s3)
@@ -239,7 +250,6 @@ def main(t0,deltat,input_type):
         #System in state-space
         sys_s = StateSpace(A_s, B_s, C_s, D_s)
         poles_s = pole(sys_s)
-        damp(sys_s)
         #print("Eigen values of the symmetric system: ", poles_s) #verified
 
         # Time responses for unit steps:
@@ -304,4 +314,4 @@ def main(t0,deltat,input_type):
 
 if __name__=="__main__":
 
-    main(0,140,"elevator")
+    main(3790,140,"rudder")
