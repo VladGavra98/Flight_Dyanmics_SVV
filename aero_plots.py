@@ -7,7 +7,7 @@ from decimal import Decimal
 
 #Choose Data
 file='ref' #reference
-#file=fd #flight test
+#file=ft #flight test
 #=======Data extraction======#
 data=np.genfromtxt("stationnary1_"+str(file)+".csv", delimiter=",")
 data=data[:,1:]
@@ -25,9 +25,11 @@ TAT=data[:,-1].T
 if file=='ref':
     m_start=4050+9165 #[lbs]
     m_pax=95+92+74+66+61+75+78+86+68 #[kg]
+    correction_factor=1
 else:
     m_start=2640+9165 #[lbs]
     m_pax=95+102+89+82+66+81+69+85+96 #[kg]
+    correction_factor=0.975
 
 W=[]
 for i in range(0,len(fuel)):
@@ -38,7 +40,7 @@ tt.sleep(3)
 tdata=np.loadtxt( 'thrust.dat' )
 Th=[]
 for i in range(0,len(tdata[:,0])):
-    t=tdata[i,0]+tdata[i,1]
+    t=(tdata[i,0]+tdata[i,1])*correction_factor
     Th.append(t)
 
 #=======Airspeed and Atmospheric properties======#
