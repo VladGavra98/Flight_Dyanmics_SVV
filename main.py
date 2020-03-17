@@ -3,30 +3,44 @@
 Created on Fri Mar  6 14:25:48 2020
 
 @author: Group B07
-@version: 2.2
+@version: 3.1 (from previous cit_par.py)
 """
 
 import numpy as np
-from control.matlab import *
+import control.matlab as cm
 import matplotlib.pyplot as plt
 import numpy.linalg
 from massbalance import *
+from data_generator_complete import *
+import warnings
+warnings.filterwarnings("ignore")
+
+plt.close('all')
 
 # +++++++++++++++++++++++++++++++++ Helper Functions ++++++++++++++++++++++++++++++++++++++++++++++
 
-def plotting(x,y,name,variable,unit):
+
+def plotting(x,y,name,variable,unit,title=None,mins=False):
     """Use this for plotting."""
     ax = plt.figure(str(name))
     # ax.legend("best")
 
+    if mins:
+        x/=60  #change time to mins from secs
+        plt.xlabel("t [min]")
+    else:
+        plt.xlabel("t [s]")
+
+    if title!= None:
+        plt.title(str(title))
     plt.plot(x,y,label=name)
-    plt.xlabel("t [s]")
+
 
     lab = str(str(variable)+" "+"["+unit+"]")
     plt.ylabel(lab)
     plt.grid(True)
+    # plt.savefig(title)
     plt.show()
-
 
 #+++++++++++++++++++++++++++++++++++ Global variables+++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -70,18 +84,15 @@ pitchlst = np.genfromtxt("Data_SI_correct/Ahrs1_bPitchRateSI.txt",skip_header=2)
 nsteps = 10**3
 
 
-#+++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-def main(t0,deltat,input_type):
+#+++++++++++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++
+def main(t0,deltat,t,input_type,input_u):
     """Input type: elevator
                     rudder
                     airleron"""
 
-    #C.G location
-    xcg = 0.25 * c
 
     #Find time
-    t = timelst
-    idx = np.where(t == t0)[0]
+    idx = np.where(timelst == t0)[0]
 
     #Flight condition
     #  m_fuel    = 1197.484        # CHANGE Total fuel mass [kg]
@@ -89,14 +100,14 @@ def main(t0,deltat,input_type):
     hp    = altlst[idx]      	    # CHANGE pressure altitude in the stationary flight condition [m]
     V     = taslst[idx]            # CHANGE true airspeed in the stationary flight condition [m/sec]
     alpha = np.radians(aoalst[idx])        # angle of attack in the stationary flight condition [rad]
-    theta    = pitchlst[idx]    # pitch angle in the stationary flight condition [rad]
+    theta    = np.radians(pitchlst[idx])    # pitch angle in the stationary flight condition [rad]
     gamma  = theta - alpha  # CHANGE flight path angle -
 
     # Aircraft mass
-    m      =  mass(t0)        # mass [kg]  --changes
+    m      =  mass(t0)        # mass [kg]
 
     # Longitudinal stability
-    Cma    = -0.4429             # CHANGE longitudinal stabilty [ ]
+    Cma    = -0.4429           # CHANGE longitudinal stabilty [ ]
     Cmde   = -1.00            # CHANGE elevator effectiveness [ ]
 
     # air density [kg/m^3]
@@ -104,8 +115,8 @@ def main(t0,deltat,input_type):
     W      = m * g            # [N]       (aircraft weight)
 
     # Aircraft inertia (depend on t0):
-    muc    = m / (rho * S * c) #CHANGE
-    mub    = m / (rho * S * b) #CHANGE
+    muc    = m / (rho * S * c)
+    mub    = m / (rho * S * b)
     KX2    = 0.019
     KZ2    = 0.042
     KXZ    = 0.002
@@ -120,7 +131,7 @@ def main(t0,deltat,input_type):
 
     # Lift and drag coefficient (depend on t0):
 
-    CL = 2 * W / (rho * V ** 2 * S)              # Lift coefficient [ ]
+    CL = 2 * W / (rho * V ** 2 * S)                 # Lift coefficient [ ]
     CD = CD0 + (CLa * alpha) ** 2 / (np.pi * A * e) # Drag coefficient [ ]
 
     # Stabiblity derivatives
@@ -234,11 +245,20 @@ def main(t0,deltat,input_type):
     c6[3,1] = -Cndr
 
     # Time responses for unit steps:
-    t = np.linspace(t0, deltat, nsteps)
+    # t = np.linspace(t0,t0+ deltat, nsteps) -t0
+    u = input_u
+
+    # print("u and t:",u,t,sep='\n')
+    # print("u shape:",u.shape)
+    # print("t shape:",t.shape)
+    if t.shape!=u.shape:
+        print("Wrong slicing for input and time!\n")
+        return -1
 
     #Now, we distinct between inputs:
 
     if input_type=="elevator":
+        print("Calculating for elevator...")
         #Symmetric system is triggered:
 
         #Creating the state matrix(A) and the input matrix(B) for symmetrical flight - xdot = c1^-1*c2*x c1^-1*c3*u = Ax + Bu
@@ -248,15 +268,12 @@ def main(t0,deltat,input_type):
         D_s = np.zeros((4, 1))
 
         #System in state-space
-        sys_s = StateSpace(A_s, B_s, C_s, D_s)
-        poles_s = pole(sys_s)
-        #print("Eigen values of the symmetric system: ", poles_s) #verified
+        sys_s = cm.StateSpace(A_s, B_s, C_s, D_s)
+        poles_s = cm.pole(sys_s)
+        # print("Eigen values of the symmetric system: ", poles_s,sep='\n') #verified
 
         # Time responses for unit steps:
-
-        # u = input_array
-        u = np.ones(t.shape)
-        yout,t,u = lsim(sys_s,u,t)   #general time response
+        yout,t,u = cm.lsim(sys_s,u,t)   #general time response
 
         u_out_s =     yout[:,0]
         alpha_out_s = yout[:,1]
@@ -264,11 +281,11 @@ def main(t0,deltat,input_type):
         q_out_s =     yout[:,3]
 
         #Plotting....
-        plotting(t,u_out_s,str("u Response for " +input_type+ " input"),r"$u$","m/s")
-        plotting(t,alpha_out_s,str("Alpha Response for " +input_type+ " input"),r"$\alpha$","-")
-        plotting(t,theta_out_s,str("Theta Response for " +input_type+ " input"),r"$\theta$","-")
-        plotting(t,q_out_s,str("q Response for " +input_type+ " input"),"$q$",r"1/s")
-
+        plotting(t,u_out_s,str("u Response for " +input_type+ " input, t0= "+ str(t0)),"u","m/s")
+        plotting(t,alpha_out_s,str("Alpha Response for " +input_type+ " input, t0= "+ str(t0)),r"$\alpha$","-")
+        plotting(t,theta_out_s,str("Theta Response for " +input_type+ " input, t0= "+ str(t0)),r"$\theta$","-")
+        plotting(t,q_out_s,str("q Response for " +input_type+ " input, t0= "+ str(t0)),"$q$",r"1/s")
+        print("\tPlotted")
 
     else:
         #Creating the state matrix(A) and the input matrix(B) for asymmetrical flight - y = c4^-1*c5*x c4^-1*c5*u = Ax + Bu
@@ -278,26 +295,27 @@ def main(t0,deltat,input_type):
         #D_a depends on the input
 
         if input_type =="rudder":
+            print("Calculating for rudder...")
             D_a = np.zeros((4, 2))
             D_a[:,0] = 1   #we should check this...
             u = np.ones((len(t),2)) * -0.804 #step input
             u[:,0]=1
-            print(u.shape)
+
 
         elif input_type=="aileron":
+            print("Calculating for aileron...")
             D_a = np.zeros((4, 2))
             D_a[:,1] = 1
             u = np.ones((len(t),2)) #step input
             u[:,1]=1
 
         #System in state-space
-        sys_a = StateSpace(A_a, B_a, C_a, D_a)
-        poles_a = pole(sys_a)
+        sys_a = cm.StateSpace(A_a, B_a, C_a, D_a)
+        poles_a = cm.pole(sys_a)
         #print("Eigen values of the asymmetric system: ", poles_a) #verified
 
 
-
-        yout,t,u = lsim(sys_a,u,t)   #general time response for the input u
+        yout,t,u = cm.lsim(sys_a,u,t)   #!!! general time response for the input u
 
         u_out_a =     yout[:,0]
         alpha_out_a = yout[:,1]
@@ -305,13 +323,66 @@ def main(t0,deltat,input_type):
         q_out_a =     yout[:,3]
 
         #Plotting...
-        plotting(t,u_out_a,str("Beta Response for " + input_type +" input"), r"$beta$","-")
-        plotting(t,alpha_out_a,str("Phi Response for " +input_type + " input"), r"$\phi$","-")
-        plotting(t,theta_out_a,str("p Response for " +input_type + " input") , r"$p$" ,"1/s")
-        plotting(t,q_out_a,str("r Response for " +input_type + " input"),  "$r$" ,r"1/s")
-
+        plotting(t,u_out_a,str("Beta Response for " + input_type +" input, t0= "+ str(t0)), r"$beta$","-")
+        plotting(t,alpha_out_a,str("Phi Response for" +input_type + " input, t0= "+ str(t0)), r"$\phi$","-")
+        plotting(t,theta_out_a,str("p Response for " +input_type + " input, t0= "+ str(t0)) , r"$p$" ,"1/s")
+        plotting(t,q_out_a,str("r Response for " +input_type + " input, t0= "+ str(t0)),  "$r$" ,r"1/s")
+        print("\tPlotted")
     return 1
+
+#++++++++++++++++++++++++++++++++++++++ Input & Output +++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Simulation parameters for dynamic measurements:
+# input: ph -> elevator def
+#       shp -> elevator def
+#       dr -> rudder def
+#       dr_yd -> rudder def
+#       ar -> aileron def
+#       spi -> rudder def (pulse-like input)
+
+# output: ph -> pitch, pitch rate
+#       shp -> pitch, pitch rate
+#       dr -> yaw rate, roll rate
+#       dr_yd -> yaw rate, roll rate
+#       ar -> roll, roll_rate
+#       spi -> roll, yaw_rate
+
+
 
 if __name__=="__main__":
 
-    main(3790,140,"rudder")
+    t0_lst = [53.5*60,58.6*60,60.1*60,60.95*60,57.0*60,62.0*60]   #s
+    deltat_lst = [148,5,28,19,60,150] #s
+    input_type_lst = ["elevator","elevator","rudder","rudder","aileron","rudder"]
+
+
+    # t0, deltat, utime_ph, u_ph, u_ph_p, u_ph_p_rate = phugoid()
+    # plotting(utime_ph,u_ph_p_rate,str("q Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),"$q$",r"1/s")
+    # main(t0,deltat,utime_ph,input_type_lst[0],u_ph)
+
+    # t0, deltat, utime_shp, u_shp, u_shp_p, u_shp_p_rate = short_period()
+    # plotting(utime_shp,u_shp_p_rate,str("q Response for " +input_type_lst[1]+ " input, t0= "+ str(t0)),"$q$",r"1/s")
+    # main(t0,deltat,utime_shp,input_type_lst[1],u_shp)
+
+    # t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r = dutch_roll()
+    # plotting(utime_dr,u_dr_y,str("r Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$r$",r"1/s")
+    # plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s")
+    # main(t0,deltat,utime_dr,input_type_lst[2],u_dr)
+
+    # print("Dutch roll YD")
+    # t0, deltat, utime_dr_yd, u_dr_yd, u_dr_yd_y, u_dr_yd_r= dutch_roll_yd()
+    # plotting(utime_dr_yd,u_dr_yd_y,str("r Response for " +input_type_lst[3]+ " input, t0= "+ str(t0)),"$r$",r"1/s")
+    # plotting(utime_dr_yd,u_dr_yd_r,str("p Response for " +input_type_lst[3]+ " input, t0= "+ str(t0)),"$p$",r"1/s")
+    # main(t0,deltat,utime_dr_yd,input_type_lst[3],u_dr_yd)
+
+    t0, deltat, utime_ar, u_ar, u_ar_r, u_ar_r_rate = aperiodic_roll()
+    plotting(utime_ar,u_ar_r,str("Roll Response for " +input_type_lst[4]+ " input, t0= "+ str(t0)),"$\phi$",r"-")
+    plotting(utime_ar,u_ar_r_rate,str("p Response for " +input_type_lst[4]+ " input, t0= "+ str(t0)),"$p$",r"1/s")
+    main(t0,deltat,utime_ar,input_type_lst[4],u_ar)
+
+    # t0, deltat, utime_spi, u_spi, u_spi_r, u_spi_y = spiral()
+    # plotting(utime_spi,u_spi_r,str("Roll Response for " +input_type_lst[5]+ " input, t0= "+ str(t0)),"$\phi$",r"-")
+    # plotting(utime_spi,u_spi_y,str("r Response for " +input_type_lst[5]+ " input, t0= "+ str(t0)),"$r$",r"1/s")
+    # main(t0,deltat,utime_spi,input_type_lst[5],u_spi)
+
+# sorry for using the same variable names...
