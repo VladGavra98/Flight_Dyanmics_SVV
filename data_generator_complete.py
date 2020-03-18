@@ -127,7 +127,7 @@ gtab = np.genfromtxt("Ahrs1_VertAccSI.txt",dtype=float,skip_header=2,delimiter='
 elevtab =  np.genfromtxt("delta_eSI.txt",dtype=float,skip_header=2,delimiter='\n')
 ruddertab = np.genfromtxt("delta_rSI.txt",dtype=float,skip_header=2,delimiter='\n')
 ailerontab = np.genfromtxt("delta_aSI.txt",dtype=float,skip_header=2,delimiter='\n')
-ailerontab = ailerontab-ailerontab[0]
+
 elevtrimtab = np.genfromtxt("elevator_dteSI.txt",dtype=float,skip_header=2,delimiter='\n')
 phitab = np.genfromtxt("Ahrs1_RollSI.txt",dtype=float,skip_header=2,delimiter='\n')
 

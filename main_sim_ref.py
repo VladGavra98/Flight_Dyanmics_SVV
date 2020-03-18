@@ -50,9 +50,9 @@ ih     = -2 * np.pi / 180   # stabiliser angle of incidence [rad]
 oew = 4157.174              #Operational Empty Weight [kg]
 m_payload = 765             # Payload mass [kg]
     # Aerodynamic properties
-e      = 0.5087   #0.7334          # Oswald factor [ ]
-CD0    = 0.00227  #0.02180            # Zero lift drag coefficient [ ]
-CLa    = 4.811    #4.383            # Slope of CL-alpha curve [ ]
+e      = 0.7448            # Oswald factor [ ]
+CD0    = 0.02115              # Zero lift drag coefficient [ ]
+CLa    = 4.811              # Slope of CL-alpha curve [ ]
 
     # Constant values concerning atmosphere and gravity
 rho0   = 1.2250          # air density at sea level [kg/m^3]
@@ -86,8 +86,8 @@ def main(t0,deltat,input_type):
     m      =  4989.516 + m_payload         # CHANGE mass [kg]
 
     # Longitudinal stability
-    Cma    = -0.4433 # -0.4934        # CHANGE longitudinal stabilty [ ]
-    Cmde   = -1.001 #-1.031           # CHANGE elevator effectiveness [ ]
+    Cma    = -0.4934  #   ref  data      # CHANGE longitudinal stabilty [ ]
+    Cmde   = 1.031    #   ref data       # CHANGE elevator effectiveness [ ]
 
     # air density [kg/m^3]
     rho    = rho0 * pow( ((1+(lam * hp0 / Temp0))), (-((g / (lam*R)) + 1)))

@@ -65,8 +65,8 @@ ih     = -2 * np.pi / 180   # stabiliser angle of incidence [rad]
 oew = 4157.174              #Operational Empty Weight [kg]
 m_payload = 765             # Payload mass [kg]
     # Aerodynamic properties
-e      = 0.5218             # Oswald factor [ ]
-CD0    = 0.002214            # Zero lift drag coefficient [ ]
+e      = 0.5466             # Oswald factor [ ]
+CD0    = 0.01980           # Zero lift drag coefficient [ ]
 CLa    = 4.547            # Slope of CL-alpha curve [ ]
 
     # Constant values concerning atmosphere and gravity
@@ -102,15 +102,15 @@ def main(t0,deltat,t,input_type,input_u):
     hp    = altlst[idx]      	    # CHANGE pressure altitude in the stationary flight condition [m]
     V     = taslst[idx]            # CHANGE true airspeed in the stationary flight condition [m/sec]
     alpha = np.radians(aoalst[idx])        # angle of attack in the stationary flight condition [rad]
-    theta    = np.radians(pitchlst[idx])    # pitch angle in the stationary flight condition [rad]
+    theta = np.radians(pitchlst[idx])    # pitch angle in the stationary flight condition [rad]
     gamma  = theta - alpha  # CHANGE flight path angle -
 
     # Aircraft mass
     m      =  mass(t0)        # mass [kg]
 
     # Longitudinal stability
-    Cma    = -0.4429           # CHANGE longitudinal stabilty [ ]
-    Cmde   = -1.00            # CHANGE elevator effectiveness [ ]
+    Cma    = -0.4435           # CHANGE longitudinal stabilty [ ]
+    Cmde   = -1.001            # CHANGE elevator effectiveness [ ]
 
     # air density [kg/m^3]
     rho    = rho0 * pow( ((1+(lam * hp / Temp0))), (-((g / (lam*R)) + 1)))
@@ -278,15 +278,15 @@ def main(t0,deltat,t,input_type,input_u):
         yout,tout,uout = cm.lsim(sys_s,u,t)   #general time response
 
         u_out_s =     yout[:,0]
-        alpha_out_s = yout[:,1]
-        theta_out_s = yout[:,2]
+        alpha_out_s = yout[:,1] + alpha
+        theta_out_s = yout[:,2] + theta
         q_out_s =     yout[:,3]
 
         #Plotting....
         plotting(t,u_out_s,str("u Response for " +input_type+ " input, t0= "+ str(t0)),"u","m/s")
-        plotting(t,alpha_out_s,str("Alpha Response for " +input_type+ " input, t0= "+ str(t0)),r"$\alpha$","-")
-        plotting(t,theta_out_s,str("Theta Response for " +input_type+ " input, t0= "+ str(t0)),r"$\theta$","-")
-        plotting(t,q_out_s,str("q Response for " +input_type+ " input, t0= "+ str(t0)),"$q$",r"1/s")
+        plotting(t,alpha_out_s,str("Alpha Response for " +input_type+ " input, t0= "+ str(t0)),r"$\alpha$","rad")
+        plotting(t,theta_out_s,str("Theta Response for " +input_type+ " input, t0= "+ str(t0)),r"$\theta$","rad")
+        plotting(t,q_out_s,str("q Response for " +input_type+ " input, t0= "+ str(t0)),"$q$",r"rad/s")
         print("\tPlotted")
 
     else:
@@ -325,29 +325,12 @@ def main(t0,deltat,t,input_type,input_u):
         p_out_a = yout[:,2]
         r_out_a = yout[:,3]
 
-        #Plotting...
-
-        # plotting(t,beta_out_a,str("Beta Response for " + input_type +" input"), r"$beta$","-")
-        # plotting(t,phi_out_a,str("Phi Response for " +input_type + " input"), r"$\phi$","-")
-        # plotting(t,p_out_a,str("p Response for " +input_type + " input") , r"$p$" ,"1/s")
-        # plotting(t,r_out_a,str("r Response for " +input_type + " input"),  "$r$" ,r"1/s")
-
-
-
-        # yout,t,u = cm.lsim(sys_a,u,t)   #!!! general time response for the input u
-        # plt.figure("Input plot")
-        # plt.plot(t,u)
-
-        # u_out_a =     yout[:,0]
-        # alpha_out_a = yout[:,1]
-        # theta_out_a = yout[:,2]
-        # q_out_a =     yout[:,3]
 
         # #Plotting...
-        plotting(t,beta_out_a,str("Beta Response for " + input_type +" input, t0= "+ str(t0)), r"$\beta$","-")
-        plotting(t,phi_out_a,str("Phi Response for " +input_type + " input, t0= "+ str(t0)), r"$\phi$","-")
-        plotting(t,p_out_a,str("p Response for " +input_type + " input, t0= "+ str(t0)) , r"$p$" ,"1/s")
-        plotting(t,r_out_a,str("r Response for " +input_type + " input, t0= "+ str(t0)),  "$r$" ,r"1/s")
+        plotting(t,beta_out_a,str("Beta Response for " + input_type +" input, t0= "+ str(t0)), r"$\beta$","rad")
+        plotting(t,phi_out_a,str("Phi Response for " +input_type + " input, t0= "+ str(t0)), r"$\phi$","rad")
+        plotting(t,p_out_a,str("p Response for " +input_type + " input, t0= "+ str(t0)) , r"$p$" ,"rad/s")
+        plotting(t,r_out_a,str("r Response for " +input_type + " input, t0= "+ str(t0)),  "$r$" ,r"rad/s")
         print("\tPlotted")
     return 1
 
@@ -376,15 +359,18 @@ if __name__=="__main__":
     deltat_lst = [148,5,28,19,60,50] #s
     input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 
+    print("Phugoid")
+    t0, deltat, utime_ph, u_ph, u_ph_p, u_ph_p_rate = phugoid()
+    plotting(utime_ph ,u_ph_p_rate,str("q Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),"$q$",r"rad/s",label_name="Flight Test")
+    plotting(utime_ph ,u_ph_p,str("Theta Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),r"$\theta$",r"rad",label_name="Flight Test")
+    main(t0,deltat,utime_ph,input_type_lst[0],u_ph)
 
-    # t0, deltat, utime_ph, u_ph, u_ph_p, u_ph_p_rate = phugoid()
-    # plotting(utime_ph,u_ph_p_rate,str("q Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),"$q$",r"1/s",label_name="Flight Test")
-    # main(t0,deltat,utime_ph,input_type_lst[0],u_ph)
-
+    # print("Shord period")
     # t0, deltat, utime_shp, u_shp, u_shp_p, u_shp_p_rate = short_period()
     # plotting(utime_shp,u_shp_p_rate,str("q Response for " +input_type_lst[1]+ " input, t0= "+ str(t0)),"$q$",r"1/s",label_name="Flight Test")
     # main(t0,deltat,utime_shp,input_type_lst[1],u_shp)
 
+    # print("Dutch roll")
     # t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r = dutch_roll()
     # plotting(utime_dr,u_dr_y,str("r Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
     # plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
@@ -396,14 +382,16 @@ if __name__=="__main__":
     # plotting(utime_dr_yd,u_dr_yd_r,str("p Response for " +input_type_lst[3]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
     # main(t0,deltat,utime_dr_yd,input_type_lst[3],u_dr_yd)
 
+    # print("Aperiodic roll")
     # t0, deltat, utime_ar, u_ar, u_ar_r, u_ar_r_rate = aperiodic_roll()
     # plotting(utime_ar,u_ar_r,str("Roll Response for " +input_type_lst[4]+ " input, t0= "+ str(t0)),"$\phi$",r"-",label_name="Flight Test")
     # plotting(utime_ar,u_ar_r_rate,str("p Response for " +input_type_lst[4]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
     # main(t0,deltat,utime_ar,input_type_lst[4],u_ar)
 
-    t0, deltat, utime_spi, u_spi, u_spi_r, u_spi_y = spiral()
-    plotting(utime_spi,u_spi_r,str("Phi Response for " +input_type_lst[5] + " input, t0= "+ str(t0)),"$\phi$",r"-",label_name="Flight Test")
-    plotting(utime_spi,u_spi_y,str("r Response for " +input_type_lst[5]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
-    main(t0,deltat,utime_spi,input_type_lst[5],u_spi)
+    # print("Spiral stability")
+    # t0, deltat, utime_spi, u_spi, u_spi_r, u_spi_y = spiral()
+    # plotting(utime_spi,u_spi_r,str("Phi Response for " +input_type_lst[5] + " input, t0= "+ str(t0)),"$\phi$",r"-",label_name="Flight Test")
+    # plotting(utime_spi,u_spi_y,str("r Response for " +input_type_lst[5]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
+    # main(t0,deltat,utime_spi,input_type_lst[5],u_spi)
 
 # sorry for using the same variable names...
