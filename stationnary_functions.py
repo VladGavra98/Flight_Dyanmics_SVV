@@ -18,8 +18,6 @@ b=15.911 #Cessna Citation II wing span
 AR=b**2/S #Cessna Citation II wing aspect ratio
 Ws=60500 #Cessna Citation II standard weight
 d=0.686 #Cessna Citation II JT15D-4 engine diameter
-Tcs= 0.2 #Standard thrust coefficient #CHANGE!!!!!
-Tc= 0.2 #Thrust coefficient #CHANGE!!!!!
 CmTc=-0.0064 #Dimensionless thrust moment arm  #CHECK if need CHANGE!!!!!
 
 def speed_correction(VIAS,hp,TAT):
@@ -119,14 +117,14 @@ def thrust(hp,VIAS,FFL,FFR,TAT):
     #return: Creates matlab.dat file and executes Thrust.exe
 
     hp=[i*0.3048 for i in hp]
-    FFL=[i*0.453582/3600  for i in FFL]
-    FFR=[i*0.453582/3600  for i in FFR]
+    FFL=[i*0.453592/3600  for i in FFL]
+    FFR=[i*0.453592/3600  for i in FFR]
 
     M=[]
     deltaT=[]
     for i in range(0,len(VIAS)):
         Vc=(VIAS[i]-2)*0.514444
-        p=p0*(1+delta*hp[i]*0.3048/T0)**(-g0/delta/R)
+        p=p0*(1+delta*hp[i]/T0)**(-g0/delta/R)
         a=m.sqrt(2/(gamma-1)*((1+p0/p*((1+(gamma-1)*rho0*Vc**2/(2*gamma*p0))**(gamma/(gamma-1))-1))**((gamma-1)/gamma)-1))
         b=(TAT[i]+273.15)/(1+(gamma-1)/2*a**2)-(T0+delta*hp[i])
         M.append(a)

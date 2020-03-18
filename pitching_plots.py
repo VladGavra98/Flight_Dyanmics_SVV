@@ -4,7 +4,7 @@ import numpy as np
 import math as m
 
 #Choose Data
-file='ref' #reference
+file='ft' #reference
 #file=ft #flight test
 #=======Data extraction======#
 data=np.genfromtxt("stationnary2_"+str(file)+".csv", delimiter=",")
@@ -32,7 +32,7 @@ else:
     correction_factor=0.975
 W=[]
 for i in range(0,len(fuel)):
-    a=((m_start-fuel[i])*0.453582+m_pax)*g0
+    a=((m_start-fuel[i])*0.453592+m_pax)*g0
     W.append(a)
 
 thrust(hp,VIAS,FFL,FFR,TAT)
@@ -43,10 +43,10 @@ for i in range(0,len(tdata[:,0])):
     t=(tdata[i,0]+tdata[i,1])*correction_factor
     Th.append(t)
 
-FF=np.ones(len(VIAS))*0.048/0.453582*3600
+FF=np.ones(len(VIAS))*0.048/0.453592*3600
 thrust(hp,VIAS,FF,FF,TAT)
 tt.sleep(3)
-tdata2=np.loadtxt( 'thrust_standard.dat' )
+tdata2=np.loadtxt( 'thrust.dat' )
 Ths=[]
 for i in range(0,len(tdata2[:,0])):
     t=tdata2[i,0]+tdata2[i,1]
@@ -56,12 +56,12 @@ for i in range(0,len(tdata2[:,0])):
 #CHECK assumptions
 if file=='ref':
     Ve, Vt, rho, T, M=speed_correction(161,5730,5)
-    CN,CT=aero_coefficient((m_start-881)*0.453582*g0,0,rho,Vt,5.3)
+    CN,CT=aero_coefficient((m_start-881)*0.453592*g0,0,rho,Vt,5.3)
     delta_xcg=-0.04130226605496423
     Cmd=elevator_effectiveness(CN,delta_xcg,-0.5*m.pi/180)
 else:
     Ve, Vt, rho, T, M=speed_correction(156,18360,-11.2)
-    CN,CT=aero_coefficient((m_start-940)*0.453582*g0,0,rho,Vt,5.2)
+    CN,CT=aero_coefficient((m_start-940)*0.453592*g0,0,rho,Vt,5.2)
     delta_xcg=-0.05073 #flight test
     Cmd=elevator_effectiveness(CN,delta_xcg,-0.6*m.pi/180)
 
@@ -140,19 +140,18 @@ ax = fig.gca()
 # plt.savefig('Plots\Trimcurve.jpeg')
 
 #=======Elevator trim curve======# #Mirror or not???
-
-plt.scatter(Ve_tilde,Fe_star,color='black', marker='o')
-plt.plot(Ve_theory,Fe_theory,color='#0080FF')
-plt.xlim(60,105)
-plt.ylim(-60,100)
-ax.set_xticks(np.arange(60, 105, 5))
-ax.set_yticks(np.arange(-60, 120, 20))
-plt.gca().invert_yaxis()
-ax.grid(which='both')
-plt.xlabel('$V_e$ [m/s]',fontsize=16)
-plt.ylabel('$F_e$ [N]',fontsize=14)
-plt.title('Cessna Citation II Elevator Control Force Curve', fontsize=14)
-plt.savefig('Plots\controlforcecurve.jpeg')
-
+#
+# plt.scatter(Ve_tilde,Fe_star,color='black', marker='o')
+# plt.plot(Ve_theory,Fe_theory,color='#0080FF')
+# plt.xlim(60,105)
+# plt.ylim(-60,100)
+# ax.set_xticks(np.arange(60, 105, 5))
+# ax.set_yticks(np.arange(-60, 120, 20))
+# plt.gca().invert_yaxis()
+# ax.grid(which='both')
+# plt.xlabel('$V_e$ [m/s]',fontsize=16)
+# plt.ylabel('$F_e$ [N]',fontsize=14)
+# plt.title('Cessna Citation II Elevator Control Force Curve', fontsize=14)
+# plt.savefig('Plots\controlforcecurve.jpeg')
 
 plt.show()
