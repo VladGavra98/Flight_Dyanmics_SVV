@@ -13,11 +13,18 @@ import numpy.linalg
 from massbalance import *
 from data_generator_complete import *
 import warnings
+import scipy.optimize as sp
 warnings.filterwarnings("ignore")
 
 plt.close('all')
 
 # +++++++++++++++++++++++++++++++++ Helper Functions ++++++++++++++++++++++++++++++++++++++++++++++
+def pendulum(t,A,eps,omega_d):
+    return A * np.exp(-eps*t) * np.cos(omega_d * t + 0)
+
+def f(t,A,eps,omega):
+    return pendulum(t,A,eps,omega)
+
 
 
 def plotting(x,y,name,variable,unit,label_name="Simulation",title=None,mins=False):
@@ -272,7 +279,7 @@ def main(t0,deltat,t,input_type,input_u):
         #System in state-space
         sys_s = cm.StateSpace(A_s, B_s, C_s, D_s)
         poles_s = cm.pole(sys_s)
-        # print("Eigenvalues of the symmetric system: ", poles_s,sep='\n') #verified
+        print("Eigenvalues of the symmetric system: ", poles_s,sep='\n') #verified
 
         # Time responses for unit steps:
         yout,tout,uout = cm.lsim(sys_s,u,t)   #general time response
@@ -359,12 +366,15 @@ if __name__=="__main__":
     deltat_lst = [148,5,28,19,60,50] #s
     input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 
+    ################################## PHUGOID ###############################################
     print("Phugoid")
     t0, deltat, utime_ph, u_ph, u_ph_p, u_ph_p_rate = phugoid()
     plotting(utime_ph ,u_ph_p_rate,str("q Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),"$q$",r"rad/s",label_name="Flight Test")
     plotting(utime_ph ,u_ph_p,str("Theta Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),r"$\theta$",r"rad",label_name="Flight Test")
     main(t0,deltat,utime_ph,input_type_lst[0],u_ph)
 
+    coeffs,_ = sp.curve_fit(f,utime_ph,u_ph_p_rate)
+    print(coeffs[1])
     # print("Shord period")
     # t0, deltat, utime_shp, u_shp, u_shp_p, u_shp_p_rate = short_period()
     # plotting(utime_shp,u_shp_p_rate,str("q Response for " +input_type_lst[1]+ " input, t0= "+ str(t0)),"$q$",r"1/s",label_name="Flight Test")
