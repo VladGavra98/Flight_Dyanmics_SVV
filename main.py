@@ -19,11 +19,14 @@ warnings.filterwarnings("ignore")
 plt.close('all')
 
 # +++++++++++++++++++++++++++++++++ Helper Functions ++++++++++++++++++++++++++++++++++++++++++++++
-def pendulum(t,A,eps,omega_d):
-    return A * np.exp(-eps*t) * np.cos(omega_d * t + 0)
+# def pendulum(t,A,eps,omega_d):
+#     return A * np.exp(-eps*t) * np.cos(omega_d * t + 0)
 
-def f(t,A,eps,omega):
-    return pendulum(t,A,eps,omega)
+# def f(t,A,eps,omega):   #the eigen value will be: lambda = eps + j omega
+#     return pendulum(t,A,eps,omega)
+
+def oscillator(t,A,eps,omega_d):
+    return  A * np.exp(eps*t) * np.sin(omega_d * t + 0)
 
 
 
@@ -267,7 +270,7 @@ def main(t0,deltat,t,input_type,input_u):
     #Now, we distinct between inputs:
 
     if input_type=="elevator":
-        print("Calculating for elevator...")
+        print("Calculating for elevator input...")
         #Symmetric system is triggered:
 
         #Creating the state matrix(A) and the input matrix(B) for symmetrical flight - xdot = c1^-1*c2*x c1^-1*c3*u = Ax + Bu
@@ -279,7 +282,7 @@ def main(t0,deltat,t,input_type,input_u):
         #System in state-space
         sys_s = cm.StateSpace(A_s, B_s, C_s, D_s)
         poles_s = cm.pole(sys_s)
-        print("Eigenvalues of the symmetric system: ", poles_s,sep='\n') #verified
+        # print("Eigenvalues of the symmetric system: ", poles_s,sep='\n') #verified
 
         # Time responses for unit steps:
         yout,tout,uout = cm.lsim(sys_s,u,t)   #general time response
@@ -294,7 +297,8 @@ def main(t0,deltat,t,input_type,input_u):
         plotting(t,alpha_out_s,str("Alpha Response for " +input_type+ " input, t0= "+ str(t0)),r"$\alpha$","rad")
         plotting(t,theta_out_s,str("Theta Response for " +input_type+ " input, t0= "+ str(t0)),r"$\theta$","rad")
         plotting(t,q_out_s,str("q Response for " +input_type+ " input, t0= "+ str(t0)),"$q$",r"rad/s")
-        print("\tPlotted")
+        print("\tPlotted!")
+        return poles_s
 
     else:
         #Creating the state matrix(A) and the input matrix(B) for asymmetrical flight - y = c4^-1*c5*x c4^-1*c5*u = Ax + Bu
@@ -304,7 +308,7 @@ def main(t0,deltat,t,input_type,input_u):
         #D_a depends on the input
 
         if input_type =="rudder":
-            print("Calculating for rudder...")
+            print("Calculating for rudder input...")
             D_a = np.zeros((4, 2))
             D_a[:,0] = 0   #we should check this...
             uarray = np.ones((len(t),2)) #step input
@@ -312,7 +316,7 @@ def main(t0,deltat,t,input_type,input_u):
             uarray[:,0] = 0
 
         elif input_type=="aileron":
-            print("Calculating for aileron...")
+            print("Calculating for aileron input...")
             D_a = np.zeros((4, 2))
             D_a[:,1] = 1
             uarray = np.ones((len(t),2)) #step input
@@ -338,7 +342,8 @@ def main(t0,deltat,t,input_type,input_u):
         plotting(t,phi_out_a,str("Phi Response for " +input_type + " input, t0= "+ str(t0)), r"$\phi$","rad")
         plotting(t,p_out_a,str("p Response for " +input_type + " input, t0= "+ str(t0)) , r"$p$" ,"rad/s")
         plotting(t,r_out_a,str("r Response for " +input_type + " input, t0= "+ str(t0)),  "$r$" ,r"rad/s")
-        print("\tPlotted")
+        print("\tPlotted!")
+        return poles_a
     return 1
 
 #++++++++++++++++++++++++++++++++++++++ Input & Output +++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -362,23 +367,41 @@ def main(t0,deltat,t,input_type,input_u):
 
 if __name__=="__main__":
 
-    t0_lst = [53.5*60,58.6*60,60.1*60,60.95*60,57.0*60,3746]   #s
-    deltat_lst = [148,5,28,19,60,50] #s
+    print("Collecting data...")
+
+    t0_lst         = [53.5*60,58.6*60,60.1*60,60.95*60,57.0*60,3746]           #s
+    deltat_lst     = [148, 5, 28 ,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
     input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 
-    ################################## PHUGOID ###############################################
+
+  ################################## PHUGOID ###############################################
     print("Phugoid")
     t0, deltat, utime_ph, u_ph, u_ph_p, u_ph_p_rate = phugoid()
     plotting(utime_ph ,u_ph_p_rate,str("q Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),"$q$",r"rad/s",label_name="Flight Test")
     plotting(utime_ph ,u_ph_p,str("Theta Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),r"$\theta$",r"rad",label_name="Flight Test")
-    main(t0,deltat,utime_ph,input_type_lst[0],u_ph)
+    eig_s = main(t0,deltat,utime_ph,input_type_lst[0],u_ph)
 
-    coeffs,_ = sp.curve_fit(f,utime_ph,u_ph_p_rate)
-    print(coeffs[1])
+    #...debugging....kind of working?!
+    utime = utime_ph-utime_ph[0]                                            # translate the interval for better fitting
+    coeffs,cov = sp.curve_fit(oscillator,utime,u_ph_p, p0=[5,0.01,-0.12])  #initial guess is IMPORTANT
+    eig_test = np.sqrt(coeffs[1]**2 + coeffs[2]**2)                      #absolute value
+    # print(utime)
+    # print(coeffs,cov,sep="\n")
+    # plt.figure("Testing")
+    # plt.plot(utime,oscillator(utime,*coeffs),'r')
+    print("Eigenvalue error [%]: ", (abs(eig_s[3])-eig_test)*100/abs(eig_s[3]))   #first two are short period (large omega), last two are phugoid
+
+
+  ######################################## SHORT PERIOD ############################################
+
     # print("Shord period")
     # t0, deltat, utime_shp, u_shp, u_shp_p, u_shp_p_rate = short_period()
     # plotting(utime_shp,u_shp_p_rate,str("q Response for " +input_type_lst[1]+ " input, t0= "+ str(t0)),"$q$",r"1/s",label_name="Flight Test")
     # main(t0,deltat,utime_shp,input_type_lst[1],u_shp)
+
+    # COPY EIGENVALUE FITTING HERE BUT CHANGE THE INITIAL GUESS
+
+  ######################################## DUTCH ROLL ##############################################
 
     # print("Dutch roll")
     # t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r = dutch_roll()
@@ -386,11 +409,17 @@ if __name__=="__main__":
     # plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
     # main(t0,deltat,utime_dr,input_type_lst[2],u_dr)
 
+
+  ######################################## DUTCH ROLL YD ###########################################
+
     # print("Dutch roll YD")
     # t0, deltat, utime_dr_yd, u_dr_yd, u_dr_yd_y, u_dr_yd_r= dutch_roll_yd()
     # plotting(utime_dr_yd,u_dr_yd_y,str("r Response for " +input_type_lst[3]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
     # plotting(utime_dr_yd,u_dr_yd_r,str("p Response for " +input_type_lst[3]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
     # main(t0,deltat,utime_dr_yd,input_type_lst[3],u_dr_yd)
+
+
+   ######################################## APERIODIC ROLL ##########################################
 
     # print("Aperiodic roll")
     # t0, deltat, utime_ar, u_ar, u_ar_r, u_ar_r_rate = aperiodic_roll()
@@ -398,6 +427,8 @@ if __name__=="__main__":
     # plotting(utime_ar,u_ar_r_rate,str("p Response for " +input_type_lst[4]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
     # main(t0,deltat,utime_ar,input_type_lst[4],u_ar)
 
+
+   ######################################## SPIRAL ###############################################
     # print("Spiral stability")
     # t0, deltat, utime_spi, u_spi, u_spi_r, u_spi_y = spiral()
     # plotting(utime_spi,u_spi_r,str("Phi Response for " +input_type_lst[5] + " input, t0= "+ str(t0)),"$\phi$",r"-",label_name="Flight Test")

@@ -235,7 +235,7 @@ def dutch_roll(t0=60.1*60, deltat=28, plot_input=False, plot_output=False):
     return t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r
 
 
-######################################## DUTCH ROLL YD ###############################################
+######################################## DUTCH ROLL YD ###########################################
 
 def dutch_roll_yd(t0=60.95*60, deltat=19, plot_input=False, plot_output=False):
     # input -> rudder deflection
@@ -261,7 +261,7 @@ def dutch_roll_yd(t0=60.95*60, deltat=19, plot_input=False, plot_output=False):
     return t0, deltat, utime_dr_yd, u_dr_yd, u_dr_yd_y, u_dr_yd_r
 
 
-######################################## APERIODIC ROLL ###############################################
+######################################## APERIODIC ROLL ##########################################
 
 def aperiodic_roll(t0=57.0*60, deltat=60, plot_input=False, plot_output=False):
     # input -> aileron deflection
