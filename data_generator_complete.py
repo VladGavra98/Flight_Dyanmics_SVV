@@ -10,8 +10,10 @@ import os
 import scipy.io as sp
 import matplotlib.pyplot as plt
 
-root = r"C:\Users\Flori\Documents\GitHub\Flight_Dyanmics_SVV" #Please change for your computer
-mydir = r"C:\Users\Flori\Documents\GitHub\Flight_Dyanmics_SVV\Data_SI_correct" #Please change for your computer
+
+#Change this for your computer!
+root = r"C:\Users\vladg\OneDrive\Documents\GitHub\Flight_Dyanmics_SVV"
+mydir = r"C:\Users\vladg\OneDrive\Documents\GitHub\Flight_Dyanmics_SVV\Data_SI_correct"
 
 
 def calcT(h): #ISA tmeperature
@@ -60,8 +62,8 @@ def genThrust(fid,h,M,deltaT,FMFr,FMFl):
 
     return 1
 
-def plotting(x,y,name,title,variable,unit,mins=False):
-    """Use this for plotting."""
+def plottingData(x,y,name,title,variable,unit,mins=False):
+    """Use this for plottingData."""
     ax = plt.figure(str(name))
     # ax.legend("best")
 
@@ -71,7 +73,9 @@ def plotting(x,y,name,title,variable,unit,mins=False):
     else:
         plt.xlabel("t [s]")
 
-    plt.title(str(title))
+    # if title!= None:
+    #     plt.title(str(title))
+
     plt.plot(x,y,label=name)
 
 
@@ -106,12 +110,16 @@ Htab = np.genfromtxt("Dadc1_altSI.txt",dtype=float,skip_header=2,delimiter='\n')
 Ttab = np.genfromtxt("Dadc1_tatSI.txt",dtype=float,skip_header=2,delimiter='\n')    #C
 Mtab = np.genfromtxt("Dadc1_machSI.txt",dtype=float,skip_header=2,delimiter='\n')  #-
 Tisa = calcT(Htab)   #C
+
 FMFr_tab = np.genfromtxt("rh_engine_FMFSI.txt",dtype=float,skip_header=2,delimiter='\n')  #kg/s
 FMFl_tab = np.genfromtxt("lh_engine_FMFSI.txt",dtype=float,skip_header=2,delimiter='\n') #kg/s
+
 pitch_tab = np.genfromtxt("Ahrs1_PitchSI.txt",dtype=float,skip_header=2,delimiter='\n')
 pitch_rate_tab =np.genfromtxt("Ahrs1_bPitchRateSI.txt",dtype=float,skip_header=2,delimiter='\n')
+
 roll_tab =  np.genfromtxt("Ahrs1_RollSI.txt",dtype=float,skip_header=2,delimiter='\n')
 roll_rate_tab =  np.genfromtxt("Ahrs1_bRollRateSI.txt",dtype=float,skip_header=2,delimiter='\n')
+
 yaw_rate_tab = np.genfromtxt("Ahrs1_bYawRateSI.txt",dtype=float,skip_header=2,delimiter='\n')
 
 alphatab = np.genfromtxt("vane_AOASI.txt",dtype=float,skip_header=2,delimiter='\n')  #deg
@@ -119,8 +127,14 @@ gtab = np.genfromtxt("Ahrs1_VertAccSI.txt",dtype=float,skip_header=2,delimiter='
 elevtab =  np.genfromtxt("delta_eSI.txt",dtype=float,skip_header=2,delimiter='\n')
 ruddertab = np.genfromtxt("delta_rSI.txt",dtype=float,skip_header=2,delimiter='\n')
 ailerontab = np.genfromtxt("delta_aSI.txt",dtype=float,skip_header=2,delimiter='\n')
-elevtrimtab = np.genfromtxt("elevator_dteSI.txt",dtype=float,skip_header=2,delimiter='\n')
 
+elevtrimtab = np.genfromtxt("elevator_dteSI.txt",dtype=float,skip_header=2,delimiter='\n')
+phitab = np.genfromtxt("Ahrs1_RollSI.txt",dtype=float,skip_header=2,delimiter='\n')
+
+plt.plot(timetab,ailerontab,'r-')
+# plt.plot(timetab,phitab,'g-')
+# plt.plot(timetab,ruddertab,'b-')
+plt.grid(True)
 os.chdir(root)
 file = str("matlab.dat")
 
@@ -135,8 +149,6 @@ for i in range(10):
 fid.close()
 
 #!!!!!!!!!!!!!!!!!!!!!  ADD BELOW !!!!!!!!!!!
-#Input:
-
 
 def getInput(tab,timetab,t0,deltat): #to be exported; will be used for output as well
     """Returns the sliced array from tab when
@@ -152,6 +164,7 @@ def phugoid(t0=53.5*60, deltat=148, plot_input=False, plot_output=False):
 
     #input -> elevator deflection
     u_ph, utime_ph = getInput(elevtab,timetab,t0,deltat)
+    # print("Local u and t:",u_ph,utime_ph,sep="\n")
 
     #output -> pitch
     u_ph_p, utime_ph_p = getInput(pitch_tab,timetab,t0,deltat)
@@ -159,20 +172,20 @@ def phugoid(t0=53.5*60, deltat=148, plot_input=False, plot_output=False):
     #       -> pitch rate
     u_ph_p_rate, utime_ph_p_rate = getInput(pitch_rate_tab, timetab, t0, deltat)
 
-    ####plotting####
+    ####plottingData####
     if plot_input==True:
-        plotting(utime_ph, u_ph, name="elevator_def_Phugoid", title="Phugoid Input", variable="${\delta}_e$", unit="deg", mins=False)
+        plottingData(utime_ph, u_ph, name="elevator_def_Phugoid", title="Phugoid Input", variable="${\delta}_e$", unit="deg", mins=False)
 
     if plot_output==True:
-        plotting(utime_ph_p, u_ph_p, name="pitch_Phugoid", title="Phugoid -> Pitch", variable="${\Theta}$", unit="deg", mins=False)
-        plotting(utime_ph_p_rate, u_ph_p_rate, name="pitch_rate_Phugoid", title="Phugoid -> Pitch Rate", variable="$q$", unit="deg/s",mins=False)
+        plottingData(utime_ph_p, u_ph_p, name="pitch_Phugoid", title="Phugoid -> Pitch", variable="${\Theta}$", unit="deg", mins=False)
+        plottingData(utime_ph_p_rate, u_ph_p_rate, name="pitch_rate_Phugoid", title="Phugoid -> Pitch Rate", variable="$q$", unit="deg/s",mins=False)
 
     return  t0, deltat, utime_ph, u_ph, u_ph_p, u_ph_p_rate
 
 
-######################################## SHORT PERIOD ###############################################
+######################################## SHORT PERIOD ############################################
 
-def short_period(t0=58.6*60, deltat=27, plot_input=False, plot_output=False):
+def short_period(t0=58.6*60, deltat=5, plot_input=False, plot_output=False):
     # input -> elevator deflection
     u_shp, utime_shp = getInput(elevtab, timetab, t0, deltat)
 
@@ -182,21 +195,21 @@ def short_period(t0=58.6*60, deltat=27, plot_input=False, plot_output=False):
     #       -> pitch rate
     u_shp_p_rate, utime_shp_p_rate = getInput(pitch_rate_tab, timetab, t0, deltat)
 
-    ####plotting####
+    ####plottingData####
     if plot_input == True:
-        plotting(utime_shp, u_shp, name="elevator_def_Short_Period", title="Short Period Input", variable="${\delta}_e$",
+        plottingData(utime_shp, u_shp, name="elevator_def_Short_Period", title="Short Period Input", variable="${\delta}_e$",
                  unit="deg", mins=False)
 
     if plot_output == True:
-        plotting(utime_shp_p, u_shp_p, name="pitch_Short_Period", title="Short Period -> Pitch", variable="${\Theta}$", unit="deg",
+        plottingData(utime_shp_p, u_shp_p, name="pitch_Short_Period", title="Short Period -> Pitch", variable="${\Theta}$", unit="deg",
                  mins=False)
-        plotting(utime_shp_p_rate, u_shp_p_rate, name="pitch_rate_Short_Period", title="Short Period -> Pitch Rate",
+        plottingData(utime_shp_p_rate, u_shp_p_rate, name="pitch_rate_Short_Period", title="Short Period -> Pitch Rate",
                  variable="$q$", unit="deg/s", mins=False)
 
     return t0, deltat, utime_shp, u_shp, u_shp_p, u_shp_p_rate
 
 
-######################################## DUTCH ROLL ###############################################
+######################################## DUTCH ROLL ##############################################
 
 def dutch_roll(t0=60.1*60, deltat=28, plot_input=False, plot_output=False):
     # input -> rudder deflection
@@ -208,21 +221,21 @@ def dutch_roll(t0=60.1*60, deltat=28, plot_input=False, plot_output=False):
     #       -> roll rate
     u_dr_r, utime_dr_r = getInput(roll_rate_tab, timetab, t0, deltat)
 
-    ####plotting####
+    ####plottingData####
     if plot_input == True:
-        plotting(utime_dr, u_dr, name="rudder_def_Dutch_Roll", title="Dutch Roll Input", variable="${\delta}_r$",
+        plottingData(utime_dr, u_dr, name="rudder_def_Dutch_Roll", title="Dutch Roll Input", variable="${\delta}_r$",
                  unit="deg", mins=False)
 
     if plot_output == True:
-        plotting(utime_dr_y, u_dr_y, name="yaw_rate_Dutch_Roll", title="Dutch Roll -> Yaw Rate", variable="r", unit="deg",
+        plottingData(utime_dr_y, u_dr_y, name="yaw_rate_Dutch_Roll", title="Dutch Roll -> Yaw Rate", variable="r", unit="deg",
                  mins=False)
-        plotting(utime_dr_r, u_dr_r, name="roll_rate_Dutch_Roll", title="Dutch Roll -> Roll Rate",
+        plottingData(utime_dr_r, u_dr_r, name="roll_rate_Dutch_Roll", title="Dutch Roll -> Roll Rate",
                  variable="$p$", unit="deg/s", mins=False)
 
     return t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r
 
 
-######################################## DUTCH ROLL YD ###############################################
+######################################## DUTCH ROLL YD ###########################################
 
 def dutch_roll_yd(t0=60.95*60, deltat=19, plot_input=False, plot_output=False):
     # input -> rudder deflection
@@ -234,21 +247,21 @@ def dutch_roll_yd(t0=60.95*60, deltat=19, plot_input=False, plot_output=False):
     #       -> roll rate
     u_dr_yd_r, utime_dr_yd_r = getInput(roll_rate_tab, timetab, t0, deltat)
 
-    ####plotting####
+    ####plottingData####
     if plot_input == True:
-        plotting(utime_dr_yd, u_dr_yd, name="rudder_def_Dutch_Roll_YD", title="Dutch Roll YD Input", variable="${\delta}_r$",
+        plottingData(utime_dr_yd, u_dr_yd, name="rudder_def_Dutch_Roll_YD", title="Dutch Roll YD Input", variable="${\delta}_r$",
                  unit="deg", mins=False)
 
     if plot_output == True:
-        plotting(utime_dr_yd_y, u_dr_yd_y, name="yaw_rate_Dutch_Roll_YD", title="Dutch Roll YD -> Yaw Rate", variable="r", unit="deg",
+        plottingData(utime_dr_yd_y, u_dr_yd_y, name="yaw_rate_Dutch_Roll_YD", title="Dutch Roll YD -> Yaw Rate", variable="r", unit="deg",
                  mins=False)
-        plotting(utime_dr_yd_r, u_dr_yd_r, name="roll_rate_Dutch_Roll_YD", title="Dutch Roll YD -> Roll Rate",
+        plottingData(utime_dr_yd_r, u_dr_yd_r, name="roll_rate_Dutch_Roll_YD", title="Dutch Roll YD -> Roll Rate",
                  variable="$p$", unit="deg/s", mins=False)
 
     return t0, deltat, utime_dr_yd, u_dr_yd, u_dr_yd_y, u_dr_yd_r
 
 
-######################################## APERIODIC ROLL ###############################################
+######################################## APERIODIC ROLL ##########################################
 
 def aperiodic_roll(t0=57.0*60, deltat=60, plot_input=False, plot_output=False):
     # input -> aileron deflection
@@ -260,15 +273,15 @@ def aperiodic_roll(t0=57.0*60, deltat=60, plot_input=False, plot_output=False):
     #       -> roll rate
     u_ar_r_rate, utime_ar_r_rate = getInput(roll_rate_tab, timetab, t0, deltat)
 
-    ####plotting####
+    ####plottingData####
     if plot_input == True:
-        plotting(utime_ar, u_ar, name="aileron_def_Aperiodic_Roll", title="Aperiodic Roll Input", variable="${\delta}_a$",
+        plottingData(utime_ar, u_ar, name="aileron_def_Aperiodic_Roll", title="Aperiodic Roll Input", variable="${\delta}_a$",
                  unit="deg", mins=False)
 
     if plot_output == True:
-        plotting(utime_ar_r, u_ar_r, name="roll_Aperiodic_Roll", title="Aperiodic Roll -> Roll", variable="$\phi$", unit="deg",
+        plottingData(utime_ar_r, u_ar_r, name="roll_Aperiodic_Roll", title="Aperiodic Roll -> Roll", variable="$\phi$", unit="deg",
                  mins=False)
-        plotting(utime_ar_r_rate, u_ar_r_rate, name="roll_rate_Aperiodic_Roll", title="Aperiodic Roll -> Roll Rate",
+        plottingData(utime_ar_r_rate, u_ar_r_rate, name="roll_rate_Aperiodic_Roll", title="Aperiodic Roll -> Roll Rate",
                  variable="$p$", unit="deg/s", mins=False)
 
     return t0, deltat, utime_ar, u_ar, u_ar_r, u_ar_r_rate
@@ -276,7 +289,7 @@ def aperiodic_roll(t0=57.0*60, deltat=60, plot_input=False, plot_output=False):
 
 ######################################## SPIRAL ###############################################
 
-def spiral(t0=62.0*60, deltat=150, plot_input=False, plot_output=False):
+def spiral(t0=3746, deltat=50, plot_input=False, plot_output=False):
     # input -> rudder deflection
     u_spi, utime_spi = getInput(ruddertab, timetab, t0, deltat)
 
@@ -286,45 +299,26 @@ def spiral(t0=62.0*60, deltat=150, plot_input=False, plot_output=False):
     #       -> yaw rate
     u_spi_y, utime_spi_y = getInput(yaw_rate_tab, timetab, t0, deltat)
 
-    ####plotting####
+    ####plottingData####
     if plot_input == True:
-        plotting(utime_spi, u_spi, name="rudder_def_Spiral", title="Spiral Input", variable="${\delta}_r$",
+        plottingData(utime_spi, u_spi, name="rudder_def_Spiral", title="Spiral Input", variable="${\delta}_r$",
                  unit="deg", mins=False)
 
     if plot_output == True:
-        plotting(utime_spi_r, u_spi_r, name="roll_Spiral", title="Spiral -> Roll", variable="$\phi$", unit="deg",
+        plottingData(utime_spi_r, u_spi_r, name="roll_Spiral", title="Spiral -> Roll", variable="$\phi$", unit="deg",
                  mins=False)
-        plotting(utime_spi_y, u_spi_y, name="yaw_rate_Spiral", title="Spiral -> Yaw Rate",
+        plottingData(utime_spi_y, u_spi_y, name="yaw_rate_Spiral", title="Spiral -> Yaw Rate",
                  variable="$r$", unit="deg/s", mins=False)
 
     return t0, deltat, utime_spi, u_spi, u_spi_r, u_spi_y
 
 #++++++++++++++++++++++++++++++++++++++ Plotting +++++++++++++++++++++++++++++++++++++++++++++++++++
-"""
-print(phugoid(plot_input=True, plot_output=True))
-print(short_period(plot_input=True, plot_output=True))
-print(dutch_roll(plot_input=True, plot_output=True))
-print(dutch_roll_yd(plot_input=True, plot_output=True))
-print(aperiodic_roll(plot_input=True, plot_output=True))
-print(spiral(plot_input=True, plot_output=True))
-"""
 
-#++++++++++++++++++++++++++++++++++++++ Input & Output +++++++++++++++++++++++++++++++++++++++++++++++++++
+# print(phugoid(plot_input=True, plot_output=True))
+# print(short_period(plot_input=True, plot_output=True))
+# print(dutch_roll(plot_input=True, plot_output=True))
+# print(dutch_roll_yd(plot_input=True, plot_output=True))
+# print(aperiodic_roll(plot_input=True, plot_output=True))
+# print(spiral(plot_input=True, plot_output=True))
 
-"""
 
-#input: ph -> elevator def
-#       shp -> elevator def
-#       dr -> rudder def
-#       dr_yd -> rudder def
-#       ar -> aileron def
-#       spi -> rudder def (pulse-like input)
-
-#output: ph -> pitch, pitch rate
-#       shp -> pitch, pitch rate
-#       dr -> yaw rate, roll rate
-#       dr_yd -> yaw rate, roll rate
-#       ar -> roll, roll_rate
-#       spi -> roll, yaw_rate
-
-"""

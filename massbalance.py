@@ -145,4 +145,4 @@ xt = np.array([1358,1520,1682,1800,1890,2130,2450,2555,2652,2748,2805,2855,2970,
 #
 # #cg shift
 # print(round((cg(3157,True)*100/2.54+261.56),3),round((cg(3157,True)),3),round(mass(3157),3))
-#print(round(cg(3157,True),4))
+# print(round(cg(3157,True),4))
