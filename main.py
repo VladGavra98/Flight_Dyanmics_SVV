@@ -3,7 +3,7 @@
 Created on Fri Mar  6 14:25:48 2020
 
 @author: Group B07
-@version: 3.2 (Everything works together, start tuning!)
+@version: 3.4 End of 21/03/2020
 """
 
 import numpy as np
@@ -19,19 +19,30 @@ warnings.filterwarnings("ignore")
 plt.close('all')
 
 # +++++++++++++++++++++++++++++++++ Helper Functions ++++++++++++++++++++++++++++++++++++++++++++++
-# def pendulum(t,A,eps,omega_d):
-#     return A * np.exp(-eps*t) * np.cos(omega_d * t + 0)
 
-# def f(t,A,eps,omega):   #the eigen value will be: lambda = eps + j omega
-#     return pendulum(t,A,eps,omega)
-
-def oscillator(t,A,eps,omega_d):
-    return  A * np.exp(eps*t) * np.sin(omega_d * t + 0)
+#---------------------------------- fitting ------------------------------
 
 
+def double(t,A1,eps1,omega_d1,A2,eps2,omega_d2):
+    return 1.2 + A1 * np.exp(eps1*t) * np.sin(omega_d1 * t + 0) + A2 * np.exp(eps2*t) * np.cos(omega_d2 * t + 0)
 
+def doubleSP(t,A1,eps1,omega_d1,A2,eps2,omega_d2,phi01,phi02):
+     return   A1 * np.exp(eps1*t) * np.sin(omega_d1 * t + phi01) + A2 * np.exp(eps2*t) * np.cos(omega_d2 * t + phi02)
+
+def simple(t,A1,eps1,omega_d1,phi01):
+    return   A1 * np.exp(eps1*t) * np.sin(omega_d1 * t + phi01)
+
+def short(t,A,eps,omega,B,C):
+    return A*np.exp(t*eps)*np.cos(omega*t+b)
+
+def calcT(eps):
+    return -np.log(1/2)/abs(eps)
+
+def calcP(omega):
+    return 2*np.pi/abs(omega)
+# ----------------------------------- plots ---------------------------------
 def plotting(x,y,name,variable,unit,label_name="Simulation",title=None,mins=False):
-    """Use this for plotting."""
+    """Use this for plotting. It returns the figure so we can add more to it"""
     ax = plt.figure(str(name))
     # ax.legend("best")
 
@@ -54,6 +65,8 @@ def plotting(x,y,name,variable,unit,label_name="Simulation",title=None,mins=Fals
     # plt.savefig(title)
     plt.show()
 
+    return ax
+
 #+++++++++++++++++++++++++++++++++++ Global variables+++++++++++++++++++++++++++++++++++++++++++++++
 
 # Citation 550 - Linear simulation
@@ -74,6 +87,7 @@ ih     = -2 * np.pi / 180   # stabiliser angle of incidence [rad]
 
 oew = 4157.174              #Operational Empty Weight [kg]
 m_payload = 765             # Payload mass [kg]
+
     # Aerodynamic properties
 e      = 0.5466             # Oswald factor [ ]
 CD0    = 0.01980           # Zero lift drag coefficient [ ]
@@ -294,9 +308,9 @@ def main(t0,deltat,t,input_type,input_u):
 
         #Plotting....
         plotting(t,u_out_s,str("u Response for " +input_type+ " input, t0= "+ str(t0)),"u","m/s")
-        plotting(t,alpha_out_s,str("Alpha Response for " +input_type+ " input, t0= "+ str(t0)),r"$\alpha$","rad")
-        plotting(t,theta_out_s,str("Theta Response for " +input_type+ " input, t0= "+ str(t0)),r"$\theta$","rad")
-        plotting(t,q_out_s,str("q Response for " +input_type+ " input, t0= "+ str(t0)),"$q$",r"rad/s")
+        plotting(t,alpha_out_s,str("Alpha Response for " +input_type+ " input, t0= "+ str(t0)),r"$\alpha$","deg")
+        plotting(t,theta_out_s,str("Theta Response for " +input_type+ " input, t0= "+ str(t0)),r"$\theta$","deg")
+        plotting(t,q_out_s,str("q Response for " +input_type+ " input, t0= "+ str(t0)),"$q$",r"deg/s")
         print("\tPlotted!")
         return poles_s
 
@@ -338,12 +352,14 @@ def main(t0,deltat,t,input_type,input_u):
 
 
         # #Plotting...
-        plotting(t,beta_out_a,str("Beta Response for " + input_type +" input, t0= "+ str(t0)), r"$\beta$","rad")
-        plotting(t,phi_out_a,str("Phi Response for " +input_type + " input, t0= "+ str(t0)), r"$\phi$","rad")
-        plotting(t,p_out_a,str("p Response for " +input_type + " input, t0= "+ str(t0)) , r"$p$" ,"rad/s")
-        plotting(t,r_out_a,str("r Response for " +input_type + " input, t0= "+ str(t0)),  "$r$" ,r"rad/s")
+        plotting(t,beta_out_a,str("Beta Response for " + input_type +" input, t0= "+ str(t0)), r"$\beta$","deg")
+        plotting(t,phi_out_a,str("Phi Response for " +input_type + " input, t0= "+ str(t0)), r"$\phi$","deg")
+        plotting(t,p_out_a,str("p Response for " +input_type + " input, t0= "+ str(t0)) , r"$p$" ,"deg/s")
+        plotting(t,r_out_a,str("r Response for " +input_type + " input, t0= "+ str(t0)),  "$r$" ,r"deg/s")
         print("\tPlotted!")
+
         return poles_a
+
     return 1
 
 #++++++++++++++++++++++++++++++++++++++ Input & Output +++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -369,37 +385,55 @@ if __name__=="__main__":
 
     print("Collecting data...")
 
-    t0_lst         = [53.5*60,58.6*60,60.1*60,60.95*60,57.0*60,3746]           #s
+    t0_lst         = [53.5*60,58.6*60+3,60.1*60+5,60.95*60+5,57.0*60,3746]           #s
     deltat_lst     = [148, 5, 28 ,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
     input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 
 
   ################################## PHUGOID ###############################################
-    print("Phugoid")
-    t0, deltat, utime_ph, u_ph, u_ph_p, u_ph_p_rate = phugoid()
-    plotting(utime_ph ,u_ph_p_rate,str("q Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),"$q$",r"rad/s",label_name="Flight Test")
-    plotting(utime_ph ,u_ph_p,str("Theta Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),r"$\theta$",r"rad",label_name="Flight Test")
-    eig_s = main(t0,deltat,utime_ph,input_type_lst[0],u_ph)
+    # print("Phugoid")
+    # t0, deltat, utime_ph, u_ph, u_ph_p, u_ph_p_rate = phugoid()
+    # fig_q = plotting(utime_ph ,u_ph_p_rate,str("q Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),"$q$",r"deg/s",label_name="Flight Test",title="Phugoid Pitch - Rate")
+    # fig_theta = plotting(utime_ph ,u_ph_p,str("Theta Response for " +input_type_lst[0]+ " input, t0= "+ str(t0)),r"$\theta$",r"deg",label_name="Flight Test",title="Phugoid - Pitch")
+    # eig_p = main(t0,deltat,utime_ph,input_type_lst[0],u_ph)
 
-    #...debugging....kind of working?!
-    utime = utime_ph-utime_ph[0]                                            # translate the interval for better fitting
-    coeffs,cov = sp.curve_fit(oscillator,utime,u_ph_p, p0=[5,0.01,-0.12])  #initial guess is IMPORTANT
-    eig_test = np.sqrt(coeffs[1]**2 + coeffs[2]**2)                      #absolute value
-    # print(utime)
-    # print(coeffs,cov,sep="\n")
-    # plt.figure("Testing")
-    # plt.plot(utime,oscillator(utime,*coeffs),'r')
-    print("Eigenvalue error [%]: ", (abs(eig_s[3])-eig_test)*100/abs(eig_s[3]))   #first two are short period (large omega), last two are phugoid
+    # #...debugging....working?!
+    # utime = utime_ph-utime_ph[0]                                            # translate the interval for better fitting
+    # coeffs,cov = sp.curve_fit(double,utime,u_ph_p, p0=[5,0.01,-0.12,0.1,-1,1.7])  #initial guess is IMPORTANT
+    # eig_test = np.sqrt(coeffs[1]**2 + coeffs[2]**2)                      #absolute value
+    # print("Eigenvalues phugoid model: ", eig_p[3])
+    # print("Eigenvalues phugoid period test: %r + j %r" %(coeffs[1],coeffs[2]))
 
+    # # print(utime)
+    # # print(coeffs,cov,sep="\n")
+    # # plt.figure("Testing")
+    # # plt.plot(utime,double(utime,*coeffs),'r')
+    # print("Phugoid relative error [%]: ", abs((abs(eig_p[3])-eig_test))*100/abs(eig_p[3]))   #first two are short period (large omega), last two are phugoid
+    # print("\nTest:T1/2 = %r [s] and P= %r [s]" %(round(calcT(coeffs[1]),3),round(calcP(coeffs[2]),3)))
 
   ######################################## SHORT PERIOD ############################################
 
     # print("Shord period")
     # t0, deltat, utime_shp, u_shp, u_shp_p, u_shp_p_rate = short_period()
-    # plotting(utime_shp,u_shp_p_rate,str("q Response for " +input_type_lst[1]+ " input, t0= "+ str(t0)),"$q$",r"1/s",label_name="Flight Test")
-    # main(t0,deltat,utime_shp,input_type_lst[1],u_shp)
+    # plotting(utime_shp,u_shp_p_rate,str("q Response for " +input_type_lst[1]+ " input, t0= "+ str(t0)),"$q$",r"deg/s",label_name="Flight Test")
+    # plotting(utime_shp,u_shp_p,str("Theta Response for " +input_type_lst[1]+ " input, t0= "+ str(t0)),r"$\theta$",r"deg",label_name="Flight Test")
+    # eig_s = main(t0,deltat,utime_shp,input_type_lst[1],u_shp)
+    # # print(eig_s)
 
-    # COPY EIGENVALUE FITTING HERE BUT CHANGE THE INITIAL GUESS
+    # # #...debugging....
+    # utime = utime_shp-utime_shp[0]                                            # translate the interval for better fitting
+    # coeffs,cov = sp.curve_fit(doubleSP,utime,u_shp_p_rate)  #initial guess is IMPORTANT
+    # eig_test = np.sqrt(coeffs[1]**2 + coeffs[2]**2)                      #absolute value
+    # print("Eigenvalues short period model: ", eig_s[1])
+    # print("Eigenvalues  short period test: %r + j %r" %(coeffs[1],coeffs[2]))
+
+    # # print(coeffs,cov,sep="\n")
+    # # plt.figure("Testing")
+    # # plt.plot(utime,doubleSP(utime,*coeffs),'r')
+    # # plt.plot(utime,u_shp_p_rate,'b')
+
+    # print("Eigenvalue error [%]: ", abs((abs(eig_s[1])-eig_test))*100/abs(eig_s[1]))   #first two are short period (large omega), last two are phugoid
+    # print("\nTest:T1/2 = %r [s] and P= %r [s]" %(round(calcT(coeffs[1]),3),round(calcP(coeffs[2]),3)))
 
   ######################################## DUTCH ROLL ##############################################
 
@@ -407,16 +441,47 @@ if __name__=="__main__":
     # t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r = dutch_roll()
     # plotting(utime_dr,u_dr_y,str("r Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
     # plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
-    # main(t0,deltat,utime_dr,input_type_lst[2],u_dr)
+    # eig_dr = main(t0,deltat,utime_dr,input_type_lst[2],u_dr)
+    # print("Eigenvalues dutch roll: ",eig_dr)
 
 
-  ######################################## DUTCH ROLL YD ###########################################
+    # #...debugging....working?!
+    # utime = utime_dr-utime_dr[0]                                            # translate the interval for better fitting
+    # coeffs,cov = sp.curve_fit(simple,utime,u_dr_y, p0=[6,-0.6,2,np.pi/4])  #initial guess is IMPORTANT
+    # eig_dr_test = np.sqrt(coeffs[1]**2 + coeffs[2]**2)                      #absolute value
+    # print("Eigenvalues dutch roll test: %r + j %r" %(coeffs[1],coeffs[2]))
+
+    # # print(utime)
+    # # print(coeffs,cov,sep="\n")
+    # # plt.figure("Testing")
+    # # plt.plot(utime,simple(utime,*coeffs),'r')
+    # # plt.plot(utime,u_dr_y,'b')
+    # print("Dutch roll relative error [%]: ", abs((abs(eig_dr[1])-eig_dr_test))*100/abs(eig_dr[1]))
+    # print("T1/2 = %r [s] and P= %r [s]" %(round(calcT(coeffs[1]),3),round(calcP(coeffs[2]),3)))
+
+    ######################################## DUTCH ROLL YD ###########################################
 
     # print("Dutch roll YD")
     # t0, deltat, utime_dr_yd, u_dr_yd, u_dr_yd_y, u_dr_yd_r= dutch_roll_yd()
     # plotting(utime_dr_yd,u_dr_yd_y,str("r Response for " +input_type_lst[3]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
     # plotting(utime_dr_yd,u_dr_yd_r,str("p Response for " +input_type_lst[3]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
-    # main(t0,deltat,utime_dr_yd,input_type_lst[3],u_dr_yd)
+    # eig_dr_yd = main(t0,deltat,utime_dr_yd,input_type_lst[3],u_dr_yd)
+
+    # print("Numerical model YD eigenvalue:",eig_dr_yd[1])
+    # #...debugging....working?!
+    # utime = utime_dr_yd - utime_dr_yd[0]                                            # translate the interval for better fitting
+    # coeffs,cov = sp.curve_fit(simple,utime,u_dr_yd_y, p0=[6,-0.6,2,np.pi/4])  #initial guess is IMPORTANT
+    # eig_dr_test = np.sqrt(coeffs[1]**2 + coeffs[2]**2)                      #absolute value
+
+    # print("Eigenvalues dutch roll test: %r + j %r" %(coeffs[1],coeffs[2]))
+
+    # # print(utime)
+    # # print(coeffs,cov,sep="\n")
+    # # plt.figure("Testing")
+    # # plt.plot(utime,simple(utime,*coeffs),'r')
+    # # plt.plot(utime,u_dr_yd_y,'b')
+    # print("Dutch roll relative error [%]: ", abs((abs(eig_dr_yd[1])-eig_dr_test))*100/abs(eig_dr_yd[1]))
+    # print("T1/2 = %r [s] and P= %r [s]" %(round(calcT(coeffs[1]),3),round(calcP(coeffs[2]),3)))
 
 
    ######################################## APERIODIC ROLL ##########################################
