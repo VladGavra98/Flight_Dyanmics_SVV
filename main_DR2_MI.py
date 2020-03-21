@@ -270,7 +270,7 @@ def eigerr(CYb,Cnb,Cnr):
         c6[3,1] = -Cndr
 
 
-        print(c5)
+        #print(c5)
         # Time responses for unit steps:
         # t = np.linspace(t0,t0+ deltat, nsteps) -t0
         u = input_u
@@ -477,7 +477,7 @@ def eigerr(CYb,Cnb,Cnr):
 
     # sorry for using the same variable names...
 
-#print(eigerr(-0.8571428571428572, 0.14285714285714285, -0.6326530612244898))  #best period
+print(eigerr(-0.8571428571428572, 0.14285714285714285, -0.6326530612244898))  #best period
 
 CYb = -0.75
 Cnb = +0.1348
@@ -492,11 +492,16 @@ relerrorlst1 = []
 relerrorlst2 = []
 
 #within sign +/- 1
-nn = 20
-CYb_r = np.linspace(-1,0,nn)
-Cnb_r = np.linspace(0,1,nn)
-Cnr_r = np.linspace(-1,0,nn)
+# nn = 20
+# CYb_r = np.linspace(-1,0,nn)
+# Cnb_r = np.linspace(0,1,nn)
+# Cnr_r = np.linspace(-1,0,nn)
 
+#unlimited -1 to 1
+nn = 100
+CYb_r = np.linspace(-1,1,nn)
+Cnb_r = np.linspace(-1,1,nn)
+Cnr_r = np.linspace(-1,1,nn)
 
 #ADJUST percent of coeff
 # rr = 50/100
@@ -533,7 +538,13 @@ relerrorlst2 = np.array(relerrorlst2)
 #     if np.abs(k[4]) == minval: #abs((k[3]**2+k[4]**2)**0.5) < minval*1.04:
 #         print(k)
 
+
+# minval = min(np.abs(relerrorlst1)) #min(np.abs((relerrorlst1**2+relerrorlst2**2)**0.5))
+# for k in lst:
+#     if np.abs(k[3]) == minval: #abs((k[3]**2+k[4]**2)**0.5) < minval*1.04:
+#         print(k)
+
 minval = min(np.abs((relerrorlst1**2+relerrorlst2**2)**0.5))
 for k in lst:
-    if np.abs((k[3]**2+k[4]**2)**0.5) < minval*1.04:
+    if np.abs((k[3]**2+k[4]**2)**0.5) < minval*1.02:
         print(k)
