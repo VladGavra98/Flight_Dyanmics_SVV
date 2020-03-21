@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Mar  6 14:25:48 2020
+
 @author: vladg
+@version: main - 3.4 End of 21/03/2020
 """
 
 import numpy as np
@@ -185,7 +187,7 @@ def phugoid(t0=53.5*60, deltat=148, plot_input=False, plot_output=False):
 
 ######################################## SHORT PERIOD ############################################
 
-def short_period(t0=58.6*60, deltat=5, plot_input=False, plot_output=False):
+def short_period(t0=58.6*60+3, deltat=5, plot_input=False, plot_output=False):
     # input -> elevator deflection
     u_shp, utime_shp = getInput(elevtab, timetab, t0, deltat)
 
@@ -211,7 +213,7 @@ def short_period(t0=58.6*60, deltat=5, plot_input=False, plot_output=False):
 
 ######################################## DUTCH ROLL ##############################################
 
-def dutch_roll(t0=60.1*60, deltat=28, plot_input=False, plot_output=False):
+def dutch_roll(t0=60.1*60+5, deltat=28, plot_input=False, plot_output=False):
     # input -> rudder deflection
     u_dr, utime_dr = getInput(ruddertab, timetab, t0, deltat)
 
@@ -237,7 +239,7 @@ def dutch_roll(t0=60.1*60, deltat=28, plot_input=False, plot_output=False):
 
 ######################################## DUTCH ROLL YD ###########################################
 
-def dutch_roll_yd(t0=60.95*60, deltat=19, plot_input=False, plot_output=False):
+def dutch_roll_yd(t0=60.95*60+5, deltat=19, plot_input=False, plot_output=False):
     # input -> rudder deflection
     u_dr_yd, utime_dr_yd = getInput(ruddertab, timetab, t0, deltat)
 
