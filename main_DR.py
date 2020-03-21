@@ -103,7 +103,7 @@ pitchlst = np.genfromtxt("Data_SI_correct/Ahrs1_bPitchRateSI.txt",skip_header=2)
     #Simulation parameters:
 nsteps = 10**3
 
-
+tex=4.377
 #+++++++++++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++
 def main(t0,deltat,t,input_type,input_u):
     """Input type: elevator
@@ -113,7 +113,7 @@ def main(t0,deltat,t,input_type,input_u):
 
     #Find time
     idx = np.where(timelst == t0)[0]
-
+    idx = 36014  #overwrite fix
     #Flight condition
     #  m_fuel    = 1197.484        # CHANGE Total fuel mass [kg]
 
@@ -173,7 +173,7 @@ def main(t0,deltat,t,input_type,input_u):
     Cmadot = +0.17800   #positive!
     Cmq    = -8.79415
 
-    CYb    = 0.11000000000000004
+    CYb    = -0.8571428571428572
     CYbdot =  0
     CYp    = -0.0304
     CYr    = +0.8495
@@ -186,10 +186,10 @@ def main(t0,deltat,t,input_type,input_u):
     Clda   = -0.23088
     Cldr   = +0.03440
 
-    Cnb    =  0.10000000000000003
+    Cnb    =  0.14285714285714285
     Cnbdot =   0
-    Cnp    =  0.011111111111111113
-    Cnr    =  0
+    Cnp    =  -0.0602
+    Cnr    =  -0.6326530612244898
     Cnda   =  -0.0120
     Cndr   =  -0.0939
 
@@ -201,6 +201,7 @@ def main(t0,deltat,t,input_type,input_u):
     #Creating the different c-matrices (c1, c2 &c3) for symmetrical flight
     #c1 matrix
     c1 = np.zeros(s1)
+    print(muc,c,V)
     c1[0,0] = -2*muc*(c/V)
     c1[1,1] = (CZadot - 2*muc)*(c/V)
     c1[2,2] = -(c/V)
@@ -264,6 +265,7 @@ def main(t0,deltat,t,input_type,input_u):
     c6[3,0] = -Cnda
     c6[3,1] = -Cndr
 
+    #print(c5)
     # Time responses for unit steps:
     # t = np.linspace(t0,t0+ deltat, nsteps) -t0
     u = input_u
@@ -379,7 +381,7 @@ if __name__=="__main__":
 
     print("Collecting data...")
 
-    t0_lst         = [53.5*60,58.6*60+3,60.1*60+4.35,60.95*60,57.0*60,3746]           #s
+    t0_lst         = [53.5*60,58.6*60+3,60.1*60+tex,60.95*60,57.0*60,3746]           #s
     deltat_lst     = [148, 5, 28 ,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
     input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 

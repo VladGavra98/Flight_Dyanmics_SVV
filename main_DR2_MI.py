@@ -105,7 +105,7 @@ nsteps = 10**3
 
 
 
-
+tex = 4.377
 
 def eigerr(CYb,Cnb,Cnr):
 
@@ -118,7 +118,7 @@ def eigerr(CYb,Cnb,Cnr):
 
         #Find time
         idx = np.where(timelst == t0)[0]
-
+        idx =36014
         #Flight condition
         #  m_fuel    = 1197.484        # CHANGE Total fuel mass [kg]
 
@@ -269,6 +269,8 @@ def eigerr(CYb,Cnb,Cnr):
         c6[3,0] = -Cnda
         c6[3,1] = -Cndr
 
+
+        print(c5)
         # Time responses for unit steps:
         # t = np.linspace(t0,t0+ deltat, nsteps) -t0
         u = input_u
@@ -384,7 +386,7 @@ def eigerr(CYb,Cnb,Cnr):
 
         #print("Collecting data...")
 
-        t0_lst         = [53.5*60,58.6*60+3,60.1*60+4.35,60.95*60,57.0*60,3746]           #s
+        t0_lst         = [53.5*60,58.6*60+3,60.1*60+tex,60.95*60,57.0*60,3746]           #s
         deltat_lst     = [148, 5, 28 ,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
         input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 
@@ -447,7 +449,7 @@ def eigerr(CYb,Cnb,Cnr):
 
         aa = np.abs(100*(np.real(eig_dr[1])-coeffs[1])/coeffs[1])
         bb = np.abs(100 * (np.imag(eig_dr[1]) - coeffs[2]) / coeffs[2])
-        return aa,bb
+        return aa,bb,np.real(eig_dr[1]),np.imag(eig_dr[1]),coeffs[1],coeffs[2]
         ######################################## DUTCH ROLL YD ###########################################
 
         # print("Dutch roll YD")
@@ -475,6 +477,8 @@ def eigerr(CYb,Cnb,Cnr):
 
     # sorry for using the same variable names...
 
+#print(eigerr(-0.8571428571428572, 0.14285714285714285, -0.6326530612244898))  #best period
+
 CYb = -0.75
 Cnb = +0.1348
 Cnr = -0.2061
@@ -488,7 +492,7 @@ relerrorlst1 = []
 relerrorlst2 = []
 
 #within sign +/- 1
-nn = 21
+nn = 20
 CYb_r = np.linspace(-1,0,nn)
 Cnb_r = np.linspace(0,1,nn)
 Cnr_r = np.linspace(-1,0,nn)
@@ -512,10 +516,10 @@ for i in CYb_r:
     for j in Cnb_r:
         for k in Cnr_r:
             count += 1
-            ar,bi = eigerr(i,j,k)
+            ar,bi,nmr,nmi,ftr,fti = eigerr(i,j,k)
             relerrorlst1.append(ar)
             relerrorlst2.append(bi)
-            lst.append([i,j,k,ar,bi])
+            lst.append([i,j,k,ar,bi,nmr,nmi,ftr,fti])
             print(round(100*count/(nn**3),4),' %')
 
 
@@ -523,7 +527,13 @@ for i in CYb_r:
 
 relerrorlst1 = np.array(relerrorlst1)
 relerrorlst2 = np.array(relerrorlst2)
+
+# minval = min(np.abs(relerrorlst2)) #min(np.abs((relerrorlst1**2+relerrorlst2**2)**0.5))
+# for k in lst:
+#     if np.abs(k[4]) == minval: #abs((k[3]**2+k[4]**2)**0.5) < minval*1.04:
+#         print(k)
+
 minval = min(np.abs((relerrorlst1**2+relerrorlst2**2)**0.5))
 for k in lst:
-    if abs((k[3]**2+k[4]**2)**0.5) < minval*1.04:
+    if np.abs((k[3]**2+k[4]**2)**0.5) < minval*1.04:
         print(k)
