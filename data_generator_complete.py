@@ -211,7 +211,7 @@ def short_period(t0=58.6*60, deltat=5, plot_input=False, plot_output=False):
 
 ######################################## DUTCH ROLL ##############################################
 
-def dutch_roll(t0=60.1*60+5, deltat=28, plot_input=False, plot_output=False):
+def dutch_roll(t0=60.1*60+4.35, deltat=28, plot_input=False, plot_output=False):
     # input -> rudder deflection
     u_dr, utime_dr = getInput(ruddertab, timetab, t0, deltat)
 

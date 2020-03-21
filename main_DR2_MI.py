@@ -57,10 +57,10 @@ def plotting(x,y,name,variable,unit,label_name="Simulation",title=None,mins=Fals
     plt.ylabel(lab)
     plt.grid(True)
     # plt.savefig(title)
-    #plt.show()         # TEMP  TURN   OFF   PLOTS ----------------------------------------------------------------------------
-
+    plt.show()
 
     return ax
+
 #+++++++++++++++++++++++++++++++++++ Global variables+++++++++++++++++++++++++++++++++++++++++++++++
 
 # Citation 550 - Linear simulation
@@ -103,7 +103,12 @@ pitchlst = np.genfromtxt("Data_SI_correct/Ahrs1_bPitchRateSI.txt",skip_header=2)
     #Simulation parameters:
 nsteps = 10**3
 
-def relerror(CYb,Cnr,Cnb):
+
+
+
+
+def eigerr(CYb,Cnb,Cnr):
+
     #+++++++++++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++
     def main(t0,deltat,t,input_type,input_u):
         """Input type: elevator
@@ -173,7 +178,7 @@ def relerror(CYb,Cnr,Cnb):
         Cmadot = +0.17800   #positive!
         Cmq    = -8.79415
 
-        #CYb    = CYb #-0.75
+        #CYb    = -0.75
         CYbdot =  0
         CYp    = -0.0304
         CYr    = +0.8495
@@ -186,10 +191,10 @@ def relerror(CYb,Cnr,Cnb):
         Clda   = -0.23088
         Cldr   = +0.03440
 
-        #Cnb    =  Cnb #+0.1348
+        #Cnb    =  +0.1348
         Cnbdot =   0
         Cnp    =  -0.0602
-        #Cnr    =  Cnr #-0.2061
+        #Cnr    =  -0.2061
         Cnda   =  -0.0120
         Cndr   =  -0.0939
 
@@ -305,7 +310,7 @@ def relerror(CYb,Cnr,Cnb):
             plotting(t,alpha_out_s,str("Alpha Response for " +input_type+ " input, t0= "+ str(t0)),r"$\alpha$","deg")
             plotting(t,theta_out_s,str("Theta Response for " +input_type+ " input, t0= "+ str(t0)),r"$\theta$","deg")
             plotting(t,q_out_s,str("q Response for " +input_type+ " input, t0= "+ str(t0)),"$q$",r"deg/s")
-            print("\tPlotted!")
+            #print("\tPlotted!")
             return poles_s
 
         else:
@@ -324,7 +329,7 @@ def relerror(CYb,Cnr,Cnb):
                 uarray[:,0] = 0
 
             elif input_type=="aileron":
-                print("Calculating for aileron input...")
+                #print("Calculating for aileron input...")
                 D_a = np.zeros((4, 2))
                 D_a[:,1] = 1
                 uarray = np.ones((len(t),2)) #step input
@@ -356,7 +361,6 @@ def relerror(CYb,Cnr,Cnb):
 
         return 1
 
-
     #++++++++++++++++++++++++++++++++++++++ Input & Output +++++++++++++++++++++++++++++++++++++++++++++++++++
 
     # Simulation parameters for dynamic measurements:
@@ -380,7 +384,7 @@ def relerror(CYb,Cnr,Cnb):
 
         #print("Collecting data...")
 
-        t0_lst         = [53.5*60,58.6*60+3,60.1*60+5,60.95*60,57.0*60,3746]           #s
+        t0_lst         = [53.5*60,58.6*60+3,60.1*60+4.35,60.95*60,57.0*60,3746]           #s
         deltat_lst     = [148, 5, 28 ,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
         input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 
@@ -431,28 +435,19 @@ def relerror(CYb,Cnr,Cnb):
 
         #print("Dutch roll")
         t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r = dutch_roll()
-        #plotting(utime_dr,u_dr_y,str("r Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
-        #plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
         eig_dr = main(t0,deltat,utime_dr,input_type_lst[2],u_dr)
         #print("Eigenvalues dutch roll: ",eig_dr)
 
 
         #...debugging....working?!
         utime = utime_dr-utime_dr[0]                                            # translate the interval for better fitting
-        coeffs,cov = sp.curve_fit(simple,utime,u_dr_y, p0=[2,-0.6,2,np.pi/4])  #initial guess is IMPORTANT
+        coeffs,cov = sp.curve_fit(simple,utime,u_dr_y, p0=[6,-0.6,2,np.pi/4])  #initial guess is IMPORTANT
         eig_dr_test = np.sqrt(coeffs[1]**2 + coeffs[2]**2)                      #absolute value
         #print("Eigenvalues dutch roll test: %r + j %r" %(coeffs[1],coeffs[2]))
-        #print(eig_dr)
-        # print(utime)
-        #print(coeffs,cov,sep="\n")
-        #plt.figure("Testing")
-        #plt.plot(utime,simple(utime,*coeffs),'r')
-        #plt.plot(utime,u_dr_y,'b')
-        #plt.grid()
-        relerr = (abs(eig_dr[1])-eig_dr_test)*100/abs(eig_dr[1])
-       # print("Dutch roll relative error [%]: ", relerr)   #first two are short period (large omega), last two are phugoid
-        #plt.close()
-        return coeffs[1],coeffs[2]
+
+        aa = np.abs(100*(np.real(eig_dr[1])-coeffs[1])/coeffs[1])
+        bb = np.abs(100 * (np.imag(eig_dr[1]) - coeffs[2]) / coeffs[2])
+        return aa,bb
         ######################################## DUTCH ROLL YD ###########################################
 
         # print("Dutch roll YD")
@@ -480,11 +475,10 @@ def relerror(CYb,Cnr,Cnb):
 
     # sorry for using the same variable names...
 
-#def relerror(CYb,Cnr,Cnb):
 CYb = -0.75
 Cnb = +0.1348
 Cnr = -0.2061
-nn = 3
+
 
 CYblst = []
 Cnblst = []
@@ -493,18 +487,35 @@ lst = []
 relerrorlst1 = []
 relerrorlst2 = []
 
+#within sign +/- 1
+nn = 21
 CYb_r = np.linspace(-1,0,nn)
 Cnb_r = np.linspace(0,1,nn)
 Cnr_r = np.linspace(-1,0,nn)
+
+
+#ADJUST percent of coeff
+# rr = 50/100
+# CYb_r = np.linspace(CYb*(1-rr),CYb*(1+rr),nn)
+# Cnb_r = np.linspace(Cnb*(1-rr),Cnb*(1+rr),nn)
+# Cnr_r = np.linspace(Cnr*(1-rr),Cnr*(1+rr),nn)
+
+
+#specific (once alrady run through)
+# CYb_r = np.linspace(-0.45,0.27,nn)
+# Cnb_r = np.linspace(-0.1,0.2,nn)
+# Cnr_r = np.linspace(-0.1,+0.1,nn)
+
+
 count = 0
 for i in CYb_r:
     for j in Cnb_r:
         for k in Cnr_r:
             count += 1
-            aa,bb = relerror(i,j,k)
-            relerrorlst1.append(aa)
-            relerrorlst2.append(bb)
-            lst.append([i,j,k,aa,bb])
+            ar,bi = eigerr(i,j,k)
+            relerrorlst1.append(ar)
+            relerrorlst2.append(bi)
+            lst.append([i,j,k,ar,bi])
             print(round(100*count/(nn**3),4),' %')
 
 
@@ -514,9 +525,5 @@ relerrorlst1 = np.array(relerrorlst1)
 relerrorlst2 = np.array(relerrorlst2)
 minval = min(np.abs((relerrorlst1**2+relerrorlst2**2)**0.5))
 for k in lst:
-    if abs((k[3]**2+k[4]**2)**0.5) < minval*1.1:
+    if abs((k[3]**2+k[4]**2)**0.5) < minval*1.04:
         print(k)
-
-#[0.41379310344827586, 0.5172413793103449, -0.034482758620689724, 0.025386023794929134]
-#[-0.8620689655172413, 0.5517241379310345, -0.034482758620689724, 0.0357755232156795]
-#[0.0, 0.24137931034482757, -0.06896551724137934, 0.035254746905107985]

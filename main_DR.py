@@ -173,7 +173,7 @@ def main(t0,deltat,t,input_type,input_u):
     Cmadot = +0.17800   #positive!
     Cmq    = -8.79415
 
-    CYb    = -0.8620689655172413
+    CYb    = 0.11000000000000004
     CYbdot =  0
     CYp    = -0.0304
     CYr    = +0.8495
@@ -186,10 +186,10 @@ def main(t0,deltat,t,input_type,input_u):
     Clda   = -0.23088
     Cldr   = +0.03440
 
-    Cnb    =  0.5517241379310345
+    Cnb    =  0.10000000000000003
     Cnbdot =   0
-    Cnp    =  -0.0602
-    Cnr    =  -0.034482758620689724
+    Cnp    =  0.011111111111111113
+    Cnr    =  0
     Cnda   =  -0.0120
     Cndr   =  -0.0939
 
@@ -379,7 +379,7 @@ if __name__=="__main__":
 
     print("Collecting data...")
 
-    t0_lst         = [53.5*60,58.6*60+3,60.1*60+5,60.95*60,57.0*60,3746]           #s
+    t0_lst         = [53.5*60,58.6*60+3,60.1*60+4.35,60.95*60,57.0*60,3746]           #s
     deltat_lst     = [148, 5, 28 ,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
     input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 
