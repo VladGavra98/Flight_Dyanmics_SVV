@@ -103,7 +103,7 @@ pitchlst = np.genfromtxt("Data_SI_correct/Ahrs1_bPitchRateSI.txt",skip_header=2)
     #Simulation parameters:
 nsteps = 10**3
 
-tex=4.377
+tex= 4.377
 #+++++++++++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++
 def main(t0,deltat,t,input_type,input_u):
     """Input type: elevator
@@ -173,7 +173,7 @@ def main(t0,deltat,t,input_type,input_u):
     Cmadot = +0.17800   #positive!
     Cmq    = -8.79415
 
-    CYb    = 0
+    CYb    = -0.75
     CYbdot =  0
     CYp    = -0.0304
     CYr    = +0.8495
@@ -186,10 +186,10 @@ def main(t0,deltat,t,input_type,input_u):
     Clda   = -0.23088
     Cldr   = +0.03440
 
-    Cnb    =  0.10526315789473684
+    Cnb    =  0.1348  #changes curve afterwards  0.285 !!
     Cnbdot =   0
     Cnp    =  -0.0602
-    Cnr    =  0.0
+    Cnr    =  -0.2061  #changes damping
     Cnda   =  -0.0120
     Cndr   =  -0.0939
 
@@ -201,7 +201,7 @@ def main(t0,deltat,t,input_type,input_u):
     #Creating the different c-matrices (c1, c2 &c3) for symmetrical flight
     #c1 matrix
     c1 = np.zeros(s1)
-    #print(muc,c,V)
+    print(muc,c,V)
     c1[0,0] = -2*muc*(c/V)
     c1[1,1] = (CZadot - 2*muc)*(c/V)
     c1[2,2] = -(c/V)
@@ -238,7 +238,7 @@ def main(t0,deltat,t,input_type,input_u):
     c4[1,1] = (-0.5)*(b/V)
     c4[2,2] = -4*mub*KX2*(b/V)*(b/(2*V))
     c4[2,3] = 4*mub*KXZ*(b/V)*(b/(2*V))
-    c4[3,0] = Cnb*(b/V)
+    c4[3,0] = Cnbdot*(b/V)   #changed to cnbdot
     c4[3,2] = 4*mub*KXZ*(b/V)*(b/(2*V))
     c4[3,3] = -4*mub*KZ2*(b/V)*(b/(2*V))
 
@@ -382,7 +382,7 @@ if __name__=="__main__":
     print("Collecting data...")
 
     t0_lst         = [53.5*60,58.6*60+3,60.1*60+tex,60.95*60,57.0*60,3746]           #s
-    deltat_lst     = [148, 5, 28+30 ,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
+    deltat_lst     = [148, 5, 28 ,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
     input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 
 

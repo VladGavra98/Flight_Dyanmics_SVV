@@ -52,6 +52,7 @@ def fuelonboard(t):
     for i in range(len(timelst)-1):
         if timelst[i] <= t <= timelst[i+1]:
             f_used = interpolate(timelst[i],timelst[i+1],fuelusedlst[i],fuelusedlst[i+1],t)
+            #print(f_used)
             return blockfuel - f_used
     if t <= timelst[0]:
         #print(t)
@@ -103,7 +104,10 @@ def cg(t,cgmove): #cgmove = False if Jack is in seat 8, set cgmove = True if Jac
     totalmass = soo*seatmass + BEW + foo*fuelonboard(t)
     x_cg_inch = momentsum/totalmass
     x_cg = (x_cg_inch - 261.56)*2.54/100  #x_cg from LEMAC   in [m] !!
+
+    print(momentsum)
     return x_cg #This is in [m] from LEMAC !! (not as frac/MAC)
+
 
 def mass(t):
     seat1 = Arun
@@ -146,3 +150,5 @@ xt = np.array([1358,1520,1682,1800,1890,2130,2450,2555,2652,2748,2805,2855,2970,
 # #cg shift
 # print(round((cg(3157,True)*100/2.54+261.56),3),round((cg(3157,True)),3),round(mass(3157),3))
 # print(round(cg(3157,True),4))
+
+print(cg(49*60+30,False)-cg(52*60+37,True))
