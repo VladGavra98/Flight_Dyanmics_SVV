@@ -498,7 +498,7 @@ relerrorlst2 = []
 # Cnr_r = np.linspace(-1,0,nn)
 
 #unlimited -1 to 1
-nn = 100
+nn = 40
 CYb_r = np.linspace(-1,1,nn)
 Cnb_r = np.linspace(-1,1,nn)
 Cnr_r = np.linspace(-1,1,nn)
@@ -514,6 +514,11 @@ Cnr_r = np.linspace(-1,1,nn)
 # CYb_r = np.linspace(-0.45,0.27,nn)
 # Cnb_r = np.linspace(-0.1,0.2,nn)
 # Cnr_r = np.linspace(-0.1,+0.1,nn)
+
+#specific (once alrady run through)
+CYb_r = np.linspace(0.05,0.07,nn)
+Cnb_r = np.linspace(0.08,0.12,nn)
+Cnr_r = np.linspace(-0.1,+0.1,nn)
 
 
 count = 0
