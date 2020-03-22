@@ -103,7 +103,7 @@ pitchlst = np.genfromtxt("Data_SI_correct/Ahrs1_bPitchRateSI.txt",skip_header=2)
     #Simulation parameters:
 nsteps = 10**3
 
-tex= 4.377
+tex= 0*4.377
 #+++++++++++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++
 def main(t0,deltat,t,input_type,input_u):
     """Input type: elevator
@@ -173,25 +173,29 @@ def main(t0,deltat,t,input_type,input_u):
     Cmadot = +0.17800   #positive!
     Cmq    = -8.79415
 
-    CYb    = -0.75
-    CYbdot =  0
-    CYp    = -0.0304
-    CYr    = +0.8495
-    CYda   = -0.0400
-    CYdr   = +0.2300
+    CYb = -0.6428571428571428
+    CYbdot = 0
+    CYp = -0.0304
+    CYr = +0.8495
+    CYda = -0.0400
+    CYdr = +0.2300
 
-    Clb    = -0.10260
-    Clp    = -0.71085
-    Clr    = +0.23760
-    Clda   = -0.23088
-    Cldr   = +0.03440
+    Clb = -0.10260
+    Clp = -0.71085
+    Clr = +0.23760
+    Clda = -0.23088
+    Cldr = +0.03440
 
-    Cnb    =  0.1348  #changes curve afterwards  0.285 !!
-    Cnbdot =   0
-    Cnp    =  -0.0602
-    Cnr    =  -0.2061  #changes damping
-    Cnda   =  -0.0120
-    Cndr   =  -0.0939
+    Cnb = 0.10591428571428571
+    Cnbdot = 0
+    Cnp = -0.0602
+    Cnr = -0.10305
+    Cnda = -0.0120
+    Cndr = -0.0939
+
+    #OVERRIDE
+    [CYb,Cnb,Cnr,xx] = [-0.8092105263157894, 0.10287368421052631, -0.21152368421052634, 0.7510767674108848]
+
 
     #c-matrix dimensions
     s1 = (4,4)
@@ -354,7 +358,7 @@ def main(t0,deltat,t,input_type,input_u):
         plotting(t,r_out_a,str("r Response for " +input_type + " input, t0= "+ str(t0)),  "$r$" ,r"deg/s")
         print("\tPlotted!")
 
-        return poles_a
+        return poles_a,r_out_a
 
     return 1
 
@@ -382,7 +386,7 @@ if __name__=="__main__":
     print("Collecting data...")
 
     t0_lst         = [53.5*60,58.6*60+3,60.1*60+tex,60.95*60,57.0*60,3746]           #s
-    deltat_lst     = [148, 5, 28 ,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
+    deltat_lst     = [148, 5, 28-3 ,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
     input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 
 
@@ -433,8 +437,8 @@ if __name__=="__main__":
     print("Dutch roll")
     t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r = dutch_roll()
     plotting(utime_dr,u_dr_y,str("r Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
-    plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
-    eig_dr = main(t0,deltat,utime_dr,input_type_lst[2],u_dr)
+    #plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
+    eig_dr,r_out_a = main(t0,deltat,utime_dr,input_type_lst[2],u_dr)
     print("Eigenvalues dutch roll: ",eig_dr)
 
 

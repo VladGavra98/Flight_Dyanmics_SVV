@@ -173,7 +173,7 @@ def main(t0,deltat,t,input_type,input_u):
     Cmadot = +0.17800   #positive!
     Cmq    = -8.79415
 
-    CYb    = -0.9473684210526316
+    CYb    = -0.6428571428571428
     CYbdot =  0
     CYp    = -0.0304
     CYr    = +0.8495
@@ -186,10 +186,10 @@ def main(t0,deltat,t,input_type,input_u):
     Clda   = -0.23088
     Cldr   = +0.03440
 
-    Cnb    =  0
+    Cnb    =  0.10591428571428571
     Cnbdot =   0
     Cnp    =  -0.0602
-    Cnr    =  -0.8421052631578947
+    Cnr    =  -0.10305
     Cnda   =  -0.0120
     Cndr   =  -0.0939
 
@@ -238,7 +238,7 @@ def main(t0,deltat,t,input_type,input_u):
     c4[1,1] = (-0.5)*(b/V)
     c4[2,2] = -4*mub*KX2*(b/V)*(b/(2*V))
     c4[2,3] = 4*mub*KXZ*(b/V)*(b/(2*V))
-    c4[3,0] = Cnb*(b/V)
+    c4[3, 0] = Cnbdot * (b / V)
     c4[3,2] = 4*mub*KXZ*(b/V)*(b/(2*V))
     c4[3,3] = -4*mub*KZ2*(b/V)*(b/(2*V))
 

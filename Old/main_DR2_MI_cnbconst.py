@@ -107,7 +107,7 @@ nsteps = 10**3
 
 tex = 4.377
 
-def eigerr(CYb,Cnb,Cnr,Clr,Clp):
+def eigerr(CYb,Cnb,Cnr):
 
     #+++++++++++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++
     def main(t0,deltat,t,input_type,input_u):
@@ -186,8 +186,8 @@ def eigerr(CYb,Cnb,Cnr,Clr,Clp):
         CYdr   = +0.2300
 
         Clb    = -0.10260
-        #Clp    = -0.71085
-        #Clr    = +0.23760
+        Clp    = -0.71085
+        Clr    = +0.23760
         Clda   = -0.23088
         Cldr   = +0.03440
 
@@ -242,7 +242,7 @@ def eigerr(CYb,Cnb,Cnr,Clr,Clp):
         c4[1,1] = (-0.5)*(b/V)
         c4[2,2] = -4*mub*KX2*(b/V)*(b/(2*V))
         c4[2,3] = 4*mub*KXZ*(b/V)*(b/(2*V))
-        c4[3,0] = Cnb*(b/V)
+        c4[3, 0] = Cnbdot * (b / V)
         c4[3,2] = 4*mub*KXZ*(b/V)*(b/(2*V))
         c4[3,3] = -4*mub*KZ2*(b/V)*(b/(2*V))
 
@@ -477,13 +477,11 @@ def eigerr(CYb,Cnb,Cnr,Clr,Clp):
 
     # sorry for using the same variable names...
 
-#print(eigerr(-0.8571428571428572, 0.14285714285714285, -0.6326530612244898))  #best period
+print(eigerr(-0.8571428571428572, 0.14285714285714285, -0.6326530612244898))  #best period
 
 CYb = -0.75
 Cnb = +0.1348
 Cnr = -0.2061
-Clr = +0.2376
-Clp = -0.71085
 
 
 CYblst = []
@@ -494,10 +492,9 @@ relerrorlst1 = []
 relerrorlst2 = []
 
 #within sign +/- 1
-# nn = 15
-# CYb_r = np.linspace(-1,0,nn)
-# Cnb_r = np.linspace(0,1,nn)
-# Cnr_r = np.linspace(-1,0,nn)
+nn = 35
+CYb_r = np.linspace(-1,0,nn)
+Cnr_r = np.linspace(-1,0,nn)
 
 #unlimited -1 to 1
 # nn = 20
@@ -506,13 +503,10 @@ relerrorlst2 = []
 # Cnr_r = np.linspace(-1,1,nn)
 
 #ADJUST percent of coeff
-rr = 40/100
-nn = 12
-CYb_r = np.linspace(CYb*(1-rr),CYb*(1+rr),nn)
-Cnb_r = np.linspace(Cnb*(1-rr),Cnb*(1+rr),nn)
-Cnr_r = np.linspace(Cnr*(1-rr),Cnr*(1+rr),nn)
-Clr_r = np.linspace(Clr*(1-rr),Clr*(1+rr),nn)
-Clp_r = np.linspace(Clp*(1-rr),Clp*(1+rr),nn)
+# rr = 50/100
+# CYb_r = np.linspace(CYb*(1-rr),CYb*(1+rr),nn)
+# Cnb_r = np.linspace(Cnb*(1-rr),Cnb*(1+rr),nn)
+# Cnr_r = np.linspace(Cnr*(1-rr),Cnr*(1+rr),nn)
 
 
 #specific (once alrady run through)
@@ -527,17 +521,15 @@ Clp_r = np.linspace(Clp*(1-rr),Clp*(1+rr),nn)
 
 
 count = 0
+j = 0.285
 for i in CYb_r:
-    for j in Cnb_r:
-        for k in Cnr_r:
-            for l in Clr_r:
-                for m in Clp_r:
-                    count += 1
-                    ar,bi,nmr,nmi,ftr,fti = eigerr(i,j,k,l,m)
-                    relerrorlst1.append(ar)
-                    relerrorlst2.append(bi)
-                    lst.append([i,j,k,l,m,ar,bi,nmr,nmi,ftr,fti])
-                    print(round(100*count/(nn**5),4),' %')
+    for k in Cnr_r:
+        count += 1
+        ar,bi,nmr,nmi,ftr,fti = eigerr(i,j,k)
+        relerrorlst1.append(ar)
+        relerrorlst2.append(bi)
+        lst.append([i,j,k,ar,bi,nmr,nmi,ftr,fti])
+        print(round(100*count/(nn**2),4),' %')
 
 
 #print(relerror(CYb,Cnr,Cnb))
@@ -545,18 +537,18 @@ for i in CYb_r:
 relerrorlst1 = np.array(relerrorlst1)
 relerrorlst2 = np.array(relerrorlst2)
 
-# minval = min(np.abs(relerrorlst2)) #min(np.abs((relerrorlst1**2+relerrorlst2**2)**0.5))
-# for k in lst:
-#     if np.abs(k[6]) == minval: #abs((k[3]**2+k[4]**2)**0.5) < minval*1.04:
-#         print(k)
+minval = min(np.abs(relerrorlst2)) #min(np.abs((relerrorlst1**2+relerrorlst2**2)**0.5))
+for k in lst:
+    if np.abs(k[4]) == minval: #abs((k[3]**2+k[4]**2)**0.5) < minval*1.04:
+        print(k)
 
 
 # minval = min(np.abs(relerrorlst1)) #min(np.abs((relerrorlst1**2+relerrorlst2**2)**0.5))
 # for k in lst:
-#     if np.abs(k[5]) == minval: #abs((k[3]**2+k[4]**2)**0.5) < minval*1.04:
+#     if np.abs(k[3]) == minval: #abs((k[3]**2+k[4]**2)**0.5) < minval*1.04:
 #         print(k)
 
-minval = min(np.abs((relerrorlst1**2+relerrorlst2**2)**0.5))
-for k in lst:
-    if np.abs((k[5]**2+k[6]**2)**0.5) < minval*1.02:
-        print(k)
+# minval = min(np.abs((relerrorlst1**2+relerrorlst2**2)**0.5))
+# for k in lst:
+#     if np.abs((k[3]**2+k[4]**2)**0.5) < minval*1.02:
+#         print(k)

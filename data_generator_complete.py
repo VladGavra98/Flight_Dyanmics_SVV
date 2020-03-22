@@ -16,7 +16,7 @@ root = r"M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV"
 mydir = r"M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV\Data_SI_correct"
 
 
-tex = 4.377
+tex = 0*4.377
 
 def calcT(h): #ISA tmeperature
     return 15.0 - 0.0065*h
@@ -213,7 +213,7 @@ def short_period(t0=58.6*60, deltat=5, plot_input=False, plot_output=False):
 
 ######################################## DUTCH ROLL ##############################################
 
-def dutch_roll(t0=60.1*60+tex, deltat=28+30, plot_input=False, plot_output=False):
+def dutch_roll(t0=60.1*60+tex, deltat=28-3, plot_input=False, plot_output=False):
     # input -> rudder deflection
     u_dr, utime_dr = getInput(ruddertab, timetab, t0, deltat)
 

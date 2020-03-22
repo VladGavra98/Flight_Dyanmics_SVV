@@ -2,15 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c849679e-8057-44e8-b521-095dc80acec9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/mainNEW_.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main_DR2_MI_5Vars.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main_DR2_MI_cnbconst.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main_DR_Tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Old/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Old/mainNEW_.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Old/main_DR2_MI_5Vars.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Old/main_DR2_MI_cnbconst.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Old/main_DR2_MI_hardcode.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Old/main_DR_PT_best.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Old/main_DR_P_best.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Old/main_DR_T_best.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Old/main_V.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Old/massbalance_old.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main_DR2_MI_RMSEcalc.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_generator_complete.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_generator_complete.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainNEW_.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main_DR2_MI.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_DR2_MI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_DR_PT_best.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_DR_PT_best.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/massbalance.py" beforeDir="false" afterPath="$PROJECT_DIR$/massbalance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_DR2_MI_5Vars.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_DR2_MI_cnbconst.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_DR_PT_best -1 to +1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_DR_PT_best.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_DR_P_best.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_DR_T_best.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_DR_Tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_DR_Tester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_V.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/massbalance_old.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +64,7 @@
       <recent name="M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main_DR_Tester">
+  <component name="RunManager" selected="Python.main_DR2_MI">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -71,7 +87,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="mainNEW_" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="main_DR2_MI" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -81,7 +97,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mainNEW_.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_DR2_MI.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -90,7 +106,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main_DR2_MI_5Vars" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="main_DR2_MI_RMSEcalc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -100,26 +116,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_DR2_MI_5Vars.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="main_DR2_MI_cnbconst" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Flight_Dyanmics_SVV" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_DR2_MI_cnbconst.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_DR2_MI_RMSEcalc.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -139,6 +136,25 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_DR_PT_best.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main_DR_T_best" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Flight_Dyanmics_SVV" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_DR_T_best.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -168,18 +184,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.main_DR_Tester" />
+      <item itemvalue="Python.main_DR_T_best" />
       <item itemvalue="Python.main_DR_PT_best" />
-      <item itemvalue="Python.main_DR2_MI_cnbconst" />
-      <item itemvalue="Python.main_DR2_MI_5Vars" />
-      <item itemvalue="Python.mainNEW_" />
+      <item itemvalue="Python.main_DR2_MI_RMSEcalc" />
+      <item itemvalue="Python.main_DR2_MI" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main_DR2_MI" />
         <item itemvalue="Python.main_DR_Tester" />
-        <item itemvalue="Python.mainNEW_" />
-        <item itemvalue="Python.main_DR2_MI_5Vars" />
-        <item itemvalue="Python.main_DR2_MI_cnbconst" />
+        <item itemvalue="Python.main_DR2_MI_RMSEcalc" />
         <item itemvalue="Python.main_DR_PT_best" />
+        <item itemvalue="Python.main_DR_T_best" />
       </list>
     </recent_temporary>
   </component>
@@ -203,6 +219,7 @@
       <workItem from="1584827300322" duration="4955000" />
       <workItem from="1584889907231" duration="2347000" />
       <workItem from="1584897212210" duration="6509000" />
+      <workItem from="1584910818159" duration="5589000" />
     </task>
     <servers />
   </component>

@@ -105,7 +105,7 @@ nsteps = 10**3
 
 
 
-tex = 4.377
+tex = 0*4.377
 
 def eigerr(CYb,Cnb,Cnr):
 
@@ -443,13 +443,13 @@ def eigerr(CYb,Cnb,Cnr):
 
         #...debugging....working?!
         utime = utime_dr-utime_dr[0]                                            # translate the interval for better fitting
-        coeffs,cov = sp.curve_fit(simple,utime,u_dr_y, p0=[6,-0.6,2,np.pi/4])  #initial guess is IMPORTANT
-        eig_dr_test = np.sqrt(coeffs[1]**2 + coeffs[2]**2)                      #absolute value
+        #coeffs,cov = sp.curve_fit(simple,utime,u_dr_y, p0=[6,-0.6,2,np.pi/4])  #initial guess is IMPORTANT
+        #eig_dr_test = np.sqrt(coeffs[1]**2 + coeffs[2]**2)                      #absolute value
         #print("Eigenvalues dutch roll test: %r + j %r" %(coeffs[1],coeffs[2]))
 
-        aa = np.abs(100*(np.real(eig_dr[1])-coeffs[1])/coeffs[1])
-        bb = np.abs(100 * (np.imag(eig_dr[1]) - coeffs[2]) / coeffs[2])
-        return aa,bb,np.real(eig_dr[1]),np.imag(eig_dr[1]),coeffs[1],coeffs[2]
+        aa = np.abs(100*(np.real(eig_dr[1])+0.16725718825286975)/-0.16725718825286975)
+        bb = np.abs(100 * (np.imag(eig_dr[1]) - 2.0224622028216506) / 2.0224622028216506)
+        return aa,bb,np.real(eig_dr[1]),np.imag(eig_dr[1]),-0.16725718825286975,2.0224622028216506
         ######################################## DUTCH ROLL YD ###########################################
 
         # print("Dutch roll YD")
@@ -477,8 +477,8 @@ def eigerr(CYb,Cnb,Cnr):
 
     # sorry for using the same variable names...
 
-print(eigerr(-0.8571428571428572, 0.14285714285714285, -0.6326530612244898))  #best period
-a
+#print(eigerr(-0.8571428571428572, 0.14285714285714285, -0.6326530612244898))  #best period
+
 CYb = -0.75
 Cnb = +0.1348
 Cnr = -0.2061
@@ -504,10 +504,10 @@ Cnr_r = np.linspace(-1,0,nn)
 # Cnr_r = np.linspace(-1,1,nn)
 
 #ADJUST percent of coeff
-# rr = 50/100
-# CYb_r = np.linspace(CYb*(1-rr),CYb*(1+rr),nn)
-# Cnb_r = np.linspace(Cnb*(1-rr),Cnb*(1+rr),nn)
-# Cnr_r = np.linspace(Cnr*(1-rr),Cnr*(1+rr),nn)
+rr = 50/100
+CYb_r = np.linspace(CYb*(1-rr),CYb*(1+rr),nn)
+Cnb_r = np.linspace(Cnb*(1-rr),Cnb*(1+rr),nn)
+Cnr_r = np.linspace(Cnr*(1-rr),Cnr*(1+rr),nn)
 
 
 #specific (once alrady run through)
@@ -538,18 +538,18 @@ for i in CYb_r:
 relerrorlst1 = np.array(relerrorlst1)
 relerrorlst2 = np.array(relerrorlst2)
 
-# minval = min(np.abs(relerrorlst2)) #min(np.abs((relerrorlst1**2+relerrorlst2**2)**0.5))
+# minval = min(np.abs(relerrorlst2))
 # for k in lst:
-#     if np.abs(k[4]) == minval: #abs((k[3]**2+k[4]**2)**0.5) < minval*1.04:
+#     if np.abs(k[4]) == minval:
 #         print(k)
 
 
-# minval = min(np.abs(relerrorlst1)) #min(np.abs((relerrorlst1**2+relerrorlst2**2)**0.5))
+# minval = min(np.abs(relerrorlst1))
 # for k in lst:
-#     if np.abs(k[3]) == minval: #abs((k[3]**2+k[4]**2)**0.5) < minval*1.04:
+#     if np.abs(k[3]) == minval:
 #         print(k)
 
 minval = min(np.abs((relerrorlst1**2+relerrorlst2**2)**0.5))
 for k in lst:
-    if np.abs((k[3]**2+k[4]**2)**0.5) < minval*1.01:
+    if np.abs((k[3]**2+k[4]**2)**0.5) < minval*1.02:
         print(k)
