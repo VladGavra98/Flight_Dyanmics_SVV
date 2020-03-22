@@ -103,7 +103,8 @@ pitchlst = np.genfromtxt("Data_SI_correct/Ahrs1_bPitchRateSI.txt",skip_header=2)
     #Simulation parameters:
 nsteps = 10**3
 
-tex= 0*4.377
+tex= 1.5
+dtt = 2
 #+++++++++++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++
 def main(t0,deltat,t,input_type,input_u):
     """Input type: elevator
@@ -194,8 +195,11 @@ def main(t0,deltat,t,input_type,input_u):
     Cndr = -0.0939
 
     #OVERRIDE
-    [CYb,Cnb,Cnr,xx] = [-0.8092105263157894, 0.10287368421052631, -0.21152368421052634, 0.7510767674108848]
-
+    [CYb,Cnb,Cnr,xx] = [-0.8092105263157894, 0.10287368421052631, -0.21152368421052634, 0.7510767674108848] #optimum from  RMSE calc
+    #[CYb,Cnb,Cnr] = [-0.1428571428571429, 0.14285714285714285, -0.07142857142857151]
+    #[CYb, Cnb, Cnr] = [-0.60,  0.1095 , -0.15] #hand test V1
+    [CYb, Cnb, Cnr] = [-0.70, 0.109, -0.15]  # hand test V1
+    #[CYb, Cnb, Cnr] = [-0.6, 0.1095, -0.12]  # hand test V1
 
     #c-matrix dimensions
     s1 = (4,4)
@@ -386,7 +390,7 @@ if __name__=="__main__":
     print("Collecting data...")
 
     t0_lst         = [53.5*60,58.6*60+3,60.1*60+tex,60.95*60,57.0*60,3746]           #s
-    deltat_lst     = [148, 5, 28-3 ,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
+    deltat_lst     = [148, 5, 28-dtt ,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
     input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 
 
@@ -437,7 +441,7 @@ if __name__=="__main__":
     print("Dutch roll")
     t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r = dutch_roll()
     plotting(utime_dr,u_dr_y,str("r Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
-    #plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
+    plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
     eig_dr,r_out_a = main(t0,deltat,utime_dr,input_type_lst[2],u_dr)
     print("Eigenvalues dutch roll: ",eig_dr)
 

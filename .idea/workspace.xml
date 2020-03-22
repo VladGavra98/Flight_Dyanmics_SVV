@@ -2,31 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c849679e-8057-44e8-b521-095dc80acec9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Old/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Old/mainNEW_.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Old/main_DR2_MI_5Vars.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Old/main_DR2_MI_cnbconst.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Old/main_DR2_MI_hardcode.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Old/main_DR_PT_best.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Old/main_DR_P_best.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Old/main_DR_T_best.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Old/main_V.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Old/massbalance_old.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main_DR2_MI_RMSEcalc.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_generator_complete.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_generator_complete.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainNEW_.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main_DR2_MI.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_DR2_MI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_DR2_MI_5Vars.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_DR2_MI_cnbconst.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_DR_PT_best -1 to +1.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_DR_PT_best.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_DR_P_best.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_DR_T_best.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_DR2_MI_RMSEcalc.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_DR2_MI_RMSEcalc.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_DR_Tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_DR_Tester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_V.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/massbalance_old.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +44,7 @@
       <recent name="M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main_DR2_MI">
+  <component name="RunManager" selected="Python.main_DR_Tester">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -129,6 +109,9 @@
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -148,6 +131,9 @@
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -191,9 +177,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main_DR2_MI" />
         <item itemvalue="Python.main_DR_Tester" />
         <item itemvalue="Python.main_DR2_MI_RMSEcalc" />
+        <item itemvalue="Python.main_DR2_MI" />
         <item itemvalue="Python.main_DR_PT_best" />
         <item itemvalue="Python.main_DR_T_best" />
       </list>
@@ -220,6 +206,7 @@
       <workItem from="1584889907231" duration="2347000" />
       <workItem from="1584897212210" duration="6509000" />
       <workItem from="1584910818159" duration="5589000" />
+      <workItem from="1584916448256" duration="2070000" />
     </task>
     <servers />
   </component>
@@ -238,10 +225,10 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="277" y="74" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1584806742651" />
-    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1584028764263">
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1584916648141">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1584028764263" />
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1584916648141" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -105,8 +105,8 @@ nsteps = 10**3
 
 
 
-tex = 0*4.377
-
+tex = 1.5
+dtt =2
 def eigerr(CYb,Cnb,Cnr):
 
     #+++++++++++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -387,7 +387,7 @@ def eigerr(CYb,Cnb,Cnr):
         #print("Collecting data...")
 
         t0_lst         = [53.5*60,58.6*60+3,60.1*60+tex,60.95*60,57.0*60,3746]           #s
-        deltat_lst     = [148, 5, 28 -3,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
+        deltat_lst     = [148, 5, 28 -dtt,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
         input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 
 
@@ -515,9 +515,9 @@ Cnr_r = np.linspace(Cnr*(1-rr),Cnr*(1+rr),nn)
 
 
 #specific (once alrady run through)
-# CYb_r = np.linspace(-0.45,0.27,nn)
-# Cnb_r = np.linspace(-0.1,0.2,nn)
-# Cnr_r = np.linspace(-0.1,+0.1,nn)
+CYb_r = np.linspace(-0.7,-0.9,nn)
+Cnb_r = np.linspace(-0.1,0.2,nn)
+Cnr_r = np.linspace(-0.23,-0.12,nn)
 
 #specific (once alrady run through)
 # CYb_r = np.linspace(0.05,0.07,nn)
@@ -529,6 +529,7 @@ count = 0
 for i in CYb_r:
     for j in Cnb_r:
         for k in Cnr_r:
+            #j = 0.1095
             count += 1
             RMSEe = eigerr(i,j,k)
             relerrorlst1.append(RMSEe)
