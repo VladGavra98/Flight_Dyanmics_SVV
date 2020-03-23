@@ -233,6 +233,9 @@ def dutch_roll(t0=60.1*60+tex, deltat=28-dtt, plot_input=False, plot_output=Fals
                  mins=False)
         plottingData(utime_dr_r, u_dr_r, name="roll_rate_Dutch_Roll", title="Dutch Roll -> Roll Rate",
                  variable="$p$", unit="deg/s", mins=False)
+        print('------')
+        print(u_dr_r)
+        print('------')
 
     return t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r
 

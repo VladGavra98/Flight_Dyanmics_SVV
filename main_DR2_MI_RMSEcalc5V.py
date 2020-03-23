@@ -107,7 +107,7 @@ nsteps = 10**3
 
 tex = 1.5
 dtt =2
-def eigerr(CYb,Cnb,Cnr):
+def eigerr(CYb,Cnb,Cnr,Clr,Clp):
 
     #+++++++++++++++++++++++++++++++++++++++++ MAIN ++++++++++++++++++++++++++++++++++++++++++++++++++++
     def main(t0,deltat,t,input_type,input_u):
@@ -186,8 +186,8 @@ def eigerr(CYb,Cnb,Cnr):
         CYdr   = +0.2300
 
         Clb    = -0.10260
-        Clp    = -0.71085
-        Clr    = +0.23760
+        #Clp    = -0.71085
+        #Clr    = +0.23760
         Clda   = -0.23088
         Cldr   = +0.03440
 
@@ -481,12 +481,12 @@ def eigerr(CYb,Cnb,Cnr):
 
     # sorry for using the same variable names...
 
-print(eigerr(-0.6428571428571428, 0.10591428571428571, -0.10305))
 
 CYb = -0.75
 Cnb = +0.1348
 Cnr = -0.2061
-
+Clr = +0.2376
+Clp = -0.71085
 
 CYblst = []
 Cnblst = []
@@ -496,7 +496,7 @@ relerrorlst1 = []
 relerrorlst2 = []
 
 #within sign +/- 1
-nn = 70
+nn = 17
 # CYb_r = np.linspace(-1,0,nn)
 # Cnb_r = np.linspace(0,1,nn)
 # Cnr_r = np.linspace(-1,0,nn)
@@ -508,11 +508,14 @@ nn = 70
 # Cnr_r = np.linspace(-1,1,nn)
 
 #ADJUST percent of coeff
-rr = 50/100
+rr = 25/100
 CYb_r = np.linspace(CYb*(1-rr),CYb*(1+rr),nn)
 Cnb_r = np.linspace(Cnb*(1-rr),Cnb*(1+rr),nn)
 Cnr_r = np.linspace(Cnr*(1-rr),Cnr*(1+rr),nn)
+Clr_r = np.linspace(Clr*(1-rr),Clr*(1+rr),nn)
+Clp_r = np.linspace(Clp*(1-rr),Clp*(1+rr),nn)
 
+print((CYb*(1-rr),CYb*(1+rr),Cnb*(1-rr),Cnb*(1+rr),Cnr*(1-rr),Cnr*(1+rr),Clr*(1-rr),Clr*(1+rr),Clp*(1-rr),Clp*(1+rr)))
 
 #specific (once alrady run through)
 # CYb_r = np.linspace(-0.7,-0.9,nn)
@@ -529,13 +532,34 @@ count = 0
 for i in CYb_r:
     for j in Cnb_r:
         for k in Cnr_r:
-            #j = 0.1095
-            count += 1
-            RMSEe = eigerr(i,j,k)
-            relerrorlst1.append(RMSEe)
-            lst.append([i,j,k,RMSEe])
-            print(round(100*count/(nn**3),4),' %')
+            for l in Clr_r:
+                for m in Clp_r:
+                    j = 0.1095
+                    count += 1
+                    RMSEe = eigerr(i,j,k,l,m)
+                    relerrorlst1.append(RMSEe)
+                    lst.append([i,j,k,l,m,RMSEe])
+                    print(round(100*count/(nn**5),4),' %')
 
+
+#optimised:
+# nn = 36
+# CYb_r = np.linspace(-0.93,-1.2,nn)
+# Clr_r = np.linspace(0.17,0.0,nn)
+# Cnb_r = np.linspace(0.1095*(1-rr),0.1095*(1+rr),nn)
+# count = 0
+#
+# for i in CYb_r:
+#     for l in Clr_r:
+#         for j in Cnb_r:
+#             #j = 0.1095
+#             k = -0.19321875
+#             m = -0.7774921874999999
+#             count += 1
+#             RMSEe = eigerr(i,j,k,l,m)
+#             relerrorlst1.append(RMSEe)
+#             lst.append([i,j,k,l,m,RMSEe])
+#             print(round(100*count/(nn**3),4),' %')
 
 #print(relerror(CYb,Cnr,Cnb))
 
@@ -543,7 +567,7 @@ relerrorlst1 = np.array(relerrorlst1)
 
 minval = min(np.abs(relerrorlst1))
 for k in lst:
-    if np.abs(k[3]) < minval*1.000002:
+    if np.abs(k[5]) < minval*1.000002:
         print(k)
 
 

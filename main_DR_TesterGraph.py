@@ -207,7 +207,7 @@ def main(t0,deltat,t,input_type,input_u):
     #[CYb, Cnb, Cnr, Clr, Clp, xxx] = [-0.66, 0.109, -0.18, 0.2082, -0.7774921874999999, 0.6805984224058375]
     #[CYb, Cnb, Cnr, Clr, Clp, xxx] = [-1.09875, 0.1095, 0.19321875, 0.0, -0.7774921874999999, 0.6491050150394777]
     #[CYb, Cnb, Cnr, Clr, Clp, xxx] = [-1.092, 0.11028214285714286, -0.19321875, 0.0, -0.7774921874999999, 0.6462492473604906]
-    #[CYb, Cnb, Cnr, Clr, Clp, xxx] = [-0.990, 0.109, -0.18, 0.1782, -0.7774921874999999, 0.6805984224058375]
+    #[CYb, Cnb, Cnr, Clr, Clp, xxx] = [-0.8, 0.1, -0.15, 0.1782, -0.7774921874999999, 0.6805984224058375]
     #c-matrix dimensions
     s1 = (4,4)
     s2 = (4,1)
@@ -368,7 +368,7 @@ def main(t0,deltat,t,input_type,input_u):
         plotting(t,p_out_a,str("p Response for " +input_type + " input, t0= "+ str(t0)) , r"$p$" ,"deg/s")
         plotting(t,r_out_a,str("r Response for " +input_type + " input, t0= "+ str(t0)),  "$r$" ,r"deg/s")
         print("\tPlotted!")
-
+        print(r_out_a)
         return poles_a,r_out_a
 
     return 1
@@ -449,6 +449,7 @@ if __name__=="__main__":
     t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r = dutch_roll()
     plotting(utime_dr,u_dr_y,str("r Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
     plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
+    #print(u_dr_r)
     eig_dr,r_out_a = main(t0,deltat,utime_dr,input_type_lst[2],u_dr)
     print("Eigenvalues dutch roll: ",eig_dr)
 
