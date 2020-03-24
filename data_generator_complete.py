@@ -134,7 +134,7 @@ elevtrimtab = np.genfromtxt("elevator_dteSI.txt",dtype=float,skip_header=2,delim
 phitab = np.genfromtxt("Ahrs1_RollSI.txt",dtype=float,skip_header=2,delimiter='\n')
 
 plt.plot(timetab,ailerontab,'r-')
-# plt.plot(timetab,phitab,'g-')
+plt.plot(timetab,roll_tab,'g-')
 # plt.plot(timetab,ruddertab,'b-')
 plt.grid(True)
 os.chdir(root)
@@ -187,7 +187,7 @@ def phugoid(t0=53.5*60, deltat=148, plot_input=False, plot_output=False):
 
 ######################################## SHORT PERIOD ############################################
 
-def short_period(t0=58.6*60+3, deltat=5, plot_input=False, plot_output=False):
+def short_period(t0=58.6*60+3.5, deltat=5, plot_input=False, plot_output=False):
     # input -> elevator deflection
     u_shp, utime_shp = getInput(elevtab, timetab, t0, deltat)
 
@@ -213,7 +213,7 @@ def short_period(t0=58.6*60+3, deltat=5, plot_input=False, plot_output=False):
 
 ######################################## DUTCH ROLL ##############################################
 
-def dutch_roll(t0=60.1*60+5, deltat=28, plot_input=False, plot_output=False):
+def dutch_roll(t0=60.1*60+0.5, deltat=28, plot_input=False, plot_output=False):
     # input -> rudder deflection
     u_dr, utime_dr = getInput(ruddertab, timetab, t0, deltat)
 
@@ -239,7 +239,7 @@ def dutch_roll(t0=60.1*60+5, deltat=28, plot_input=False, plot_output=False):
 
 ######################################## DUTCH ROLL YD ###########################################
 
-def dutch_roll_yd(t0=60.95*60+5, deltat=19, plot_input=False, plot_output=False):
+def dutch_roll_yd(t0=3657+0.5, deltat=19, plot_input=False, plot_output=False):
     # input -> rudder deflection
     u_dr_yd, utime_dr_yd = getInput(ruddertab, timetab, t0, deltat)
 
@@ -291,9 +291,9 @@ def aperiodic_roll(t0=57.0*60, deltat=60, plot_input=False, plot_output=False):
 
 ######################################## SPIRAL ###############################################
 
-def spiral(t0=3746, deltat=50, plot_input=False, plot_output=False):
+def spiral(t0=3746, deltat=45, plot_input=False, plot_output=False):
     # input -> rudder deflection
-    u_spi, utime_spi = getInput(ruddertab, timetab, t0, deltat)
+    u_spi, utime_spi = getInput(ailerontab, timetab, t0, deltat)
 
     # output -> roll
     u_spi_r, utime_spi_r = getInput(roll_tab, timetab, t0, deltat)
