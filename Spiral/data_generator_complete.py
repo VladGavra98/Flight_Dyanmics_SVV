@@ -12,8 +12,8 @@ import matplotlib.pyplot as plt
 from deltas import *
 
 #Change this for your computer!
-root = r"M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV"
-mydir = r"M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV\Data_SI_correct"
+root = r"M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV\Spiral"
+mydir = r"M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV\Spiral\Data_SI_correct"
 
 
 tex = 1.5
@@ -268,7 +268,7 @@ def dutch_roll_yd(t0=60.95*60, deltat=19, plot_input=False, plot_output=False):
 
 ######################################## APERIODIC ROLL ##########################################
 
-def aperiodic_roll(t0=57.0*60, deltat=60, plot_input=False, plot_output=False):
+def aperiodic_roll(t0=startt, deltat=deltatt, plot_input=False, plot_output=False):
     # input -> aileron deflection
     u_ar, utime_ar = getInput(ailerontab, timetab, t0, deltat)
 

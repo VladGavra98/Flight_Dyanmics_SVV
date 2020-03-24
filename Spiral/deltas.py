@@ -1,2 +1,2 @@
-deltatt = 60
-startt = 3645
+deltatt = 50
+startt = 3710
