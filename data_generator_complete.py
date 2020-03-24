@@ -133,9 +133,9 @@ ailerontab = np.genfromtxt("delta_aSI.txt",dtype=float,skip_header=2,delimiter='
 elevtrimtab = np.genfromtxt("elevator_dteSI.txt",dtype=float,skip_header=2,delimiter='\n')
 phitab = np.genfromtxt("Ahrs1_RollSI.txt",dtype=float,skip_header=2,delimiter='\n')
 
-plt.plot(timetab,ailerontab,'r-')
+#plt.plot(timetab,ailerontab,'r-')
 # plt.plot(timetab,phitab,'g-')
-# plt.plot(timetab,ruddertab,'b-')
+plt.plot(timetab,ruddertab,'b-')
 plt.grid(True)
 os.chdir(root)
 file = str("matlab.dat")
@@ -213,7 +213,7 @@ def short_period(t0=58.6*60+3, deltat=5, plot_input=False, plot_output=False):
 
 ######################################## DUTCH ROLL ##############################################
 
-def dutch_roll(t0=60.1*60+5, deltat=28, plot_input=False, plot_output=False):
+def dutch_roll(t0=60.1*60+1.5, deltat=28, plot_input=False, plot_output=False):
     # input -> rudder deflection
     u_dr, utime_dr = getInput(ruddertab, timetab, t0, deltat)
 

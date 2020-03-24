@@ -57,6 +57,8 @@ def plotting(x,y,name,variable,unit,label_name="Simulation",title=None,mins=Fals
 
     plt.plot(x-x[0],y,label=label_name)
 
+    plt.plot(x-x[0],aaa,label='Simulation','b-')
+
 
     lab = str(str(variable)+" "+"["+unit+"]")
     plt.legend(loc='best')
@@ -162,8 +164,8 @@ def main(t0,deltat,t,input_type,input_u):
 
     # Stabiblity derivatives
     CX0    = W * np.sin(theta) / (0.5 * rho * V ** 2 * S)
-    CXu    = -0.095         #corrected
-    CXa    = +0.47966		# Positive! (has been erroneously negative since 1993)
+    CXu    = -0.095
+    CXa    = +0.47966
     CXadot = +0.08330
     CXq    = -0.28170
     CXde   = -0.03728
@@ -175,27 +177,27 @@ def main(t0,deltat,t,input_type,input_u):
     CZq    = -5.66290
     CZde   = -0.69612
 
-    Cmu    = +0.06990   #positive!
-    Cmadot = +0.17800   #positive!
+    Cmu    = +0.06990
+    Cmadot = +0.17800
     Cmq    = -8.79415
 
-    CYb    = -0.7500
+    CYb    = -0.800  #
     CYbdot =  0
     CYp    = -0.0304
     CYr    = +0.8495
     CYda   = -0.0400
     CYdr   = +0.2300
 
-    Clb    = -0.10260
-    Clp    = -0.71085
-    Clr    = +0.23760
+    Clb    = -0.10260  #
+    Clp    = -0.71085  #
+    Clr    = +0.23760  #
     Clda   = -0.23088
     Cldr   = +0.03440
 
-    Cnb    =  +0.1348
+    Cnb    =  +0.1090  #
     Cnbdot =   0
     Cnp    =  -0.0602
-    Cnr    =  -0.2061
+    Cnr    =  -0.1501  #
     Cnda   =  -0.0120
     Cndr   =  -0.0939
 
@@ -243,7 +245,7 @@ def main(t0,deltat,t,input_type,input_u):
     c4[1,1] = (-0.5)*(b/V)
     c4[2,2] = -4*mub*KX2*(b/V)*(b/(2*V))
     c4[2,3] = 4*mub*KXZ*(b/V)*(b/(2*V))
-    c4[3,0] = Cnb*(b/V)
+    c4[3,0] = Cnbdot*(b/V)
     c4[3,2] = 4*mub*KXZ*(b/V)*(b/(2*V))
     c4[3,3] = -4*mub*KZ2*(b/V)*(b/(2*V))
 
@@ -326,7 +328,7 @@ def main(t0,deltat,t,input_type,input_u):
             D_a = np.zeros((4, 2))
             D_a[:,0] = 0   #we should check this...
             uarray = np.ones((len(t),2)) #step input
-            uarray[:,1] = -u        #ADDED MINUS!!!!!
+            uarray[:,1] = -u#-0.02319        #ADDED MINUS!!!!!
             uarray[:,0] = 0
 
 
@@ -334,12 +336,12 @@ def main(t0,deltat,t,input_type,input_u):
             print("Calculating for aileron input...")
             D_a = np.zeros((4, 2))
             D_a[:,1] = 1
-            D_a[:,0] = 1
+            #D_a[:,0] = 1
             #print(D_a)
             uarray = np.ones((len(t),2)) #step input
 
-            uarray[:,0] = -u       #ADDED MINUS!!!!!
-            uarray[:,1] = 1
+            uarray[:,0] = -u+0.34       #ADDED MINUS!!!!!
+            uarray[:,1] = 0
             #print(uarray)
 
         #System in state-space
@@ -390,7 +392,7 @@ if __name__=="__main__":
 
     print("Collecting data...")
 
-    t0_lst         = [53.5*60,58.6*60+3,60.1*60+5,60.95*60+5,57.0*60,3746]           #s
+    t0_lst         = [53.5*60,58.6*60+3,60.1*60+1.5,60.95*60+5,57.0*60,3746]           #s
     deltat_lst     = [148, 5, 28 ,19 ,60 ,50]                                 #s -- these should match data_generator.py values (at the end)
     input_type_lst = ["elevator","elevator","rudder","rudder","aileron","aileron"]
 
