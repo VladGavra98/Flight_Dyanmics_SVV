@@ -442,27 +442,27 @@ if __name__=="__main__":
 
   ######################################## DUTCH ROLL ##############################################
 
-    # print("Dutch roll")
-    # t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r = dutch_roll()
-    # plotting(utime_dr,u_dr_y,str("r Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
-    # plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
-    # eig_dr = main(t0,deltat,utime_dr,input_type_lst[2],u_dr)
-    # print("Eigenvalues dutch roll: ",eig_dr)
+    print("Dutch roll")
+    t0, deltat, utime_dr, u_dr, u_dr_y, u_dr_r = dutch_roll()
+    plotting(utime_dr,u_dr_y,str("r Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
+    plotting(utime_dr,u_dr_r,str("p Response for " +input_type_lst[2]+ " input, t0= "+ str(t0)),"$p$",r"1/s",label_name="Flight Test")
+    eig_dr = main(t0,deltat,utime_dr,input_type_lst[2],u_dr)
+    print("Eigenvalues dutch roll: ",eig_dr)
 
 
-    # #...debugging....working?!
-    # utime = utime_dr-utime_dr[0]                                            # translate the interval for better fitting
-    # coeffs,cov = sp.curve_fit(simple,utime,u_dr_y, p0=[6,-0.6,2,np.pi/4])  #initial guess is IMPORTANT
-    # eig_dr_test = np.sqrt(coeffs[1]**2 + coeffs[2]**2)                      #absolute value
-    # print("Eigenvalues dutch roll test: %r + j %r" %(coeffs[1],coeffs[2]))
+    #...debugging....working?!
+    utime = utime_dr-utime_dr[0]                                            # translate the interval for better fitting
+    coeffs,cov = sp.curve_fit(simple,utime,u_dr_y, p0=[6,-0.6,2,np.pi/4])  #initial guess is IMPORTANT
+    eig_dr_test = np.sqrt(coeffs[1]**2 + coeffs[2]**2)                      #absolute value
+    print("Eigenvalues dutch roll test: %r + j %r" %(coeffs[1],coeffs[2]))
 
-    # # print(utime)
-    # # print(coeffs,cov,sep="\n")
-    # # plt.figure("Testing")
-    # # plt.plot(utime,simple(utime,*coeffs),'r')
-    # # plt.plot(utime,u_dr_y,'b')
-    # print("Dutch roll relative error [%]: ", abs((abs(eig_dr[1])-eig_dr_test))*100/abs(eig_dr[1]))
-    # print("T1/2 = %r [s] and P= %r [s]" %(round(calcT(coeffs[1]),3),round(calcP(coeffs[2]),3)))
+    # print(utime)
+    # print(coeffs,cov,sep="\n")
+    # plt.figure("Testing")
+    # plt.plot(utime,simple(utime,*coeffs),'r')
+    # plt.plot(utime,u_dr_y,'b')
+    print("Dutch roll relative error [%]: ", abs((abs(eig_dr[1])-eig_dr_test))*100/abs(eig_dr[1]))
+    print("T1/2 = %r [s] and P= %r [s]" %(round(calcT(coeffs[1]),3),round(calcP(coeffs[2]),3)))
 
     ######################################## DUTCH ROLL YD ###########################################
 
@@ -499,10 +499,10 @@ if __name__=="__main__":
 
 
    ######################################## SPIRAL ###############################################
-    print("Spiral stability")
-    t0, deltat, utime_spi, u_spi, u_spi_r, u_spi_y = spiral()
-    plotting(utime_spi,u_spi_r,str("Phi Response for " +input_type_lst[5] + " input, t0= "+ str(t0)),"$\phi$",r"-",label_name="Flight Test")
-    plotting(utime_spi,u_spi_y,str("r Response for " +input_type_lst[5]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
-    main(t0,deltat,utime_spi,input_type_lst[5],u_spi)
+    # print("Spiral stability")
+    # t0, deltat, utime_spi, u_spi, u_spi_r, u_spi_y = spiral()
+    # plotting(utime_spi,u_spi_r,str("Phi Response for " +input_type_lst[5] + " input, t0= "+ str(t0)),"$\phi$",r"-",label_name="Flight Test")
+    # plotting(utime_spi,u_spi_y,str("r Response for " +input_type_lst[5]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
+    # main(t0,deltat,utime_spi,input_type_lst[5],u_spi)
 
 # sorry for using the same variable names...

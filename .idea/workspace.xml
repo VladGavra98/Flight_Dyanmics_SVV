@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c849679e-8057-44e8-b521-095dc80acec9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MassBalanceGraph.py" beforeDir="false" afterPath="$PROJECT_DIR$/MassBalanceGraph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_generator_complete.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_generator_complete.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EOMa.py" beforeDir="false" afterPath="$PROJECT_DIR$/EOMa.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,21 +42,18 @@
       <recent name="M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.MassBalanceGraph">
-    <configuration name="AsymMotionEOM_analytical" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="EOMa" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AsymMotionEOM_analytical.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/EOMa.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -136,9 +132,6 @@
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -177,19 +170,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.AsymMotionEOM_analytical" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.massbalance (1)" />
       <item itemvalue="Python.data_generator_complete" />
       <item itemvalue="Python.MassBalanceGraph" />
+      <item itemvalue="Python.EOMa" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.MassBalanceGraph" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.EOMa" />
+        <item itemvalue="Python.MassBalanceGraph" />
         <item itemvalue="Python.data_generator_complete" />
         <item itemvalue="Python.massbalance (1)" />
-        <item itemvalue="Python.AsymMotionEOM_analytical" />
       </list>
     </recent_temporary>
   </component>
