@@ -110,6 +110,9 @@
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Spiral" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -168,6 +171,7 @@
     </configuration>
     <list>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <item itemvalue="Python.main_DR_TesterGraph" />
       <item itemvalue="Python.main_DR_Tester (1)" />
       <item itemvalue="Python.deltas" />
@@ -179,6 +183,13 @@
       <item itemvalue="Python.main" />
       <item itemvalue="Python.massbalance (1)" />
       <item itemvalue="Python.massbalance" />
+>>>>>>> Stashed changes
+=======
+      <item itemvalue="Python.EOMa" />
+      <item itemvalue="Python.MassBalanceGraph" />
+      <item itemvalue="Python.data_generator_complete" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.massbalance (1)" />
 >>>>>>> Stashed changes
     </list>
     <recent_temporary>
