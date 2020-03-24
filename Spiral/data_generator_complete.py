@@ -9,7 +9,7 @@ import pandas as pd
 import os
 import scipy.io as sp
 import matplotlib.pyplot as plt
-from deltas import *
+
 
 #Change this for your computer!
 root = r"M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV\Spiral"
@@ -133,7 +133,7 @@ ailerontab = np.genfromtxt("delta_aSI.txt",dtype=float,skip_header=2,delimiter='
 elevtrimtab = np.genfromtxt("elevator_dteSI.txt",dtype=float,skip_header=2,delimiter='\n')
 phitab = np.genfromtxt("Ahrs1_RollSI.txt",dtype=float,skip_header=2,delimiter='\n')
 
-plt.plot(timetab,ailerontab,'r-')
+#plt.plot(timetab,ailerontab,'r-')
 # plt.plot(timetab,phitab,'g-')
 # plt.plot(timetab,ruddertab,'b-')
 plt.grid(True)
@@ -268,7 +268,7 @@ def dutch_roll_yd(t0=60.95*60, deltat=19, plot_input=False, plot_output=False):
 
 ######################################## APERIODIC ROLL ##########################################
 
-def aperiodic_roll(t0=startt, deltat=deltatt, plot_input=False, plot_output=False):
+def aperiodic_roll(t0=57.0*60, deltat=60, plot_input=False, plot_output=False):
     # input -> aileron deflection
     u_ar, utime_ar = getInput(ailerontab, timetab, t0, deltat)
 
@@ -294,9 +294,9 @@ def aperiodic_roll(t0=startt, deltat=deltatt, plot_input=False, plot_output=Fals
 
 ######################################## SPIRAL ###############################################
 
-def spiral(t0=startt, deltat=deltatt, plot_input=False, plot_output=False):
+def spiral(t0=3746, deltat=50, plot_input=False, plot_output=False):
     # input -> rudder deflection
-    u_spi, utime_spi = getInput(ailerontab, timetab, t0, deltat)
+    u_spi, utime_spi = getInput(ruddertab, timetab, t0, deltat)
 
     # output -> roll
     u_spi_r, utime_spi_r = getInput(roll_tab, timetab, t0, deltat)
