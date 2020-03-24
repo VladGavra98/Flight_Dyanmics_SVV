@@ -57,7 +57,6 @@ def plotting(x,y,name,variable,unit,label_name="Simulation",title=None,mins=Fals
 
     plt.plot(x-x[0],y,label=label_name)
 
-    plt.plot(x-x[0],aaa,label='Simulation','b-')
 
 
     lab = str(str(variable)+" "+"["+unit+"]")
@@ -181,26 +180,26 @@ def main(t0,deltat,t,input_type,input_u):
     Cmadot = +0.17800
     Cmq    = -8.79415
 
-    CYb    = -0.800  #
+    CYb    = -0.7500
     CYbdot =  0
     CYp    = -0.0304
     CYr    = +0.8495
     CYda   = -0.0400
     CYdr   = +0.2300
 
-    Clb    = -0.10260  #
-    Clp    = -0.71085  #
-    Clr    = +0.23760  #
+    Clb    = -0.10260
+    Clp    = -0.71085
+    Clr    = +0.23760
     Clda   = -0.23088
     Cldr   = +0.03440
 
-    Cnb    =  +0.1090  #
+    Cnb    =  +0.1348
     Cnbdot =   0
     Cnp    =  -0.0602
-    Cnr    =  -0.1501  #
+    Cnr    =  -0.2061
     Cnda   =  -0.0120
     Cndr   =  -0.0939
-
+    [CYb, Cnb, Cnr, Clr, Clp] = [-0.80, 0.109, -0.15, 0.1782, -0.77749]
     #c-matrix dimensions
     s1 = (4,4)
     s2 = (4,1)
