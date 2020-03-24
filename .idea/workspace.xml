@@ -2,13 +2,61 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c849679e-8057-44e8-b521-095dc80acec9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/main_DR2_MI_RMSEcalc5V.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main_DR_TesterGraph.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Cit_par.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Ahrs1_PitchSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Ahrs1_RollSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Ahrs1_VertAccSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Ahrs1_aHdgAccSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Ahrs1_bLatAccSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Ahrs1_bLongAccSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Ahrs1_bNormAccSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Ahrs1_bPitchRateSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Ahrs1_bRollRateSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Ahrs1_bYawRateSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Ahrs1_xHdgAccSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Dadc1_altRateSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Dadc1_altSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Dadc1_bcAltMbSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Dadc1_bcAltSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Dadc1_casSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Dadc1_machSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Dadc1_satSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Dadc1_tasSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Dadc1_tatSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Fms1_trueHeadingSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Gps_dateSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Gps_latSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Gps_longSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/Gps_utcSecSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/column_SeSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/column_feSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/delta_aSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/delta_eSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/delta_rSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/display_active_screenSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/display_graph_stateSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/elevator_dteSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/lh_engine_FMFSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/lh_engine_FUSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/lh_engine_OPSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/lh_engine_fan_N1SI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/lh_engine_ittSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/lh_engine_turbine_N2SI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/measurement_n_rdySI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/measurement_runningSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/rh_engine_FMFSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/rh_engine_FUSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/rh_engine_OPSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/rh_engine_fan_N1SI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/rh_engine_ittSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/rh_engine_turbine_N2SI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/timeSI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/Data_SI_correct/vane_AOASI.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/data_generator_complete.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/main_DR_Tester.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/massbalance.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spiral/stationnary_functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MI.txt" beforeDir="false" afterPath="$PROJECT_DIR$/MI.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_generator_complete.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_generator_complete.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_DR2_MI_RMSEcalc.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_DR2_MI_RMSEcalc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_DR_Tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_DR_Tester.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,29 +94,7 @@
       <recent name="M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main_DR_TesterGraph">
-    <configuration name="Test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Flight_Dyanmics_SVV" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.main_DR_Tester (1)">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -91,20 +117,17 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main_DR2_MI_RMSEcalc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="deltas" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Spiral" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_DR2_MI_RMSEcalc.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Spiral/deltas.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -135,10 +158,32 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="main_DR_Tester (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Flight_Dyanmics_SVV" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Spiral" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Spiral/main_DR_Tester.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main_DR_Tester" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -158,6 +203,9 @@
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -175,18 +223,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.main_DR_Tester" />
-      <item itemvalue="Python.main_DR2_MI_RMSEcalc" />
-      <item itemvalue="Python.Test" />
       <item itemvalue="Python.main_DR2_MI_RMSEcalc5V" />
       <item itemvalue="Python.main_DR_TesterGraph" />
+      <item itemvalue="Python.main_DR_Tester (1)" />
+      <item itemvalue="Python.deltas" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main_DR_Tester (1)" />
+        <item itemvalue="Python.deltas" />
         <item itemvalue="Python.main_DR_TesterGraph" />
         <item itemvalue="Python.main_DR_Tester" />
         <item itemvalue="Python.main_DR2_MI_RMSEcalc5V" />
-        <item itemvalue="Python.Test" />
-        <item itemvalue="Python.main_DR2_MI_RMSEcalc" />
       </list>
     </recent_temporary>
   </component>
@@ -214,6 +262,7 @@
       <workItem from="1584916448256" duration="2070000" />
       <workItem from="1584919184709" duration="4616000" />
       <workItem from="1584953342047" duration="6470000" />
+      <workItem from="1585037421505" duration="1545000" />
     </task>
     <servers />
   </component>
