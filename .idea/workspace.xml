@@ -167,11 +167,19 @@
       <method v="2" />
     </configuration>
     <list>
+<<<<<<< Updated upstream
       <item itemvalue="Python.main_DR_TesterGraph" />
       <item itemvalue="Python.main_DR_Tester (1)" />
       <item itemvalue="Python.deltas" />
       <item itemvalue="Python.data_generator_complete" />
       <item itemvalue="Python.mainroll" />
+=======
+      <item itemvalue="Python.AsymMotionEOM_analytical" />
+      <item itemvalue="Python.MassBalanceGraph (1)" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.massbalance (1)" />
+      <item itemvalue="Python.massbalance" />
+>>>>>>> Stashed changes
     </list>
     <recent_temporary>
       <list>
