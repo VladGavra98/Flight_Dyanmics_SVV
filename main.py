@@ -327,7 +327,7 @@ def main(t0,deltat,t,input_type,input_u):
             D_a = np.zeros((4, 2))
             D_a[:,0] = 0   #we should check this...
             uarray = np.ones((len(t),2)) #step input
-            uarray[:,1] = -u#-0.02319        #ADDED MINUS!!!!!
+            uarray[:,1] = -u+0.22319        #ADDED MINUS!!!!!
             uarray[:,0] = 0
 
 
