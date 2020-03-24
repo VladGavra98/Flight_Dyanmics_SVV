@@ -14,8 +14,8 @@ import matplotlib.pyplot as plt
 
 
 #Change this for your computer!
-root = r"C:\Users\vladg\OneDrive\Documents\GitHub\Flight_Dyanmics_SVV"
-mydir = r"C:\Users\vladg\OneDrive\Documents\GitHub\Flight_Dyanmics_SVV\Data_SI_correct"
+root = r"M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV"
+mydir = r"M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV\Data_SI_correct"
 
 
 def calcT(h): #ISA tmeperature
@@ -293,7 +293,7 @@ def aperiodic_roll(t0=57.0*60, deltat=60, plot_input=False, plot_output=False):
 
 def spiral(t0=3746, deltat=50, plot_input=False, plot_output=False):
     # input -> rudder deflection
-    u_spi, utime_spi = getInput(ruddertab, timetab, t0, deltat)
+    u_spi, utime_spi = getInput(ailerontab, timetab, t0, deltat)
 
     # output -> roll
     u_spi_r, utime_spi_r = getInput(roll_tab, timetab, t0, deltat)

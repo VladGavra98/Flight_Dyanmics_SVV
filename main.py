@@ -329,13 +329,18 @@ def main(t0,deltat,t,input_type,input_u):
             uarray[:,1] = -u        #ADDED MINUS!!!!!
             uarray[:,0] = 0
 
+
         elif input_type=="aileron":
             print("Calculating for aileron input...")
             D_a = np.zeros((4, 2))
             D_a[:,1] = 1
+            D_a[:,0] = 1
+            #print(D_a)
             uarray = np.ones((len(t),2)) #step input
-            uarray[:,0] = -u        #ADDED MINUS!!!!!
-            uarray[:,1] = 0
+
+            uarray[:,0] = -u       #ADDED MINUS!!!!!
+            uarray[:,1] = 1
+            #print(uarray)
 
         #System in state-space
         sys_a = cm.StateSpace(A_a, B_a, C_a, D_a)
@@ -494,10 +499,10 @@ if __name__=="__main__":
 
 
    ######################################## SPIRAL ###############################################
-    # print("Spiral stability")
-    # t0, deltat, utime_spi, u_spi, u_spi_r, u_spi_y = spiral()
-    # plotting(utime_spi,u_spi_r,str("Phi Response for " +input_type_lst[5] + " input, t0= "+ str(t0)),"$\phi$",r"-",label_name="Flight Test")
-    # plotting(utime_spi,u_spi_y,str("r Response for " +input_type_lst[5]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
-    # main(t0,deltat,utime_spi,input_type_lst[5],u_spi)
+    print("Spiral stability")
+    t0, deltat, utime_spi, u_spi, u_spi_r, u_spi_y = spiral()
+    plotting(utime_spi,u_spi_r,str("Phi Response for " +input_type_lst[5] + " input, t0= "+ str(t0)),"$\phi$",r"-",label_name="Flight Test")
+    plotting(utime_spi,u_spi_y,str("r Response for " +input_type_lst[5]+ " input, t0= "+ str(t0)),"$r$",r"1/s",label_name="Flight Test")
+    main(t0,deltat,utime_spi,input_type_lst[5],u_spi)
 
 # sorry for using the same variable names...
