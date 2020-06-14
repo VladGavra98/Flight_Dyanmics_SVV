@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="c849679e-8057-44e8-b521-095dc80acec9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
+=======
+    <list default="true" id="c849679e-8057-44e8-b521-095dc80acec9" name="Default Changelist" comment="" />
+>>>>>>> Stashed changes
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,6 +23,15 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+<<<<<<< Updated upstream
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-10" />
+    <option name="y" value="-10" />
+    <option name="width" value="980" />
+    <option name="height" value="1050" />
+  </component>
+=======
+>>>>>>> Stashed changes
   <component name="ProjectId" id="1Z27Cvry6vOqp71a5TLZRF7lbmn" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -40,8 +53,13 @@
       <recent name="M:\Users\maxrob\Documents\GitHub\Flight_Dyanmics_SVV" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.massbalance (1)">
+<<<<<<< Updated upstream
+  <component name="RunManager" selected="Python.main">
     <configuration name="AsymMotionEOM_analytical" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+=======
+  <component name="RunManager" selected="Python.main_DR2_MI">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+>>>>>>> Stashed changes
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -49,12 +67,21 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
+<<<<<<< Updated upstream
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AsymMotionEOM_analytical.py" />
+=======
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+>>>>>>> Stashed changes
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -63,6 +90,40 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+<<<<<<< Updated upstream
+    <configuration name="Cit_par" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Flight_Dyanmics_SVV" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+=======
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Flight_Dyanmics_SVV" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+>>>>>>> Stashed changes
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+<<<<<<< Updated upstream
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Cit_par.py" />
+=======
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+>>>>>>> Stashed changes
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+<<<<<<< Updated upstream
     <configuration name="MassBalanceGraph (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -70,13 +131,23 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
+=======
+    <configuration name="main_DR2_MI" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Flight_Dyanmics_SVV" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+>>>>>>> Stashed changes
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+<<<<<<< Updated upstream
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MassBalanceGraph.py" />
+=======
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_DR2_MI.py" />
+>>>>>>> Stashed changes
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -85,6 +156,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+<<<<<<< Updated upstream
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -99,28 +171,19 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+=======
+    <configuration name="main_DR_PT_best -1 to +1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_DR_PT_best -1 to +1.py" />
+>>>>>>> Stashed changes
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -129,20 +192,25 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="massbalance (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+<<<<<<< Updated upstream
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+=======
+    <configuration name="main_DR_PT_best" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+>>>>>>> Stashed changes
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Desktop" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/Desktop/massbalance.py" />
+<<<<<<< Updated upstream
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+=======
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_DR_PT_best.py" />
+>>>>>>> Stashed changes
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -151,6 +219,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+<<<<<<< Updated upstream
     <configuration name="massbalance" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Flight_Dyanmics_SVV" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -165,6 +234,19 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/massbalance.py" />
+=======
+    <configuration name="main_V" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Flight_Dyanmics_SVV" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_V.py" />
+>>>>>>> Stashed changes
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -174,19 +256,35 @@
       <method v="2" />
     </configuration>
     <list>
+<<<<<<< Updated upstream
+      <item itemvalue="Python.Cit_par" />
       <item itemvalue="Python.MassBalanceGraph (1)" />
       <item itemvalue="Python.massbalance" />
       <item itemvalue="Python.AsymMotionEOM_analytical" />
       <item itemvalue="Python.main" />
-      <item itemvalue="Python.massbalance (1)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.massbalance (1)" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.AsymMotionEOM_analytical" />
         <item itemvalue="Python.massbalance" />
         <item itemvalue="Python.MassBalanceGraph (1)" />
+        <item itemvalue="Python.Cit_par" />
+=======
+      <item itemvalue="Python.main_DR2_MI" />
+      <item itemvalue="Python.main_DR_PT_best" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.main_V" />
+      <item itemvalue="Python.main_DR_PT_best -1 to +1" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main_DR2_MI" />
+        <item itemvalue="Python.main_DR_PT_best -1 to +1" />
+        <item itemvalue="Python.main_V" />
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.main_DR_PT_best" />
+>>>>>>> Stashed changes
       </list>
     </recent_temporary>
   </component>
@@ -205,7 +303,13 @@
       <workItem from="1584042179305" duration="605000" />
       <workItem from="1584438179276" duration="539000" />
       <workItem from="1584443011237" duration="546000" />
+<<<<<<< Updated upstream
       <workItem from="1584802522936" duration="637000" />
+=======
+      <workItem from="1584812801408" duration="4242000" />
+      <workItem from="1584818802326" duration="4807000" />
+      <workItem from="1584827300322" duration="5847000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
@@ -220,15 +324,23 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="507" y="46" key="#massbalance/0.0.1536.864@0.0.1536.864" timestamp="1583853237651" />
+<<<<<<< Updated upstream
     <state x="277" y="74" key="SettingsEditor" timestamp="1584027038107">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="277" y="74" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1584027038107" />
+=======
+    <state x="277" y="74" key="SettingsEditor" timestamp="1584806742651">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="277" y="74" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1584806742651" />
+>>>>>>> Stashed changes
     <state x="431" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1584028764263">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1584028764263" />
   </component>
+<<<<<<< Updated upstream
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -239,4 +351,6 @@
       </breakpoints>
     </breakpoint-manager>
   </component>
+=======
+>>>>>>> Stashed changes
 </project>
